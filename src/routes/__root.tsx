@@ -13,11 +13,11 @@ import { lazy, useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CreationStoreProvider } from "@/features/creation/creation-store";
+import { AuthProvider } from "@/features/auth/auth-context";
 import { I18nProvider } from "@/i18n/i18n";
-import { SiteHeader } from "@/components/layout/SiteHeader";
-import { SiteFooter } from "@/components/layout/SiteFooter";
-import { MobileNav } from "@/components/layout/MobileNav";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
 
 function NotFoundComponent() {
   return (
@@ -102,8 +102,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700;800&family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Bebas+Neue&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:ital,wght@0,400..700;1,400..700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Caveat:wght@500;700&display=swap",
       },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "icon", href: "/favicon-32.png", type: "image/png", sizes: "32x32" },
       { rel: "icon", href: "/favicon-16.png", type: "image/png", sizes: "16x16" },
@@ -132,34 +133,35 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  // Making something is a focused, full-screen task: no site chrome competing with the card.
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const focusMode = pathname === "/" || pathname.startsWith("/create");
+  const isAuthPage = pathname === "/auth" || pathname.startsWith("/auth");
 
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-      <CreationStoreProvider>
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
-        >
-          Skip to main content
-        </a>
-        {focusMode ? null : <SiteHeader />}
-        <main id="main" className={focusMode ? "" : "min-h-[60vh] pb-24 md:pb-0"}>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-        </main>
-        {focusMode ? null : (
-          <>
-            <SiteFooter />
-            <MobileNav />
-          </>
-        )}
-        <Toaster />
-      </CreationStoreProvider>
-      </I18nProvider>
+      <AuthProvider>
+        <I18nProvider>
+          <CreationStoreProvider>
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+            >
+              Skip to main content
+            </a>
+            <main
+              id="main"
+              className={cn(
+                "min-h-screen bg-[#FBF5EE]",
+                !isAuthPage && "pb-20",
+              )}
+            >
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+            </main>
+            {!isAuthPage ? <BottomNav /> : null}
+            <Toaster />
+          </CreationStoreProvider>
+        </I18nProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

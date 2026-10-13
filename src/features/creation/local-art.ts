@@ -168,7 +168,13 @@ export async function renderArtOnDevice(src: string, style: StyleId): Promise<st
     return canvas.toDataURL("image/jpeg", 0.9);
   }
 
-  if (style === "cartoon" || style === "warhol" || style === "ai-character" || style === "picasso") {
+  if (
+    style === "cartoon" ||
+    style === "warhol" ||
+    style === "ai-character" ||
+    style === "picasso" ||
+    style === "abstract"
+  ) {
     // Flat cel colours with ink outlines (cartoon / pop art / character / cubist blocks).
     const blur = style === "ai-character" ? w / 200 : w / 400;
     const filters: Record<string, string> = {
@@ -176,12 +182,20 @@ export async function renderArtOnDevice(src: string, style: StyleId): Promise<st
       warhol: "saturate(2.6) contrast(1.5) hue-rotate(25deg)",
       "ai-character": "saturate(1.3) brightness(1.08)",
       picasso: "saturate(1.4) contrast(1.25) sepia(0.2)",
+      abstract: "saturate(1.6) contrast(1.3) hue-rotate(15deg)",
     };
-    ctx.filter = `blur(${Math.max(1, blur)}px) ${filters[style]}`;
+    ctx.filter = `blur(${Math.max(1, blur)}px) ${filters[style] ?? "saturate(1.3)"}`;
     ctx.drawImage(image, 0, 0, w, h);
     ctx.filter = "none";
     const px = ctx.getImageData(0, 0, w, h);
-    const levels = style === "warhol" ? 85 : style === "picasso" ? 64 : style === "ai-character" ? 28 : 48;
+    const levels =
+      style === "warhol"
+        ? 85
+        : style === "picasso" || style === "abstract"
+          ? 64
+          : style === "ai-character"
+            ? 28
+            : 48;
     const sharp = document.createElement("canvas");
     sharp.width = w;
     sharp.height = h;
@@ -197,7 +211,7 @@ export async function renderArtOnDevice(src: string, style: StyleId): Promise<st
       }
     }
     ctx.putImageData(px, 0, 0);
-    if (style === "picasso") {
+    if (style === "picasso" || style === "abstract") {
       ctx.globalAlpha = 0.35;
       ctx.strokeStyle = "#1a1a1a";
       ctx.lineWidth = Math.max(2, w / 300);

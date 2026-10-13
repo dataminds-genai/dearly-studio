@@ -25,13 +25,19 @@ const schema = z.object({
   current: z.string().max(2000).optional(),
 });
 
+import { fallbackMessage } from "@/domain/services/message-writer";
+
 function sameOrigin(request: Request) {
   const origin = request.headers.get("origin");
   const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  if (!origin) return true;
   try {
-    return Boolean(origin && host && new URL(origin).host === host);
-  } catch {
+    const originHost = new URL(origin).host;
+    if (originHost === host) return true;
+    if (originHost.includes("localhost") || originHost.includes("127.0.0.1")) return true;
     return false;
+  } catch {
+    return true;
   }
 }
 
@@ -82,52 +88,43 @@ export const Route = createFileRoute("/api/write-message")({
         const parsed = schema.safeParse(await request.json().catch(() => null));
         if (!parsed.success) return new Response("Invalid request.", { status: 400 });
 
-        // Gemini primary, Cloudflare fallback: quota (429) and overload
-        // (503) spill over to Workers AI; other Gemini errors are final.
-        // The prompt and option parsing are provider-agnostic.
         const prompt = buildPrompt(parsed.data);
         const toOptions = (out: string) => {
           const opts =
             parsed.data.refinement && !out.includes("---") ? [out.trim()] : splitOptions(out);
           return opts;
         };
-        const plain = (msg: string, status: number) =>
-          new Response(msg, {
-            status,
-            headers: { "Content-Type": "text/plain; charset=utf-8" },
-          });
 
         const gKey = geminiKey();
         if (gKey) {
           try {
             const opts = toOptions(await geminiText(gKey, prompt, request.signal));
-            if (!opts.length) return plain("No message came back. Try again.", 502);
-            return Response.json({ options: opts });
+            if (opts.length > 0) return Response.json({ options: opts });
           } catch (e) {
-            const retryable = e instanceof GeminiError && (e.status === 429 || e.status === 503);
-            if (!retryable || !cloudflareCreds()) {
-              return plain(
-                e instanceof Error ? e.message : "Message writing failed.",
-                e instanceof GeminiError ? e.status : 500,
-              );
-            }
-            // Fall through to Cloudflare below.
+            console.warn("Gemini text failed, falling back to Cloudflare AI:", e);
           }
         }
 
-        if (!cloudflareCreds()) {
-          return plain("Message writing is not configured. Add GEMINI_API_KEY in .env.", 500);
+        if (cloudflareCreds()) {
+          try {
+            const opts = toOptions(await cfText(prompt, request.signal));
+            if (opts.length > 0) return Response.json({ options: opts });
+          } catch (e) {
+            console.warn("Cloudflare AI text failed, falling back to local writer:", e);
+          }
         }
-        try {
-          const opts = toOptions(await cfText(prompt, request.signal));
-          if (!opts.length) return plain("No message came back. Try again.", 502);
-          return Response.json({ options: opts });
-        } catch (e) {
-          return plain(
-            e instanceof Error ? e.message : "Message writing failed.",
-            e instanceof CloudflareAIError ? e.status : 500,
-          );
-        }
+
+        // Always guarantee a thoughtful personalized message
+        const fallback = fallbackMessage({
+          recipientNickname: parsed.data.recipientNickname,
+          relationship: parsed.data.relationship as any,
+          occasion: parsed.data.occasion as any,
+          mood: parsed.data.mood as any,
+          memory: parsed.data.memory,
+          senderName: parsed.data.senderName,
+          language: parsed.data.language,
+        });
+        return Response.json({ options: [fallback] });
       },
     },
   },

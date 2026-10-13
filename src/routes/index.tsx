@@ -4,13 +4,13 @@ import { QuickCreate } from "@/features/creation/QuickCreate";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Create a card — Dearly Studio" },
+      { title: "Dearly Studio — Turn one photo into a card they will keep" },
       {
         name: "description",
         content:
           "Create and share a personal card from one photo. Preview for free. No card required.",
       },
-      { property: "og:title", content: "Create a card — Dearly Studio" },
+      { property: "og:title", content: "Dearly Studio" },
       {
         property: "og:description",
         content: "Turn one photo and a meaningful message into something ready to share.",
@@ -19,5 +19,5 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => <QuickCreate />,
+  component: QuickCreate,
 });

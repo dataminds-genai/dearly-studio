@@ -15,8 +15,10 @@ function textModels() {
   const custom = process.env["GEMINI_TEXT_MODEL"]?.trim();
   return [
     ...(custom ? [custom] : []),
-    "gemini-3.8-flash",
-    "gemini-3.5-flash",
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+    "gemini-1.5-pro",
     "gemini-flash-latest",
   ].filter((m, i, all) => all.indexOf(m) === i);
 }
@@ -27,6 +29,7 @@ function imageModels() {
     "gemini-2.5-flash-image",
     "gemini-3.1-flash-image",
     "gemini-3-pro-image",
+    "gemini-2.0-flash-exp",
   ].filter((m, i, all) => all.indexOf(m) === i);
 }
 
@@ -37,10 +40,14 @@ async function withFallback<T>(models: string[], run: (model: string) => Promise
       return await run(model);
     } catch (e) {
       last = e;
-      // Move on when the model is unavailable (retired) or transiently
-      // overloaded; quota/auth/content errors are final.
-      if (!(e instanceof GeminiError) || (e.status !== 404 && e.status !== 400 && e.status !== 503))
+      // Move on when the model is unavailable (retired/404), unsupported modality (400),
+      // rate limited (429), or transiently overloaded (503).
+      if (
+        !(e instanceof GeminiError) ||
+        (e.status !== 404 && e.status !== 400 && e.status !== 429 && e.status !== 503)
+      ) {
         throw e;
+      }
     }
   }
   throw last;
@@ -72,7 +79,8 @@ async function call(
   body: unknown,
   signal?: AbortSignal,
 ): Promise<GeminiResponse> {
-  const res = await fetch(`${BASE}/${model}:generateContent`, {
+  const url = `${BASE}/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const res = await fetch(url, {
     method: "POST",
     signal: signal ?? null,
     headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },

@@ -89,11 +89,13 @@ export function PhotoLibrary({
   triggerLabel,
   triggerVariant = "ghost",
   triggerClassName,
+  customTrigger,
 }: {
   onSelect: (photo: { src: string; label: string; width: number; height: number }) => void;
   triggerLabel?: string;
   triggerVariant?: "ghost" | "outline" | "default";
   triggerClassName?: string;
+  customTrigger?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const [pane, setPane] = useState<"library" | "search">("library");
@@ -152,28 +154,36 @@ export function PhotoLibrary({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          type="button"
-          variant={triggerVariant}
-          size="sm"
-          className={cn("gap-2 rounded-full", triggerClassName)}
-        >
-          <Images className="size-4" aria-hidden="true" />
-          {triggerLabel ? (
-            <span>{triggerLabel}</span>
-          ) : (
-            <>
-              <span className="hidden sm:inline">Library</span>
-              <span className="sr-only sm:hidden">Photo library</span>
-            </>
-          )}
-        </Button>
+        {customTrigger ? (
+          <button type="button" className={triggerClassName}>
+            {customTrigger}
+          </button>
+        ) : (
+          <Button
+            type="button"
+            variant={triggerVariant}
+            size="sm"
+            className={cn("gap-2 rounded-full", triggerClassName)}
+          >
+            <Images className="size-4" aria-hidden="true" />
+            {triggerLabel ? (
+              <span>{triggerLabel}</span>
+            ) : (
+              <>
+                <span className="hidden sm:inline">Library</span>
+                <span className="sr-only sm:hidden">Photo library</span>
+              </>
+            )}
+          </Button>
+        )}
       </DialogTrigger>
-      <DialogContent className="max-h-[88vh] max-w-3xl overflow-y-auto rounded-2xl p-4 sm:p-6">
+      <DialogContent className="max-h-[88vh] max-w-3xl overflow-y-auto rounded-3xl p-4 sm:p-6 bg-[#FBF5EE] text-[#2A1F22] border-[1.5px] border-[#E2D2C5]">
         <DialogHeader>
-          <DialogTitle>Occasion photo library</DialogTitle>
-          <DialogDescription>
-            Choose a complimentary Unsplash photo for your card.
+          <DialogTitle className="font-serif text-2xl font-normal text-[#2A1F22]">
+            Dearly library
+          </DialogTitle>
+          <DialogDescription className="text-sm text-[#6B5A5E]">
+            Pick a ready-made image for your card.
           </DialogDescription>
         </DialogHeader>
         <div

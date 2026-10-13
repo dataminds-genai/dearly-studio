@@ -9,10 +9,16 @@ const UPLOAD_URL = "https://media.pollinations.ai/upload";
 const EDITS_URL = "https://gen.pollinations.ai/v1/images/edits";
 const DEFAULT_MODEL = "kontext";
 // Paid models with reliable health; tried before the free tier.
-const PAID_MODEL_FALLBACKS = ["black-forest-labs/flux.1-kontext-pro", "prunaai/p-image-edit"];
+const PAID_MODEL_FALLBACKS = [
+  "black-forest-labs/flux.1-kontext",
+  "black-forest-labs/flux.1-kontext-pro",
+  "flux",
+  "prunaai/p-image-edit",
+];
 // Zero-price community models (untrusted third-party infra, degraded
 // health) — last AI resort before on-device rendering.
 const FREE_MODELS = [
+  "flux",
   "community/scriptsnsenses-sys/flux-2-dev-free",
   "community/scriptsnsenses-sys/sdxl-lightning-free",
 ];
@@ -80,6 +86,47 @@ type EditsResponse = {
   error?: { message?: string };
 };
 
+async function editWithMultipart(
+  apiKey: string,
+  model: string,
+  image: File,
+  prompt: string,
+  signal?: AbortSignal,
+): Promise<string> {
+  const form = new FormData();
+  form.set("model", model);
+  form.set("prompt", prompt);
+  form.set("image", image, image.name || "photo.jpg");
+  const headers: Record<string, string> = {};
+  if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+  const res = await fetch(EDITS_URL, {
+    method: "POST",
+    signal: signal ?? null,
+    headers,
+    body: form,
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    let msg = `Pollinations request failed (${res.status}).`;
+    try {
+      const j = JSON.parse(text) as EditsResponse & { message?: string };
+      msg = j.error?.message ?? j.message ?? msg;
+    } catch {
+      if (text) msg = `${msg} ${text.slice(0, 200)}`;
+    }
+    throw new PollinationsError(msg, res.status);
+  }
+  const json = (await res.json()) as EditsResponse;
+  const item = json.data?.[0];
+  if (item?.b64_json) return item.b64_json;
+  if (item?.url) {
+    const img = await fetch(item.url, { signal: signal ?? null });
+    if (!img.ok) throw new PollinationsError("Could not download the artwork.", 502);
+    return toBase64(new Uint8Array(await img.arrayBuffer()));
+  }
+  throw new PollinationsError("The artwork response contained no image.", 502);
+}
+
 async function editWithModel(
   apiKey: string,
   model: string,
@@ -87,10 +134,12 @@ async function editWithModel(
   prompt: string,
   signal?: AbortSignal,
 ): Promise<string> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
   const res = await fetch(EDITS_URL, {
     method: "POST",
     signal: signal ?? null,
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify({ prompt, model, image: imageUrl }),
   });
   if (!res.ok) {
@@ -125,10 +174,16 @@ export async function pollinationsEditImage(
   prompt: string,
   signal?: AbortSignal,
 ): Promise<PollinationsResult> {
-  const apiKey = pollinationsKey();
-  if (!apiKey) throw new PollinationsError("Pollinations is not configured.", 500);
+  const apiKey = pollinationsKey() || "";
 
-  const imageUrl = await uploadImage(image, apiKey, signal);
+  let imageUrl: string | null = null;
+  if (apiKey) {
+    try {
+      imageUrl = await uploadImage(image, apiKey, signal);
+    } catch {
+      imageUrl = null;
+    }
+  }
 
   let last: unknown;
   const attempts: Array<{ model: string; tier: PollinationsTier }> = [
@@ -136,22 +191,20 @@ export async function pollinationsEditImage(
     ...FREE_MODELS.map((model) => ({ model, tier: "free" as const })),
   ];
   for (const { model, tier } of attempts) {
+    // 1. Try direct multipart
     try {
-      const b64 = await editWithModel(apiKey, model, imageUrl, prompt, signal);
+      const b64 = await editWithMultipart(apiKey, model, image, prompt, signal);
       return { b64, tier, model };
     } catch (e) {
       last = e;
-      // Empty pollen balance (402) on a paid model spills over to the free
-      // tier; on a free model it is final. Unknown/dead models advance;
-      // auth and rate-limit errors abort the chain.
-      const emptyPaidBalance =
-        tier === "paid" && e instanceof PollinationsError && e.status === 402;
-      if (
-        !emptyPaidBalance &&
-        (!(e instanceof PollinationsError) ||
-          (e.status !== 400 && e.status !== 404 && e.status !== 500 && e.status !== 503))
-      ) {
-        throw e;
+      // 2. Try with uploaded image URL if available
+      if (imageUrl) {
+        try {
+          const b64 = await editWithModel(apiKey, model, imageUrl, prompt, signal);
+          return { b64, tier, model };
+        } catch (e2) {
+          last = e2;
+        }
       }
     }
   }

@@ -19,15 +19,15 @@ export const ART_INTENSITIES = ["low", "medium", "high"] as const satisfies read
 
 const treatments: Record<(typeof ART_STYLE_IDS)[number], string> = {
   impressionist:
-    "a luminous Impressionist painting with lively dabbed strokes, broken colour, soft edges, and dancing natural light",
+    "a luminous Impressionist painting with lively dabbed strokes, impasto texture, broken colour, soft edges, and dancing natural light",
   watercolor:
-    "a delicate watercolor wash with translucent pigment, soft bleeding edges, and textured cold-press paper",
+    "a delicate watercolor wash with translucent pigment, sfumato soft bleeding edges, and textured cold-press paper",
   pointillist:
-    "a rich oil painting with layered pigment, confident visible brush strokes, vibrant saturation, and subtle canvas texture",
+    "a pointillist painting with distinct dots of pure color, layered pigment, vibrant saturation, and subtle canvas texture",
   "pop-art":
-    "a sophisticated pencil and charcoal drawing with cross-hatching, high-contrast monochrome contours, and visible paper tooth",
+    "a vibrant pop-art silkscreen print with bold contours, high-contrast monochrome and neon areas, and screen-printed halftone dot texture",
   abstract:
-    "a bold modernist painting with angular geometric planes and a controlled expressive palette",
+    "a bold modernist Cubist painting with angular geometric planes and a controlled expressive palette",
   vangogh:
     "an oil painting in the unmistakable style of Vincent van Gogh: thick swirling impasto brushstrokes, rhythmic curved marks like The Starry Night, vivid cobalt blues and chrome yellows",
   picasso:

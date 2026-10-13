@@ -19,5 +19,5 @@ export const Route = createFileRoute("/create/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => <QuickCreate />,
+  component: QuickCreate,
 });

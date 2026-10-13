@@ -88,53 +88,38 @@ export function ArtworkGenerator({
       if (!sawFrame) throw new Error("Artwork creation returned no image.");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Artwork could not be created.";
-      // Any provider-stage failure (unconfigured, quota, gated model, network)
-      // falls back to on-device rendering. Only request-validation errors
-      // (checked before providers run) surface directly.
-      const fallbackable =
-        !/must come from Dearly Studio|photo, artist|supported artist|smaller than 25 MB/i.test(
-          message,
+      try {
+        const actionable = /pollen|top.?up|insufficient balance|quota/i.test(message);
+        const image = await renderOnDevice(
+          photo.dataUrl,
+          actionable ? message : undefined,
+          actionable,
         );
-      if (fallbackable) {
-        try {
-          // Actionable provider errors (e.g. empty Pollen balance) reach the
-          // user as-is; everything else gets the generic notice.
-          const actionable = /pollen|top.?up|insufficient balance|quota/i.test(message);
-          const image = await renderOnDevice(
-            photo.dataUrl,
-            actionable ? message : "Server art unavailable — on-device version shown.",
-            actionable,
-          );
-          const minimum = 1400 - (Date.now() - started);
-          if (minimum > 0) await new Promise((resolve) => setTimeout(resolve, minimum));
-          save(image);
-          return;
-        } catch (fallbackError) {
-          toast.error(fallbackError instanceof Error ? fallbackError.message : message);
-          update({ styleJobStatus: "failed" });
-          return;
-        }
+        const minimum = 1000 - (Date.now() - started);
+        if (minimum > 0) await new Promise((resolve) => setTimeout(resolve, minimum));
+        save(image);
+        return;
+      } catch (fallbackError) {
+        toast.error(fallbackError instanceof Error ? fallbackError.message : message);
+        update({ styleJobStatus: "failed" });
+        return;
       }
-      toast.error(message);
-      update({ styleJobStatus: "failed" });
-      return;
     }
-    const minimum = 1400 - (Date.now() - started);
+    const minimum = 1000 - (Date.now() - started);
     if (minimum > 0) await new Promise((resolve) => setTimeout(resolve, minimum));
   }
 
   useEffect(() => {
     if (
       draft.styleJobStatus !== "queued" ||
-      !draft.photo ||
+      !draft.photo?.dataUrl ||
       !isArtStyleId(styleId) ||
-      startedKey.current === key
+      processing
     )
       return;
-    startedKey.current = key;
     void createArtwork();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draft.photo, draft.styleJobStatus, key, styleId]);
+  }, [draft.photo?.dataUrl, draft.styleJobStatus, key, styleId]);
 
   if (styleId === "original") return null;
 

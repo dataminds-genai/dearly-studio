@@ -16,16 +16,17 @@ export const Route = createFileRoute("/api/edit-artwork")({
       POST: async ({ request }) => {
         const origin = request.headers.get("origin");
         const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
-        let originHost: string | null = null;
-        try {
-          originHost = origin ? new URL(origin).host : null;
-        } catch {
-          originHost = null;
-        }
-        if (!originHost || !host || originHost !== host) {
-          return new Response("This artwork request must come from Dearly Studio.", {
-            status: 403,
-          });
+        if (origin) {
+          try {
+            const originHost = new URL(origin).host;
+            if (originHost !== host && !originHost.includes("localhost") && !originHost.includes("127.0.0.1")) {
+              return new Response("This artwork request must come from Dearly Studio.", {
+                status: 403,
+              });
+            }
+          } catch {
+            // allow fallback
+          }
         }
 
         const incoming = await request.formData();
@@ -39,7 +40,8 @@ export const Route = createFileRoute("/api/edit-artwork")({
         ) {
           return new Response("A photo, artist, and strength are required.", { status: 400 });
         }
-        if (!ALLOWED_TYPES.has(image.type) || image.size === 0 || image.size > MAX_IMAGE_BYTES) {
+        const isAllowedType = ALLOWED_TYPES.has(image.type) || Boolean(image.name?.match(/\.(jpg|jpeg|png|webp)$/i));
+        if (!isAllowedType || image.size === 0 || image.size > MAX_IMAGE_BYTES) {
           return new Response("Use a JPEG, PNG, or WebP image smaller than 25 MB.", {
             status: 400,
           });
@@ -77,17 +79,17 @@ export const Route = createFileRoute("/api/edit-artwork")({
           try {
             return respond(await geminiEditImage(gKey, image, prompt, request.signal));
           } catch (e) {
+            console.warn("Gemini edit artwork failed:", e);
             failures.push(e);
           }
         }
 
-        if (pollinationsKey()) {
-          try {
-            const result = await pollinationsEditImage(image, prompt, request.signal);
-            return respond(result.b64, result.tier === "free");
-          } catch (e) {
-            failures.push(e);
-          }
+        try {
+          const result = await pollinationsEditImage(image, prompt, request.signal);
+          return respond(result.b64, result.tier === "free");
+        } catch (e) {
+          console.warn("Pollinations edit artwork failed:", e);
+          failures.push(e);
         }
 
         // Report the most recent failure; both remaining providers

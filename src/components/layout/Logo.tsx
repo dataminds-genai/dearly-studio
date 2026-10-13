@@ -2,44 +2,58 @@ import { cn } from "@/lib/utils";
 
 type LogoProps = {
   className?: string;
-  title?: string;
+  size?: number;
+  showText?: boolean;
+  textClassName?: string;
 };
 
 /**
- * Premium "DS" monogram: a thin ring with a warm gradient plate and
- * serif letterforms. Colour comes from theme tokens only.
+ * Official Dearly Studio App Icon:
+ * Berry rounded squircle (#9E2B57) with a white tilted card (-8deg),
+ * folded peach corner, and center heart.
  */
-export function Logo({ className, title = "Dearly Studio" }: LogoProps) {
+export function Logo({
+  className,
+  size = 36,
+  showText = false,
+  textClassName,
+}: LogoProps) {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      role="img"
-      aria-label={title}
-      className={cn("size-9 shrink-0", className)}
-    >
-      <defs>
-        <linearGradient id="ds-plate" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="currentColor" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="currentColor" stopOpacity="0.72" />
-        </linearGradient>
-      </defs>
-
-      <circle cx="24" cy="24" r="23" fill="none" stroke="currentColor" strokeOpacity="0.25" />
-      <circle cx="24" cy="24" r="19.5" fill="url(#ds-plate)" />
-
-      <text
-        x="24"
-        y="24"
-        textAnchor="middle"
-        dominantBaseline="central"
-        className="font-serif"
-        fontSize="19"
-        fontWeight={600}
-        letterSpacing="0.5"
-        fill="var(--color-primary-foreground, #fff)"
+    <div className={cn("inline-flex items-center gap-2.5", className)}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 64 64"
+        role="img"
+        aria-label="Dearly Studio"
+        className="shrink-0 drop-shadow-[0_4px_12px_rgba(158,43,87,0.28)]"
       >
-        DS
-      </text>
-    </svg>
+        <rect width="64" height="64" rx="16" fill="#9E2B57" />
+        <g transform="rotate(-8 32 32)">
+          {/* White Card body */}
+          <path
+            d="M17 14h22l8 8v28a3 3 0 0 1-3 3H17a3 3 0 0 1-3-3V17a3 3 0 0 1 3-3z"
+            fill="#FFFFFF"
+          />
+          {/* Folded corner */}
+          <path d="M39 14l8 8h-5a3 3 0 0 1-3-3z" fill="#E9B8A0" />
+          {/* Berry Heart */}
+          <path
+            d="M31 44c-5.500-3.600-8.500-6.500-8.500-9.800 0-2.400 1.800-4.200 4-4.200 1.700 0 3.400 1 4.500 2.700 1.100-1.700 2.800-2.700 4.500-2.700 2.200 0 4 1.800 4 4.200 0 3.300-3 6.200-8.500 9.800z"
+            fill="#9E2B57"
+          />
+        </g>
+      </svg>
+      {showText && (
+        <span
+          className={cn(
+            "font-serif text-xl sm:text-2xl font-normal tracking-tight text-[#2A1F22]",
+            textClassName,
+          )}
+        >
+          Dearly Studio
+        </span>
+      )}
+    </div>
   );
 }
