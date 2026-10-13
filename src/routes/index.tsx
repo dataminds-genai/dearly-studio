@@ -7,7 +7,7 @@ import { useAuth } from "@/features/auth/auth-context";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Dearly Studio — Turn one photo into a card they will keep" },
+      { title: "Dearly Studio — Turn one photo into a card or art they will keep" },
       {
         name: "description",
         content:

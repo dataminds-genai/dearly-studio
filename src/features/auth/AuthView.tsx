@@ -342,7 +342,7 @@ export function AuthView({
         <main className="flex-1 px-6 pt-6 pb-4 flex flex-col gap-4">
           <div>
             <h1 className="font-serif text-[24px] sm:text-[26px] font-normal leading-tight text-[#2A1F22]">
-              Turn one photo into a card they will keep
+              Turn one photo into a card or art they will keep
             </h1>
             <p className="mt-2 text-sm text-[#6B5A5E] leading-relaxed">
               Sign in to save your cards and schedule them ahead of time.
