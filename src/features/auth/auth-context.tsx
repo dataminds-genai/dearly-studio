@@ -129,24 +129,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     void initSession();
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
-      if (!mounted) return;
-      setSession(newSession);
-      setUser(newSession?.user ?? null);
+    let subscription: { unsubscribe: () => void } | undefined;
+    try {
+      const authListener = supabase.auth.onAuthStateChange(async (_event, newSession) => {
+        if (!mounted) return;
+        setSession(newSession);
+        setUser(newSession?.user ?? null);
 
-      if (newSession?.user) {
-        await fetchProfile(newSession.user);
-      } else {
-        setProfile(null);
-      }
+        if (newSession?.user) {
+          await fetchProfile(newSession.user);
+        } else {
+          setProfile(null);
+        }
+        setLoading(false);
+      });
+      subscription = authListener?.data?.subscription;
+    } catch (err) {
+      console.warn("[Auth] onAuthStateChange setup warning:", err);
       setLoading(false);
-    });
+    }
 
     return () => {
       mounted = false;
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, [fetchProfile]);
 
