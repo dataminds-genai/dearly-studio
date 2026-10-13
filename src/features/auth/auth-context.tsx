@@ -221,6 +221,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null);
       setSession(null);
       setProfile(null);
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.removeItem("dearly_guest_preview");
+          window.dispatchEvent(new Event("dearly_auth_changed"));
+        } catch {
+          // ignore
+        }
+      }
       return { error: null };
     } catch (err) {
       return { error: err instanceof Error ? err : new Error(String(err)) };

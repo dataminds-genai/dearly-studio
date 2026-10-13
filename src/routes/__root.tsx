@@ -8,12 +8,12 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { lazy, useEffect, type ReactNode } from "react";
+import { lazy, useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CreationStoreProvider } from "@/features/creation/creation-store";
-import { AuthProvider } from "@/features/auth/auth-context";
+import { AuthProvider, useAuth } from "@/features/auth/auth-context";
 import { I18nProvider } from "@/i18n/i18n";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Toaster } from "@/components/ui/sonner";
@@ -129,34 +129,64 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function RootLayoutContent() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user } = useAuth();
+  const [isGuest, setIsGuest] = useState(false);
+
+  useEffect(() => {
+    const updateGuest = () => {
+      try {
+        if (typeof window !== "undefined") {
+          setIsGuest(sessionStorage.getItem("dearly_guest_preview") === "true");
+        }
+      } catch {
+        // ignore
+      }
+    };
+    updateGuest();
+    window.addEventListener("dearly_auth_changed", updateGuest);
+    return () => window.removeEventListener("dearly_auth_changed", updateGuest);
+  }, [user]);
+
+  const isAuthPage =
+    pathname === "/auth" ||
+    pathname.startsWith("/auth") ||
+    (pathname === "/" && !user && !isGuest);
+
+  return (
+    <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+      >
+        Skip to main content
+      </a>
+      <main
+        id="main"
+        className={cn(
+          "min-h-screen bg-[#FBF5EE]",
+          !isAuthPage && "pb-20",
+        )}
+      >
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </main>
+      {!isAuthPage ? <BottomNav /> : null}
+      <Toaster />
+    </>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isAuthPage = pathname === "/auth" || pathname.startsWith("/auth");
 
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <I18nProvider>
           <CreationStoreProvider>
-            <a
-              href="#main"
-              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
-            >
-              Skip to main content
-            </a>
-            <main
-              id="main"
-              className={cn(
-                "min-h-screen bg-[#FBF5EE]",
-                !isAuthPage && "pb-20",
-              )}
-            >
-              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-              <Outlet />
-            </main>
-            {!isAuthPage ? <BottomNav /> : null}
-            <Toaster />
+            <RootLayoutContent />
           </CreationStoreProvider>
         </I18nProvider>
       </AuthProvider>
