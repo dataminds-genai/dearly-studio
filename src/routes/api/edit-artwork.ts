@@ -6,9 +6,35 @@ import {
   pollinationsEditImage,
   pollinationsKey,
 } from "@/lib/pollinations.server";
+import {
+  cfEditImage,
+  cloudflareCreds,
+  CloudflareAIError,
+} from "@/lib/cloudflare-ai.server";
+import { getGenerationConfig, GENERATION_WINDOW_MS } from "@/domain/services/generation-limit";
 
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+
+const serverGenerations = new Map<string, number[]>();
+
+function checkServerRateLimit(key: string, isLoggedIn: boolean): { allowed: boolean; retryAfterSeconds: number } {
+  const config = getGenerationConfig();
+  const limit = isLoggedIn ? config.limitLoggedIn : config.limitAnon;
+  const now = Date.now();
+  const threshold = now - GENERATION_WINDOW_MS;
+
+  const current = (serverGenerations.get(key) || []).filter((t) => t > threshold);
+  if (current.length >= limit) {
+    serverGenerations.set(key, current);
+    const oldest = current[0] ?? now;
+    const retryAfterSeconds = Math.max(1, Math.ceil((oldest + GENERATION_WINDOW_MS - now) / 1000));
+    return { allowed: false, retryAfterSeconds };
+  }
+  current.push(now);
+  serverGenerations.set(key, current);
+  return { allowed: true, retryAfterSeconds: 0 };
+}
 
 export const Route = createFileRoute("/api/edit-artwork")({
   server: {
@@ -30,6 +56,21 @@ export const Route = createFileRoute("/api/edit-artwork")({
         }
 
         const incoming = await request.formData();
+        const rawUserId = incoming.get("userId");
+        const userId = typeof rawUserId === "string" && rawUserId.trim().length > 0 ? rawUserId.trim() : null;
+        const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("cf-connecting-ip") || "anonymous";
+        const rateKey = userId ? `user:${userId}` : `ip:${clientIp}`;
+
+        const rateResult = checkServerRateLimit(rateKey, Boolean(userId));
+        if (!rateResult.allowed) {
+          return new Response("Daily image generation limit reached. Please try again after 24 hours.", {
+            status: 429,
+            headers: {
+              "Content-Type": "text/plain; charset=utf-8",
+              "Retry-After": String(rateResult.retryAfterSeconds),
+            },
+          });
+        }
         const image = incoming.get("image");
         const styleId = incoming.get("styleId");
         const intensity = incoming.get("intensity");
@@ -62,11 +103,8 @@ export const Route = createFileRoute("/api/edit-artwork")({
           });
         };
 
-        // Provider order: Gemini → Pollinations (paid, then free community
-        // tier). Either provider can fail — always try the next one so the
-        // client only falls back to on-device as a last resort. The
-        // "allowance ... on device" messages intentionally match the
-        // client's on-device fallback trigger.
+        // Provider order: Gemini → Cloudflare AI (@cf/black-forest-labs/flux-2-klein-4b) →
+        // Pollinations (paid, then free community tier) → on-device canvas.
         const plain = (msg: string, status: number) =>
           new Response(msg, {
             status,
@@ -84,6 +122,16 @@ export const Route = createFileRoute("/api/edit-artwork")({
           }
         }
 
+        if (cloudflareCreds()) {
+          try {
+            const b64 = await cfEditImage(image, prompt, request.signal);
+            return respond(b64, false);
+          } catch (e) {
+            console.warn("Cloudflare AI edit artwork failed:", e);
+            failures.push(e);
+          }
+        }
+
         try {
           const result = await pollinationsEditImage(image, prompt, request.signal);
           return respond(result.b64, result.tier === "free");
@@ -92,9 +140,11 @@ export const Route = createFileRoute("/api/edit-artwork")({
           failures.push(e);
         }
 
-        // Report the most recent failure; both remaining providers
-        // produce actionable messages (quota, balance, auth).
+        // Report the most recent failure; providers produce actionable messages (quota, balance, auth).
         const meaningful = failures[failures.length - 1];
+        if (meaningful instanceof CloudflareAIError) {
+          return plain(meaningful.message, meaningful.status);
+        }
         if (meaningful instanceof PollinationsError) {
           const msg =
             meaningful.status === 429 || meaningful.status === 503
@@ -113,7 +163,7 @@ export const Route = createFileRoute("/api/edit-artwork")({
         }
         if (failures.length === 0) {
           return plain(
-            "Artwork creation is not configured. Add GEMINI_API_KEY or POLLINATIONS_API_KEY in .env.",
+            "Artwork creation is not configured. Add GEMINI_API_KEY, CLOUDFLARE_AI_TOKEN, or POLLINATIONS_API_KEY in .env.",
             500,
           );
         }

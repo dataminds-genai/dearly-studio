@@ -15,21 +15,22 @@ function textModels() {
   const custom = process.env["GEMINI_TEXT_MODEL"]?.trim();
   return [
     ...(custom ? [custom] : []),
-    "gemini-2.5-flash",
-    "gemini-2.0-flash",
-    "gemini-1.5-flash",
-    "gemini-1.5-pro",
+    "gemini-3.5-flash-lite",
+    "gemini-3.1-flash-lite",
+    "gemini-flash-lite-latest",
+    "gemini-3.5-flash",
     "gemini-flash-latest",
+    "gemini-2.5-flash",
   ].filter((m, i, all) => all.indexOf(m) === i);
 }
 function imageModels() {
   const custom = process.env["GEMINI_IMAGE_MODEL"]?.trim();
   return [
     ...(custom ? [custom] : []),
-    "gemini-2.5-flash-image",
     "gemini-3.1-flash-image",
     "gemini-3-pro-image",
-    "gemini-2.0-flash-exp",
+    "gemini-3.1-flash-lite-image",
+    "gemini-2.5-flash-image",
   ].filter((m, i, all) => all.indexOf(m) === i);
 }
 

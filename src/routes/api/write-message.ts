@@ -43,13 +43,23 @@ function sameOrigin(request: Request) {
 
 const MAX_SHORT_CHARS = 160;
 
+function cleanModelOutput(raw: string): string {
+  return raw
+    .replace(/<think>[\s\S]*?<\/think>/gi, "")
+    .replace(/##\s+Step[\s\S]*?(?=\n\n|\n[A-Z]|\n—|$)/gi, "")
+    .replace(/\\boxed\{([^}]+)\}/g, "$1")
+    .replace(/\$+/g, "")
+    .trim();
+}
+
 function splitOptions(out: string): string[] {
-  let parts = out
+  const cleaned = cleanModelOutput(out);
+  let parts = cleaned
     .split(/\n\s*---+\s*\n/)
     .map((s) => s.trim())
     .filter(Boolean);
   if (parts.length < 2)
-    parts = out
+    parts = cleaned
       .split(/(?<=\n— [^\n]+)\s*\n\s*\n/)
       .map((s) => s.trim())
       .filter(Boolean);
