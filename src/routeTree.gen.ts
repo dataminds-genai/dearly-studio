@@ -29,6 +29,7 @@ import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminSupportRouteImport } from './routes/admin.support'
 import { Route as ApiAiStatusRouteImport } from './routes/api/ai-status'
 import { Route as ApiEditArtworkRouteImport } from './routes/api/edit-artwork'
+import { Route as ApiGenerationConfigRouteImport } from './routes/api/generation-config'
 import { Route as ApiPhotoSearchRouteImport } from './routes/api/photo-search'
 import { Route as ApiPrintHandoffRouteImport } from './routes/api/print-handoff'
 import { Route as ApiWriteMessageRouteImport } from './routes/api/write-message'
@@ -141,6 +142,11 @@ const ApiEditArtworkRoute = ApiEditArtworkRouteImport.update({
   path: '/api/edit-artwork',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiGenerationConfigRoute = ApiGenerationConfigRouteImport.update({
+  id: '/api/generation-config',
+  path: '/api/generation-config',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPhotoSearchRoute = ApiPhotoSearchRouteImport.update({
   id: '/api/photo-search',
   path: '/api/photo-search',
@@ -217,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/admin/support': typeof AdminSupportRoute
   '/api/ai-status': typeof ApiAiStatusRoute
   '/api/edit-artwork': typeof ApiEditArtworkRoute
+  '/api/generation-config': typeof ApiGenerationConfigRoute
   '/api/photo-search': typeof ApiPhotoSearchRoute
   '/api/print-handoff': typeof ApiPrintHandoffRoute
   '/api/write-message': typeof ApiWriteMessageRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/admin/support': typeof AdminSupportRoute
   '/api/ai-status': typeof ApiAiStatusRoute
   '/api/edit-artwork': typeof ApiEditArtworkRoute
+  '/api/generation-config': typeof ApiGenerationConfigRoute
   '/api/photo-search': typeof ApiPhotoSearchRoute
   '/api/print-handoff': typeof ApiPrintHandoffRoute
   '/api/write-message': typeof ApiWriteMessageRoute
@@ -284,6 +292,7 @@ export interface FileRoutesById {
   '/admin/support': typeof AdminSupportRoute
   '/api/ai-status': typeof ApiAiStatusRoute
   '/api/edit-artwork': typeof ApiEditArtworkRoute
+  '/api/generation-config': typeof ApiGenerationConfigRoute
   '/api/photo-search': typeof ApiPhotoSearchRoute
   '/api/print-handoff': typeof ApiPrintHandoffRoute
   '/api/write-message': typeof ApiWriteMessageRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/api/ai-status'
     | '/api/edit-artwork'
+    | '/api/generation-config'
     | '/api/photo-search'
     | '/api/print-handoff'
     | '/api/write-message'
@@ -352,6 +362,7 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/api/ai-status'
     | '/api/edit-artwork'
+    | '/api/generation-config'
     | '/api/photo-search'
     | '/api/print-handoff'
     | '/api/write-message'
@@ -385,6 +396,7 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/api/ai-status'
     | '/api/edit-artwork'
+    | '/api/generation-config'
     | '/api/photo-search'
     | '/api/print-handoff'
     | '/api/write-message'
@@ -419,6 +431,7 @@ export interface RootRouteChildren {
   AdminSupportRoute: typeof AdminSupportRoute
   ApiAiStatusRoute: typeof ApiAiStatusRoute
   ApiEditArtworkRoute: typeof ApiEditArtworkRoute
+  ApiGenerationConfigRoute: typeof ApiGenerationConfigRoute
   ApiPhotoSearchRoute: typeof ApiPhotoSearchRoute
   ApiPrintHandoffRoute: typeof ApiPrintHandoffRoute
   ApiWriteMessageRoute: typeof ApiWriteMessageRoute
@@ -575,6 +588,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiEditArtworkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/generation-config': {
+      id: '/api/generation-config'
+      path: '/api/generation-config'
+      fullPath: '/api/generation-config'
+      preLoaderRoute: typeof ApiGenerationConfigRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/photo-search': {
       id: '/api/photo-search'
       path: '/api/photo-search'
@@ -675,6 +695,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminSupportRoute: AdminSupportRoute,
   ApiAiStatusRoute: ApiAiStatusRoute,
   ApiEditArtworkRoute: ApiEditArtworkRoute,
+  ApiGenerationConfigRoute: ApiGenerationConfigRoute,
   ApiPhotoSearchRoute: ApiPhotoSearchRoute,
   ApiPrintHandoffRoute: ApiPrintHandoffRoute,
   ApiWriteMessageRoute: ApiWriteMessageRoute,

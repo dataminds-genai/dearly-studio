@@ -85,18 +85,18 @@ export function ArtworkGenerator({
       // Show thoughtful notifications based on daily generation thresholds
       if (updatedStatus.count === updatedStatus.warningThreshold && updatedStatus.isLoggedIn) {
         toast.warning(
-          `Daily generation warning: You've created 5 of 10 artworks today. ${updatedStatus.remaining} remaining.`,
+          `Daily generation warning: You've created ${updatedStatus.count} of ${updatedStatus.limit} artworks today. ${updatedStatus.remaining} remaining.`,
           { duration: 5000 },
         );
       } else if (updatedStatus.isLimitReached) {
         if (updatedStatus.isLoggedIn) {
           toast.info(
-            "You have reached your daily cap of 10 images. Please try again after 24 hours.",
+            `You have reached your daily cap of ${updatedStatus.limit} images. Please try again after 24 hours.`,
             { duration: 6000 },
           );
         } else {
           toast.info(
-            "Daily guest limit reached (1/1). Sign in to get 10 image generations every day!",
+            `Daily guest limit reached (${updatedStatus.limit}/${updatedStatus.limit}). Sign in to get ${updatedStatus.limitLoggedIn} image generations every day!`,
             { duration: 6000 },
           );
         }
