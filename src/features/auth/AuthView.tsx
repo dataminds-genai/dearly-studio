@@ -38,6 +38,7 @@ export function AuthView({
   const t = useT();
   const {
     user,
+    profile,
     signInWithEmail,
     signUpWithEmail,
     signOut,
@@ -224,7 +225,7 @@ export function AuthView({
             {t("auth.checkEmailTitle")}
           </h2>
           <p className="mt-2 text-sm text-[#6B5A5E] leading-relaxed">
-            {t("auth.checkEmailDescription", { email: pendingEmail })}
+            {t("auth.checkEmailDescription", { email: pendingEmail || "your email" })}
           </p>
           <div className="mt-6 flex flex-col gap-3">
             <Button
@@ -257,6 +258,7 @@ export function AuthView({
 
   // View: Already Signed In
   if (user) {
+    const displayEmail = user.email || profile?.email;
     return (
       <div className="flex min-h-[100dvh] items-center justify-center bg-[#FBF5EE] px-4 py-8 text-[#2A1F22]">
         <div className="w-full max-w-md rounded-3xl border border-[#E2D2C5] bg-white p-6 sm:p-8 text-center shadow-md">
@@ -264,7 +266,9 @@ export function AuthView({
             {t("auth.alreadySignedIn")}
           </h2>
           <p className="mt-2 text-sm text-[#6B5A5E]">
-            {t("auth.signedInAs", { email: user.email || "" })}
+            {displayEmail
+              ? t("auth.signedInAs", { email: displayEmail })
+              : t("auth.signedIn")}
           </p>
           <div className="mt-6 flex flex-col gap-3">
             <Button
