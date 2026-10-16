@@ -19,7 +19,7 @@ export const Route = createFileRoute("/library")({
       { property: "og:description", content: "Open, remix, reorder or delete anything you made." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: Library,

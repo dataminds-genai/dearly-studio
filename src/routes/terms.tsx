@@ -2,21 +2,20 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Page, Prose } from "@/components/layout/Page";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+import { buildMetaTags, getBreadcrumbSchema } from "@/lib/seo";
+
 export const Route = createFileRoute("/terms")({
-  head: () => ({
-    meta: [
-      { title: "Terms of use — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "The rules for using Dearly Studio: your photo rights, acceptable use, orders, cancellation and refunds.",
-      },
-      { property: "og:title", content: "Terms of use — Dearly Studio" },
-      { property: "og:description", content: "Plain-language terms, including ordering and refunds." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Terms of Use — Dearly Studio",
+      description:
+        "The rules for using Dearly Studio: photo rights, acceptable use, orders, cancellations, and physical print delivery terms.",
+      path: "/terms",
+      jsonLd: getBreadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Terms of Use", path: "/terms" },
+      ]),
+    }),
   component: Terms,
 });
 

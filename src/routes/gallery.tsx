@@ -6,21 +6,36 @@ import { galleryItems } from "@/domain/samples";
 import { cn } from "@/lib/utils";
 import { useT } from "@/i18n/i18n";
 
+import { buildMetaTags, getBreadcrumbSchema, SITE_URL } from "@/lib/seo";
+
 export const Route = createFileRoute("/gallery")({
-  head: () => ({
-    meta: [
-      { title: "Gallery — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "Sample cards and prints made from ordinary photos of people, pets and places.",
-      },
-      { property: "og:title", content: "Gallery — Dearly Studio" },
-      { property: "og:description", content: "See what one photo can become before you upload one." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Inspiration Gallery — Real Custom Cards & Art Prints | Dearly Studio",
+      description:
+        "Browse sample custom cards and artistic photo prints made from real photos of family, pets, and travels. See watercolor, sketch, impressionist and original styles.",
+      keywords: [
+        "photo card samples",
+        "AI art gallery",
+        "custom card examples",
+        "photo to watercolor examples",
+        "pet portrait cards",
+      ],
+      path: "/gallery",
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Dearly Studio Inspiration Gallery",
+          description: "Sample cards and art prints created from real photos.",
+          url: `${SITE_URL}/gallery`,
+        },
+        getBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Gallery", path: "/gallery" },
+        ]),
+      ],
+    }),
   component: Gallery,
 });
 

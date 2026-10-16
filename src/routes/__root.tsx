@@ -84,16 +84,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Dearly Studio — cards and prints from your photos" },
+      { name: "theme-color", content: "#FBF5EE" },
+      { title: "Dearly Studio — AI Custom Photo Cards, Art Prints & Framing" },
       {
         name: "description",
         content:
-          "One photo. A meaningful message. Something to send, save, or hold. Preview for free. No card required.",
+          "Transform personal photos into heartfelt greeting cards, watercolor art, and framed physical prints. Free instant preview, no sign-up required.",
       },
+      { property: "og:site_name", content: "Dearly Studio" },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:image", content: "https://dearly-studio.site/og-image.png" },
+      { property: "og:image:width", content: "960" },
+      { property: "og:image:height", content: "600" },
+      { property: "og:image:alt", content: "Dearly Studio — Cards and art prints from your photos" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://dearly-studio.site/og-image.png" },
     ],
     links: [
+      { rel: "canonical", href: "https://dearly-studio.site" },
       {
         rel: "stylesheet",
         href: appCss,
@@ -107,6 +116,37 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "shortcut icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "apple-touch-icon", href: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Dearly Studio",
+          url: "https://dearly-studio.site",
+          logo: "https://dearly-studio.site/icon-512.png",
+          image: "https://dearly-studio.site/og-image.png",
+          description:
+            "Dearly Studio turns personal photos into custom greeting cards, artistic photo prints, and framed keepsakes with instant previews and worldwide delivery.",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Dearly Studio",
+          url: "https://dearly-studio.site",
+          description: "Turn one photo into a card or art they will keep.",
+          inLanguage: ["en", "ar"],
+          potentialAction: {
+            "@type": "CreateAction",
+            name: "Create a Custom Card or Print",
+            target: "https://dearly-studio.site/create",
+          },
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,

@@ -128,12 +128,12 @@ describe("generation-limit service", () => {
   describe("server-side runtime environment bindings", () => {
     beforeEach(() => {
       resetRuntimeGenerationConfig();
-      delete (globalThis as Record<string, unknown>).__CLOUDFLARE_ENV__;
+      delete (globalThis as Record<string, unknown>)["__CLOUDFLARE_ENV__"];
     });
 
     it("reads limits from Cloudflare Worker env bindings when running on server", () => {
       vi.stubGlobal("window", undefined);
-      (globalThis as Record<string, unknown>).__CLOUDFLARE_ENV__ = {
+      (globalThis as Record<string, unknown>)["__CLOUDFLARE_ENV__"] = {
         DAILY_IMAGE_LIMIT_LOGGED_IN: "25",
         DAILY_IMAGE_LIMIT_ANON: "3",
         DAILY_IMAGE_WARNING_THRESHOLD: "15",
@@ -147,7 +147,7 @@ describe("generation-limit service", () => {
 
     it("supports case-insensitive and common alias variable names from Cloudflare dashboard", () => {
       vi.stubGlobal("window", undefined);
-      (globalThis as Record<string, unknown>).__CLOUDFLARE_ENV__ = {
+      (globalThis as Record<string, unknown>)["__CLOUDFLARE_ENV__"] = {
         daily_limit_logged_in: "50",
         daily_limit_anon: "5",
         daily_warning_threshold: "30",

@@ -10,21 +10,30 @@ import { Page } from "@/components/layout/Page";
 import { faqs } from "@/domain/content";
 import { useT } from "@/i18n/i18n";
 
+import { buildMetaTags, getBreadcrumbSchema, getFaqSchema } from "@/lib/seo";
+
 export const Route = createFileRoute("/help")({
-  head: () => ({
-    meta: [
-      { title: "Help — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "Answers about photos, quality warnings, orders, delivery, share links, deletion and accounts.",
-      },
-      { property: "og:title", content: "Help — Dearly Studio" },
-      { property: "og:description", content: "Common questions, answered plainly." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Help & Frequently Asked Questions | Dearly Studio",
+      description:
+        "Answers about photos, print resolution checks, delivery times, guest previews, privacy deletion, and custom greeting cards.",
+      keywords: [
+        "custom card help",
+        "photo print resolution guide",
+        "card delivery times",
+        "dearly studio faq",
+        "how to print photos online",
+      ],
+      path: "/help",
+      jsonLd: [
+        getFaqSchema(faqs),
+        getBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Help", path: "/help" },
+        ]),
+      ],
+    }),
   component: Help,
 });
 

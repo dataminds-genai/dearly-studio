@@ -27,7 +27,7 @@ export const Route = createFileRoute("/auth")({
       },
       { property: "og:title", content: "Sign in — Dearly Studio" },
       { property: "og:type", content: "website" },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: AuthPageRoute,

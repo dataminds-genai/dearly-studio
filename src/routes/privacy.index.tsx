@@ -2,24 +2,20 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Page, Prose } from "@/components/layout/Page";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+import { buildMetaTags, getBreadcrumbSchema } from "@/lib/seo";
+
 export const Route = createFileRoute("/privacy/")({
-  head: () => ({
-    meta: [
-      { title: "Privacy notice — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "What we collect, why, how long we keep it, where it is processed, and how you or anyone pictured can have it deleted.",
-      },
-      { property: "og:title", content: "Privacy notice — Dearly Studio" },
-      {
-        property: "og:description",
-        content: "Plain-language privacy notice with a fixed deletion schedule.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Privacy Notice & Data Protection Policy — Dearly Studio",
+      description:
+        "What we collect, why, how long we keep it, and our strict deletion schedule. We do not sell personal data or train AI on your photos.",
+      path: "/privacy",
+      jsonLd: getBreadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: "Privacy", path: "/privacy" },
+      ]),
+    }),
   component: Privacy,
 });
 

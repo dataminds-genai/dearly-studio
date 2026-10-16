@@ -17,7 +17,7 @@ export const Route = createFileRoute("/orders/")({
       },
       { property: "og:title", content: "Scheduled — Dearly Studio" },
       { property: "og:type", content: "website" },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: ScheduledCards,

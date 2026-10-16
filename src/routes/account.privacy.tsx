@@ -17,7 +17,7 @@ export const Route = createFileRoute("/account/privacy")({
       { property: "og:description", content: "Self-serve deletion and retention information." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: AccountPrivacy,

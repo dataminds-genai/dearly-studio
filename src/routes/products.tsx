@@ -6,24 +6,31 @@ import { formatMoney } from "@/domain/services/pricing";
 import { describeSize } from "@/domain/services/print-quality";
 import { useT } from "@/i18n/i18n";
 
+import { buildMetaTags, getBreadcrumbSchema, getProductCatalogSchema } from "@/lib/seo";
+
 export const Route = createFileRoute("/products")({
-  head: () => ({
-    meta: [
-      { title: "Products — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "Postcards, folded cards, photo prints, framed prints and print-ready downloads, with sizes and quality requirements.",
-      },
-      { property: "og:title", content: "Products — Dearly Studio" },
-      {
-        property: "og:description",
-        content: "Digital downloads and shipped products, clearly separated.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Custom Printed Cards, Photo Prints & Framed Wall Art | Dearly Studio",
+      description:
+        "Explore custom photo products: thick matte postcards, luxury folded greeting cards, archival photo prints, and solid wood framed wall art.",
+      keywords: [
+        "custom photo postcards",
+        "folded greeting cards",
+        "archival photo prints",
+        "framed wall art",
+        "print on demand cards",
+        "personalized stationery",
+      ],
+      path: "/products",
+      jsonLd: [
+        getProductCatalogSchema(),
+        getBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Products", path: "/products" },
+        ]),
+      ],
+    }),
   component: Products,
 });
 

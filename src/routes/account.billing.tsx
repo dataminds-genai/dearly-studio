@@ -18,7 +18,7 @@ export const Route = createFileRoute("/account/billing")({
       { property: "og:description", content: "Receipts, with no card details stored." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: Billing,

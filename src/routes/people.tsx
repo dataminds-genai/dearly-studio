@@ -24,7 +24,7 @@ export const Route = createFileRoute("/people")({
       { property: "og:description", content: "Deliberately the smallest possible contact list." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: People,

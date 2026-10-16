@@ -13,21 +13,17 @@ import { formatMoney, priceCart, promoCodes } from "@/domain/services/pricing";
 import { describeSize } from "@/domain/services/print-quality";
 import { useT } from "@/i18n/i18n";
 
+import { buildMetaTags } from "@/lib/seo";
+
 export const Route = createFileRoute("/cart")({
-  head: () => ({
-    meta: [
-      { title: "Your cart — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "Review your prints, discounts, shipping and tax in full before any payment is taken.",
-      },
-      { property: "og:title", content: "Your cart — Dearly Studio" },
-      { property: "og:description", content: "Everything priced clearly before you pay." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Your Cart — Dearly Studio",
+      description:
+        "Review your prints, discounts, shipping and tax in full before any payment is taken.",
+      path: "/cart",
+      robots: "noindex, nofollow",
+    }),
   component: CartPage,
 });
 

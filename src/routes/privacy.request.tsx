@@ -9,25 +9,17 @@ import { Page } from "@/components/layout/Page";
 import { cn } from "@/lib/utils";
 import { useT } from "@/i18n/i18n";
 
+import { buildMetaTags } from "@/lib/seo";
+
 export const Route = createFileRoute("/privacy/request")({
-  head: () => ({
-    meta: [
-      { title: "Make a privacy request — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "Ask us to delete a photo, a card, or your details — whether or not you use Dearly Studio. No ID documents required.",
-      },
-      { property: "og:title", content: "Make a privacy request — Dearly Studio" },
-      {
-        property: "og:description",
-        content: "Anyone named or pictured can ask us to delete their data.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Make a Privacy Request — Dearly Studio",
+      description:
+        "Ask us to delete a photo, a card, or your details — whether or not you use Dearly Studio. No ID documents required.",
+      path: "/privacy/request",
+      robots: "noindex, nofollow",
+    }),
   component: PrivacyRequest,
 });
 

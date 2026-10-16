@@ -180,9 +180,10 @@ export function getGenerationConfig(): GenerationConfig {
 
   // 1. Server-side runtime environment variables (HIGHEST PRECEDENCE on server)
   if (isServer) {
-    const cfEnv = ((globalThis as Record<string, unknown>)?.__env__ ??
-      (globalThis as Record<string, unknown>)?.__CLOUDFLARE_ENV__) as
-      Record<string, unknown> | undefined;
+    const globalRec = globalThis as Record<string, unknown>;
+    const cfEnv = (globalRec["__env__"] ?? globalRec["__CLOUDFLARE_ENV__"]) as
+      | Record<string, unknown>
+      | undefined;
     const procEnv =
       typeof process !== "undefined" ? (process.env as Record<string, unknown>) : undefined;
     const serverSources = [cfEnv, procEnv];
@@ -195,9 +196,10 @@ export function getGenerationConfig(): GenerationConfig {
   // 2. Static compile-time replacement for Vite (used as initial client fallback or server fallback)
   try {
     if (typeof import.meta !== "undefined" && import.meta.env) {
-      rawLoggedIn = rawLoggedIn ?? import.meta.env.VITE_DAILY_IMAGE_LIMIT_LOGGED_IN;
-      rawAnon = rawAnon ?? import.meta.env.VITE_DAILY_IMAGE_LIMIT_ANON;
-      rawWarn = rawWarn ?? import.meta.env.VITE_DAILY_IMAGE_WARNING_THRESHOLD;
+      const metaEnv = import.meta.env as Record<string, unknown>;
+      rawLoggedIn = rawLoggedIn ?? metaEnv["VITE_DAILY_IMAGE_LIMIT_LOGGED_IN"];
+      rawAnon = rawAnon ?? metaEnv["VITE_DAILY_IMAGE_LIMIT_ANON"];
+      rawWarn = rawWarn ?? metaEnv["VITE_DAILY_IMAGE_WARNING_THRESHOLD"];
     }
   } catch {
     // import.meta not available
@@ -206,16 +208,17 @@ export function getGenerationConfig(): GenerationConfig {
   // 3. Fallback to process.env if client has process polyfill or was missed above
   try {
     if (typeof process !== "undefined" && process.env) {
+      const pEnv = process.env as Record<string, unknown>;
       rawLoggedIn =
         rawLoggedIn ??
-        process.env.VITE_DAILY_IMAGE_LIMIT_LOGGED_IN ??
-        process.env.DAILY_IMAGE_LIMIT_LOGGED_IN;
+        pEnv["VITE_DAILY_IMAGE_LIMIT_LOGGED_IN"] ??
+        pEnv["DAILY_IMAGE_LIMIT_LOGGED_IN"];
       rawAnon =
-        rawAnon ?? process.env.VITE_DAILY_IMAGE_LIMIT_ANON ?? process.env.DAILY_IMAGE_LIMIT_ANON;
+        rawAnon ?? pEnv["VITE_DAILY_IMAGE_LIMIT_ANON"] ?? pEnv["DAILY_IMAGE_LIMIT_ANON"];
       rawWarn =
         rawWarn ??
-        process.env.VITE_DAILY_IMAGE_WARNING_THRESHOLD ??
-        process.env.DAILY_IMAGE_WARNING_THRESHOLD;
+        pEnv["VITE_DAILY_IMAGE_WARNING_THRESHOLD"] ??
+        pEnv["DAILY_IMAGE_WARNING_THRESHOLD"];
     }
   } catch {
     // process.env not available

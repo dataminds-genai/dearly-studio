@@ -4,24 +4,30 @@ import { Page } from "@/components/layout/Page";
 import { UPLOAD_PRIVACY_NOTICE } from "@/domain/content";
 import { useT } from "@/i18n/i18n";
 
+import { buildMetaTags, getBreadcrumbSchema, getHowToSchema } from "@/lib/seo";
+
 export const Route = createFileRoute("/how-it-works")({
-  head: () => ({
-    meta: [
-      { title: "How it works — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "Upload a photo, choose your words, pick a look, then share it or have it printed and delivered.",
-      },
-      { property: "og:title", content: "How it works — Dearly Studio" },
-      {
-        property: "og:description",
-        content: "A plain walkthrough of making a card or print, and what happens to your photo.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "How It Works — Custom Photo Cards in 5 Easy Steps | Dearly Studio",
+      description:
+        "Learn how Dearly Studio turns any photo into a custom printed card or framed art in minutes: upload photo, personalize words, pick an artistic style, and order.",
+      keywords: [
+        "how to create photo cards",
+        "turn photo into postcard",
+        "custom greeting card steps",
+        "order photo prints online",
+        "photo to watercolor process",
+      ],
+      path: "/how-it-works",
+      jsonLd: [
+        getHowToSchema(),
+        getBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "How It Works", path: "/how-it-works" },
+        ]),
+      ],
+    }),
   component: HowItWorks,
 });
 
@@ -35,8 +41,12 @@ function HowItWorks() {
   return (
     <Page title={t("howItWorks.title")} intro={t("howItWorks.intro")}>
       <ol className="space-y-5">
-        {stepIds.map((id) => (
-          <li key={id} className="rounded-xl border border-border bg-card p-5">
+        {stepIds.map((id, index) => (
+          <li
+            key={id}
+            id={`step-${index + 1}`}
+            className="rounded-xl border border-border bg-card p-5 scroll-mt-20"
+          >
             <h2 className="text-lg">{t(`howItWorks.step.${id}.title`)}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{t(`howItWorks.step.${id}.body`)}</p>
           </li>

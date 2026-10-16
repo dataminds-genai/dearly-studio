@@ -7,21 +7,76 @@ import { entitlements, formatMoney, SHIPPING_FLAT_MINOR_UNITS, TAX_RATE } from "
 import { describeSize } from "@/domain/services/print-quality";
 import { useT } from "@/i18n/i18n";
 
+import { buildMetaTags, getBreadcrumbSchema } from "@/lib/seo";
+
 export const Route = createFileRoute("/pricing")({
-  head: () => ({
-    meta: [
-      { title: "Pricing — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "Free previews, one free digital export a week when signed in, and clear per-item prices for downloads and prints.",
-      },
-      { property: "og:title", content: "Pricing — Dearly Studio" },
-      { property: "og:description", content: "Nothing is charged until you choose to order." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Simple, Transparent Pricing | Custom Cards & Art Prints — Dearly Studio",
+      description:
+        "Free preview with no credit card required. Low flat-rate pricing: postcards from $6, folded cards from $8, framed prints from $24. Transparent shipping & taxes.",
+      keywords: [
+        "custom card pricing",
+        "photo print cost",
+        "affordable framed prints",
+        "postcard printing cost",
+        "greeting card prices",
+      ],
+      path: "/pricing",
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: "Dearly Studio Custom Prints & Cards",
+          description: "Personalized greeting cards, postcards, photo prints and solid wood framed art.",
+          brand: {
+            "@type": "Brand",
+            name: "Dearly Studio",
+          },
+          offers: {
+            "@type": "AggregateOffer",
+            lowPrice: "6.00",
+            highPrice: "64.00",
+            priceCurrency: "USD",
+            offerCount: 15,
+            offers: [
+              {
+                "@type": "Offer",
+                name: "Postcard",
+                price: "6.00",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+              {
+                "@type": "Offer",
+                name: "Folded Card",
+                price: "8.00",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+              {
+                "@type": "Offer",
+                name: "Photo Print",
+                price: "12.00",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+              {
+                "@type": "Offer",
+                name: "Framed Print",
+                price: "24.00",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+            ],
+          },
+        },
+        getBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Pricing", path: "/pricing" },
+        ]),
+      ],
+    }),
   component: Pricing,
 });
 

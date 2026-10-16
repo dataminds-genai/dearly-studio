@@ -1,23 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { QuickCreate } from "@/features/creation/QuickCreate";
 
+import { buildMetaTags, getBreadcrumbSchema, getWebApplicationSchema } from "@/lib/seo";
+
 export const Route = createFileRoute("/create/")({
-  head: () => ({
-    meta: [
-      { title: "Create from a photo — Dearly Studio" },
-      {
-        name: "description",
-        content:
-          "Upload a photo or try a sample, choose your words and a look, then share it or have it printed.",
-      },
-      { property: "og:title", content: "Create from a photo — Dearly Studio" },
-      {
-        property: "og:description",
-        content: "A guided, free-to-preview way to make a card or a print from one photo.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Create Custom Greeting Cards & Art Prints Online | Dearly Studio",
+      description:
+        "Upload a photo and create your personalized greeting card, postcard, or framed art print now. Instant free preview, artistic styles, custom wording.",
+      keywords: [
+        "create custom cards",
+        "make photo cards online",
+        "turn photo into print",
+        "personalized greeting card maker",
+      ],
+      path: "/create",
+      jsonLd: [
+        getWebApplicationSchema(),
+        getBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Create", path: "/create" },
+        ]),
+      ],
+    }),
   component: QuickCreate,
 });

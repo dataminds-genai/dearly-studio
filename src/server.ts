@@ -48,7 +48,7 @@ export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       if (env && typeof env === "object") {
-        (globalThis as Record<string, unknown>).__CLOUDFLARE_ENV__ = env;
+        (globalThis as Record<string, unknown>)["__CLOUDFLARE_ENV__"] = env;
         if (typeof process !== "undefined" && process.env) {
           for (const [key, val] of Object.entries(env)) {
             if (typeof val === "string") {

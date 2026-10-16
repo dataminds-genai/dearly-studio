@@ -1,8 +1,41 @@
+# Dearly Studio robots.txt
+# https://dearly-studio.site
+
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /account
+Disallow: /account/*
+Disallow: /orders
+Disallow: /orders/*
+Disallow: /cart
+Disallow: /share/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /account
+Disallow: /account/*
+Disallow: /orders
+Disallow: /orders/*
+Disallow: /cart
+Disallow: /share/
+
+User-agent: Applebot
+Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /account
+Disallow: /account/*
+Disallow: /orders
+Disallow: /orders/*
+Disallow: /cart
+Disallow: /share/
 
 User-agent: Twitterbot
 Allow: /
@@ -10,7 +43,23 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
 Allow: /
 
-Sitemap: https://dearly-studio.lovable.app/sitemap.xml
+User-agent: Pinterestbot
+Allow: /
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /account
+Disallow: /account/*
+Disallow: /orders
+Disallow: /orders/*
+Disallow: /cart
+Disallow: /share/
+
+Sitemap: https://dearly-studio.site/sitemap.xml
+Host: https://dearly-studio.site

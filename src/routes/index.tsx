@@ -4,24 +4,28 @@ import { QuickCreate } from "@/features/creation/QuickCreate";
 import { AuthView } from "@/features/auth/AuthView";
 import { useAuth } from "@/features/auth/auth-context";
 
+import { buildMetaTags, getWebApplicationSchema } from "@/lib/seo";
+
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Dearly Studio — Turn one photo into a card or art they will keep" },
-      {
-        name: "description",
-        content:
-          "Create and share a personal card from one photo. Preview for free. No card required.",
-      },
-      { property: "og:title", content: "Dearly Studio" },
-      {
-        property: "og:description",
-        content: "Turn one photo and a meaningful message into something ready to share.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    buildMetaTags({
+      title: "Dearly Studio | AI Custom Photo Cards, Art Prints & Framing",
+      description:
+        "Transform photos into museum-quality greeting cards, watercolor art, and framed physical prints. Free instant preview, thoughtful messages & worldwide delivery.",
+      keywords: [
+        "custom photo cards",
+        "personalized greeting cards",
+        "photo to art",
+        "turn photos into paintings",
+        "custom framed prints",
+        "watercolor cards",
+        "anniversary cards",
+        "birthday cards",
+        "postcard printing",
+      ],
+      path: "/",
+      jsonLd: getWebApplicationSchema(),
+    }),
   component: IndexPage,
 });
 

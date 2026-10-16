@@ -28,7 +28,7 @@ export const Route = createFileRoute("/account/")({
       },
       { property: "og:title", content: "Profile — Dearly Studio" },
       { property: "og:type", content: "website" },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: ProfilePage,
