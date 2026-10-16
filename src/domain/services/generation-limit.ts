@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export const DEFAULT_DAILY_IMAGE_LIMIT_LOGGED_IN = 10;
 export const DEFAULT_DAILY_IMAGE_LIMIT_ANON = 1;
@@ -466,4 +467,43 @@ export function useGenerationLimit(userId?: string | null) {
       setStatus(getGenerationStatus(userId));
     },
   };
+}
+
+/**
+ * Dispatches notifications and triggers the limit modal when daily limit is reached.
+ * If user is logged in: shows limit exceeded message.
+ * If user is a guest: prompts them to register first to get daily artwork generations.
+ */
+export function notifyLimitReached(status: GenerationStatus): void {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("dearly_open_limit_modal"));
+  }
+
+  if (status.isLoggedIn) {
+    toast.error(
+      `Daily limit exceeded. You have reached your daily limit of ${status.limit} artworks today.`,
+      {
+        description: status.formattedResetTime
+          ? `Your allowance refreshes in ${status.formattedResetTime}.`
+          : "Allowance refreshes after 24 hours.",
+        duration: 5000,
+      },
+    );
+  } else {
+    toast.info(
+      `Daily guest limit reached! Register first to get ${status.limitLoggedIn} daily artwork generations.`,
+      {
+        description: `Guests are limited to ${status.limit} free artwork per day. Create a free account to unlock ${status.limitLoggedIn} daily creations!`,
+        duration: 7000,
+        action: {
+          label: "Register",
+          onClick: () => {
+            if (typeof window !== "undefined") {
+              window.location.href = "/auth";
+            }
+          },
+        },
+      },
+    );
+  }
 }

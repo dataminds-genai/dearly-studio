@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
+import { toast } from "sonner";
 import {
   pruneTimestamps,
   formatTimeRemaining,
   getGenerationConfig,
   getGenerationStatus,
   recordGeneration,
+  notifyLimitReached,
   GENERATION_WINDOW_MS,
   DEFAULT_DAILY_IMAGE_LIMIT_LOGGED_IN,
   DEFAULT_DAILY_IMAGE_LIMIT_ANON,
@@ -12,10 +14,20 @@ import {
   resetRuntimeGenerationConfig,
 } from "../generation-limit";
 
+vi.mock("sonner", () => ({
+  toast: {
+    error: vi.fn(),
+    info: vi.fn(),
+    warning: vi.fn(),
+    success: vi.fn(),
+  },
+}));
+
 describe("generation-limit service", () => {
   const mockStorage: Record<string, string> = {};
 
   beforeEach(() => {
+    vi.clearAllMocks();
     for (const key in mockStorage) {
       delete mockStorage[key];
     }
@@ -170,6 +182,72 @@ describe("generation-limit service", () => {
       expect(config.limitLoggedIn).toBe(40);
       expect(config.limitAnon).toBe(4);
       expect(config.warningThreshold).toBe(20);
+    });
+  });
+
+  describe("notifyLimitReached", () => {
+    it("dispatches modal event and shows limit exceeded error toast for logged in users", () => {
+      const dispatchSpy = vi.fn();
+      vi.stubGlobal("window", {
+        dispatchEvent: dispatchSpy,
+      });
+
+      const status = {
+        limit: 10,
+        limitLoggedIn: 10,
+        limitAnon: 1,
+        count: 10,
+        remaining: 0,
+        isAllowed: false,
+        shouldWarn: false,
+        isLimitReached: true,
+        isLoggedIn: true,
+        msUntilNextReset: 3600000,
+        formattedResetTime: "1 hr",
+        warningThreshold: 5,
+      };
+
+      notifyLimitReached(status);
+
+      expect(dispatchSpy).toHaveBeenCalled();
+      expect(toast.error).toHaveBeenCalledWith(
+        expect.stringContaining("Daily limit exceeded. You have reached your daily limit of 10 artworks"),
+        expect.objectContaining({
+          description: expect.stringContaining("1 hr"),
+        }),
+      );
+    });
+
+    it("dispatches modal event and prompts registration for guest users with X daily generations", () => {
+      const dispatchSpy = vi.fn();
+      vi.stubGlobal("window", {
+        dispatchEvent: dispatchSpy,
+      });
+
+      const status = {
+        limit: 1,
+        limitLoggedIn: 10,
+        limitAnon: 1,
+        count: 1,
+        remaining: 0,
+        isAllowed: false,
+        shouldWarn: false,
+        isLimitReached: true,
+        isLoggedIn: false,
+        msUntilNextReset: 3600000,
+        formattedResetTime: "1 hr",
+        warningThreshold: 5,
+      };
+
+      notifyLimitReached(status);
+
+      expect(dispatchSpy).toHaveBeenCalled();
+      expect(toast.info).toHaveBeenCalledWith(
+        expect.stringContaining("Register first to get 10 daily artwork generations"),
+        expect.objectContaining({
+          action: expect.objectContaining({ label: "Register" }),
+        }),
+      );
     });
   });
 });

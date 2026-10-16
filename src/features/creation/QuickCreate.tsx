@@ -45,6 +45,7 @@ import { PhotoLibrary } from "./PhotoLibrary";
 import { ArtworkGenerator } from "./ArtworkGenerator";
 import { PrintHandoff } from "./PrintHandoff";
 import { artworkKey } from "@/lib/art-style";
+import { useGenerationLimit, notifyLimitReached } from "@/domain/services/generation-limit";
 import { useStore } from "./creation-store";
 import type {
   CreationDraft,
@@ -106,6 +107,7 @@ const quickStarters = [
 
 export function QuickCreate() {
   const { user } = useAuth();
+  const { status: genStatus } = useGenerationLimit(user?.id);
   const { draft, updateDraft } = useStore();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -647,16 +649,23 @@ export function QuickCreate() {
                   <button
                     key={intensity}
                     type="button"
-                    onClick={() =>
+                    onClick={() => {
+                      const isRendered =
+                        draft.styleId === "original" ||
+                        Boolean(
+                          draft.artworkRenders?.[artworkKey(draft.styleId, intensity)],
+                        );
+
+                      if (!isRendered && !genStatus.isAllowed) {
+                        notifyLimitReached(genStatus);
+                        return;
+                      }
+
                       updateDraft({
                         styleIntensity: intensity,
-                        styleJobStatus: draft.artworkRenders?.[
-                          artworkKey(draft.styleId, intensity)
-                        ]
-                          ? "complete"
-                          : "queued",
-                      })
-                    }
+                        styleJobStatus: isRendered ? "complete" : "queued",
+                      });
+                    }}
                     className={cn(
                       "py-2.5 px-2 text-center rounded-xl text-xs font-semibold border transition-all",
                       draft.styleIntensity === intensity
@@ -690,15 +699,21 @@ export function QuickCreate() {
                         toast.error("Add a photo first.");
                         return;
                       }
+
+                      const isRendered =
+                        style.id === "original" ||
+                        Boolean(
+                          draft.artworkRenders?.[artworkKey(style.id, draft.styleIntensity)],
+                        );
+
+                      if (!isRendered && !genStatus.isAllowed) {
+                        notifyLimitReached(genStatus);
+                        return;
+                      }
+
                       updateDraft({
                         styleId: style.id,
-                        styleJobStatus:
-                          style.id === "original" ||
-                          Boolean(
-                            draft.artworkRenders?.[artworkKey(style.id, draft.styleIntensity)],
-                          )
-                            ? "complete"
-                            : "queued",
+                        styleJobStatus: isRendered ? "complete" : "queued",
                       });
                     }}
                     className={cn(

@@ -41,19 +41,19 @@ export function DailyLimitModal({ isOpen, onClose, status }: DailyLimitModalProp
           id="daily-limit-title"
           className="mt-4 font-serif text-2xl font-normal text-[#2A1F22]"
         >
-          {isGuest ? "Daily Guest Limit Reached" : "Daily Limit Reached"}
+          {isGuest ? "Daily Guest Limit Reached" : "Daily Limit Exceeded"}
         </h3>
 
         <p className="mt-2 text-sm text-[#6B5A5E] leading-relaxed">
           {isGuest ? (
             <>
-              You have created your <strong className="text-[#2A1F22]">{status.limit} free artwork</strong> today
-              as a guest. Create an account or sign in to get{" "}
-              <strong className="text-[#9E2B57]">{status.limitLoggedIn} image generations</strong> every 24 hours!
+              You have created your <strong className="text-[#2A1F22]">{status.limit} free artwork</strong> today.
+              Please register or sign in first to get{" "}
+              <strong className="text-[#9E2B57]">{status.limitLoggedIn} daily artwork generations</strong>!
             </>
           ) : (
             <>
-              You have used all <strong className="text-[#2A1F22]">{status.limit} of your daily image generations</strong>.
+              You have reached your daily limit of <strong className="text-[#2A1F22]">{status.limit} image generations</strong>.
               To ensure fast and reliable creations for everyone, limits refresh after 24 hours.
             </>
           )}
@@ -78,7 +78,7 @@ export function DailyLimitModal({ isOpen, onClose, status }: DailyLimitModalProp
                 className="tap-safe flex h-12 w-full items-center justify-center rounded-2xl bg-[#9E2B57] text-white font-bold text-sm shadow-sm hover:bg-[#852243] transition-colors"
               >
                 <UserCheck className="size-4 mr-2" />
-                Sign in to get {status.limitLoggedIn}/day
+                Register to get {status.limitLoggedIn} creations/day
               </Link>
               <Button
                 type="button"

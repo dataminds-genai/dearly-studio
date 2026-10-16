@@ -7,7 +7,7 @@ import { artworkKey, isArtStyleId } from "@/lib/art-style";
 import { streamImage } from "@/lib/stream-image";
 import { renderArtOnDevice } from "./local-art";
 import { useAuth } from "@/features/auth/auth-context";
-import { useGenerationLimit } from "@/domain/services/generation-limit";
+import { useGenerationLimit, notifyLimitReached } from "@/domain/services/generation-limit";
 import { DailyLimitModal } from "./DailyLimitModal";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +33,12 @@ export function ArtworkGenerator({
   const { status, record } = useGenerationLimit(user?.id);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [onDevice, setOnDevice] = useState(false);
+
+  useEffect(() => {
+    const handleOpen = () => setShowLimitModal(true);
+    window.addEventListener("dearly_open_limit_modal", handleOpen);
+    return () => window.removeEventListener("dearly_open_limit_modal", handleOpen);
+  }, []);
   const styleId = draft.styleId;
   const key = artworkKey(styleId, draft.styleIntensity);
   const processing = draft.styleJobStatus === "processing";
@@ -64,6 +70,7 @@ export function ArtworkGenerator({
 
     // Check daily generation limit
     if (!status.isAllowed) {
+      notifyLimitReached(status);
       setShowLimitModal(true);
       update({
         styleJobStatus: "complete",
@@ -133,6 +140,7 @@ export function ArtworkGenerator({
     } catch (error) {
       const message = error instanceof Error ? error.message : "Artwork could not be created.";
       if (/limit reached|after 24 hours/i.test(message)) {
+        notifyLimitReached(status);
         setShowLimitModal(true);
         update({ styleJobStatus: "complete" });
         return;
@@ -170,8 +178,6 @@ export function ArtworkGenerator({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draft.photo?.dataUrl, draft.styleJobStatus, key, styleId]);
 
-  if (styleId === "original") return null;
-
   return (
     <>
       <DailyLimitModal
@@ -179,59 +185,62 @@ export function ArtworkGenerator({
         onClose={() => setShowLimitModal(false)}
         status={status}
       />
-      <div className="mt-3 flex items-center justify-between gap-3 px-1" aria-live="polite">
-        <div className="flex flex-col gap-0.5">
-          <p className="text-xs text-muted-foreground">
-            {processing
-              ? onDevice
-                ? "Rendering artwork on device..."
-                : "Painting your artwork…"
-              : draft.styleJobStatus === "failed"
-                ? "That style didn't work. Try again."
-                : "Your original photo stays unchanged."}
-          </p>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span
-              className={cn(
-                "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold border transition-colors",
-                status.isLimitReached
-                  ? "bg-[#A8261E]/10 text-[#A8261E] border-[#A8261E]/20"
-                  : status.shouldWarn
-                    ? "bg-[#D97706]/15 text-[#B45309] border-[#D97706]/30"
-                    : "bg-white text-[#6B5A5E] border-[#E2D2C5]",
+      {styleId !== "original" && (
+        <div className="mt-3 flex items-center justify-between gap-3 px-1" aria-live="polite">
+          <div className="flex flex-col gap-0.5">
+            <p className="text-xs text-muted-foreground">
+              {processing
+                ? onDevice
+                  ? "Rendering artwork on device..."
+                  : "Painting your artwork…"
+                : draft.styleJobStatus === "failed"
+                  ? "That style didn't work. Try again."
+                  : "Your original photo stays unchanged."}
+            </p>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold border transition-colors",
+                  status.isLimitReached
+                    ? "bg-[#A8261E]/10 text-[#A8261E] border-[#A8261E]/20"
+                    : status.shouldWarn
+                      ? "bg-[#D97706]/15 text-[#B45309] border-[#D97706]/30"
+                      : "bg-white text-[#6B5A5E] border-[#E2D2C5]",
+                )}
+              >
+                <Sparkles className="size-3" />
+                <span>
+                  {status.remaining} / {status.limit} daily creations left
+                </span>
+              </span>
+              {status.shouldWarn && status.remaining > 0 && (
+                <span className="text-[11px] font-medium text-[#B45309]">
+                  (Warning: 5 used)
+                </span>
               )}
-            >
-              <Sparkles className="size-3" />
-              <span>
-                {status.remaining} / {status.limit} daily creations left
-              </span>
-            </span>
-            {status.shouldWarn && status.remaining > 0 && (
-              <span className="text-[11px] font-medium text-[#B45309]">
-                (Warning: 5 used)
-              </span>
-            )}
+            </div>
           </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="shrink-0 gap-1.5"
+            disabled={processing || !draft.photo}
+            onClick={() => {
+              if (!status.isAllowed) {
+                notifyLimitReached(status);
+                setShowLimitModal(true);
+                return;
+              }
+              startedKey.current = key;
+              void createArtwork();
+            }}
+          >
+            <RefreshCw className="size-3.5" aria-hidden="true" />
+            Repaint
+          </Button>
         </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          className="shrink-0 gap-1.5"
-          disabled={processing || !draft.photo}
-          onClick={() => {
-            if (!status.isAllowed) {
-              setShowLimitModal(true);
-              return;
-            }
-            startedKey.current = key;
-            void createArtwork();
-          }}
-        >
-          <RefreshCw className="size-3.5" aria-hidden="true" />
-          Repaint
-        </Button>
-      </div>
+      )}
     </>
   );
 }

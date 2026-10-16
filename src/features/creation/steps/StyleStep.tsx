@@ -6,6 +6,8 @@ import type { CreationDraft, StyleId, StyleIntensity } from "@/domain/entities/t
 import { cn } from "@/lib/utils";
 import { useT } from "@/i18n/i18n";
 import { artworkKey } from "@/lib/art-style";
+import { useAuth } from "@/features/auth/auth-context";
+import { useGenerationLimit, notifyLimitReached } from "@/domain/services/generation-limit";
 import { ArtworkGenerator } from "../ArtworkGenerator";
 
 const intensities: StyleIntensity[] = ["low", "medium", "high"];
@@ -17,6 +19,8 @@ export function StyleStep({
   draft: CreationDraft;
   update: (patch: Partial<CreationDraft>) => void;
 }) {
+  const { user } = useAuth();
+  const { status: genStatus } = useGenerationLimit(user?.id);
   const t = useT();
   const [compare, setCompare] = useState(50);
   const src = draft.photo?.dataUrl ?? null;
@@ -34,16 +38,23 @@ export function StyleStep({
           <button
             key={style.id}
             type="button"
-            onClick={() =>
+            onClick={() => {
+              const isRendered =
+                style.id === "original" ||
+                Boolean(
+                  draft.artworkRenders?.[artworkKey(style.id as StyleId, draft.styleIntensity)],
+                );
+
+              if (!isRendered && !genStatus.isAllowed) {
+                notifyLimitReached(genStatus);
+                return;
+              }
+
               update({
                 styleId: style.id as StyleId,
-                styleJobStatus:
-                  style.id === "original" ||
-                  Boolean(draft.artworkRenders?.[artworkKey(style.id as StyleId, draft.styleIntensity)])
-                    ? "complete"
-                    : "queued",
-              })
-            }
+                styleJobStatus: isRendered ? "complete" : "queued",
+              });
+            }}
             aria-pressed={draft.styleId === style.id}
             className={cn(
               "overflow-hidden rounded-xl border-2 bg-card text-left",
@@ -82,11 +93,18 @@ export function StyleStep({
           value={[intensities.indexOf(draft.styleIntensity)]}
           onValueChange={([v]) => {
             const styleIntensity = intensities[v ?? 1] ?? "medium";
+            const isRendered =
+              draft.styleId === "original" ||
+              Boolean(draft.artworkRenders?.[artworkKey(draft.styleId, styleIntensity)]);
+
+            if (!isRendered && !genStatus.isAllowed) {
+              notifyLimitReached(genStatus);
+              return;
+            }
+
             update({
               styleIntensity,
-              styleJobStatus: draft.artworkRenders?.[artworkKey(draft.styleId, styleIntensity)]
-                ? "complete"
-                : "queued",
+              styleJobStatus: isRendered ? "complete" : "queued",
             });
           }}
         />
