@@ -204,8 +204,7 @@ export function getGenerationConfig(): GenerationConfig {
   if (isServer) {
     const globalRec = globalThis as Record<string, unknown>;
     const cfEnv = (globalRec["__env__"] ?? globalRec["__CLOUDFLARE_ENV__"]) as
-      | Record<string, unknown>
-      | undefined;
+      Record<string, unknown> | undefined;
     const procEnv =
       typeof process !== "undefined" ? (process.env as Record<string, unknown>) : undefined;
     const serverSources = [cfEnv, procEnv];
@@ -235,8 +234,7 @@ export function getGenerationConfig(): GenerationConfig {
         rawLoggedIn ??
         pEnv["VITE_DAILY_IMAGE_LIMIT_LOGGED_IN"] ??
         pEnv["DAILY_IMAGE_LIMIT_LOGGED_IN"];
-      rawAnon =
-        rawAnon ?? pEnv["VITE_DAILY_IMAGE_LIMIT_ANON"] ?? pEnv["DAILY_IMAGE_LIMIT_ANON"];
+      rawAnon = rawAnon ?? pEnv["VITE_DAILY_IMAGE_LIMIT_ANON"] ?? pEnv["DAILY_IMAGE_LIMIT_ANON"];
       rawWarn =
         rawWarn ??
         pEnv["VITE_DAILY_IMAGE_WARNING_THRESHOLD"] ??
@@ -379,6 +377,39 @@ export function recordGeneration(userId?: string | null, now = Date.now()): Gene
 }
 
 /**
+ * Applies authoritative server counts directly into local storage and notifies listeners.
+ * Used when the server returns updated generation status inline with artwork responses.
+ */
+export function applyAuthoritativeStatus(
+  serverData: { count: number; remaining: number; limit: number },
+  userId?: string | null,
+): GenerationStatus {
+  if (typeof serverData.count === "number" && typeof serverData.limit === "number") {
+    const current = loadGenerationTimestamps(userId);
+    if (serverData.count === 0) {
+      if (current.length > 0) saveGenerationTimestamps(userId, []);
+    } else if (serverData.count < current.length) {
+      saveGenerationTimestamps(userId, current.slice(-serverData.count));
+    } else if (serverData.count > current.length) {
+      const needed = serverData.count - current.length;
+      const now = Date.now();
+      const synthesized = [...current];
+      for (let i = 0; i < needed; i++) {
+        synthesized.push(now - i * 1000);
+      }
+      saveGenerationTimestamps(userId, synthesized);
+    }
+  }
+  const status = getGenerationStatus(userId);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(
+      new CustomEvent("dearly_generation_updated", { detail: { userId: userId ?? null } }),
+    );
+  }
+  return status;
+}
+
+/**
  * Synchronizes generation status from the authoritative server/database endpoint.
  */
 export async function syncGenerationStatus(
@@ -413,6 +444,11 @@ export async function syncGenerationStatus(
             synthesized.push(now - i * 1000);
           }
           saveGenerationTimestamps(userId, synthesized);
+        }
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("dearly_generation_updated", { detail: { userId: userId ?? null } }),
+          );
         }
         return data;
       }
@@ -482,15 +518,37 @@ export function useGenerationLimit(userId?: string | null) {
 
   return {
     status,
-    record: () => {
+    /**
+     * Records a generation and resolves to the authoritative server status.
+     * The local optimistic value is only returned when the server is unreachable,
+     * so every UI message (badge, toast, account page) reads the same number.
+     */
+    record: async (): Promise<GenerationStatus> => {
       const local = recordGeneration(userId);
       setStatus(local);
-      syncGenerationStatus(userId)
-        .then((s) => {
-          if (s) setStatus(s);
-        })
-        .catch(() => {});
+      try {
+        const server = await syncGenerationStatus(userId);
+        if (server) {
+          setStatus(server);
+          return server;
+        }
+      } catch {
+        // offline: keep optimistic local status
+      }
       return local;
+    },
+    /**
+     * Instantly applies authoritative status received directly from an API response
+     * without waiting for another network round-trip.
+     */
+    applyStatus: (serverData: {
+      count: number;
+      remaining: number;
+      limit: number;
+    }): GenerationStatus => {
+      const updated = applyAuthoritativeStatus(serverData, userId);
+      setStatus(updated);
+      return updated;
     },
     refresh: () => {
       syncGenerationConfig()
@@ -546,4 +604,3 @@ export function notifyLimitReached(status: GenerationStatus): void {
     );
   }
 }
-

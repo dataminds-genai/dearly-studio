@@ -23,8 +23,7 @@ export function PreviewStep({
   const variant = draft.variantId ? getVariant(draft.variantId) : null;
   const photo = draft.photo;
 
-  const quality =
-    variant && photo ? assessQuality(photo.widthPx, photo.heightPx, variant) : null;
+  const quality = variant && photo ? assessQuality(photo.widthPx, photo.heightPx, variant) : null;
 
   return (
     <div className="space-y-8">
@@ -72,7 +71,9 @@ export function PreviewStep({
                     key={v.id}
                     className={cn(
                       "tap-safe flex cursor-pointer items-start justify-between gap-3 rounded-lg border-2 p-3 text-sm",
-                      selected ? "border-primary bg-accent/40" : "border-border bg-card hover:border-primary/40",
+                      selected
+                        ? "border-primary bg-accent/40"
+                        : "border-border bg-card hover:border-primary/40",
                     )}
                   >
                     <span>
@@ -98,13 +99,10 @@ export function PreviewStep({
               })}
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
-              Demo prices for development. A print-ready download is a separate, non-shipped
-              product — see{" "}
-              {formatMoney(
-                getVariant("var_download_print_ready")?.priceMinorUnits ?? 0,
-                "USD",
-              )}{" "}
-              on the pricing page.
+              Demo prices for development. A print-ready download is a separate, non-shipped product
+              — see{" "}
+              {formatMoney(getVariant("var_download_print_ready")?.priceMinorUnits ?? 0, "USD")} on
+              the pricing page.
             </p>
           </fieldset>
 
@@ -143,7 +141,9 @@ export function PreviewStep({
                     Dashed line: trim/bleed edge ({variant.bleedMm} mm) — anything outside may be
                     cut.
                   </li>
-                  <li className="list-none">Dotted line: safe area — keep faces and text inside.</li>
+                  <li className="list-none">
+                    Dotted line: safe area — keep faces and text inside.
+                  </li>
                   <li className="list-none">Size: {describeSize(variant)}</li>
                 </ul>
               </div>
@@ -163,8 +163,8 @@ export function PreviewStep({
                     )}
                     <AlertTitle>{quality.label}</AlertTitle>
                     <AlertDescription>
-                      {quality.advice} ({quality.effectiveDpi} dpi at this size; {quality.requiredDpi}{" "}
-                      recommended.)
+                      {quality.advice} ({quality.effectiveDpi} dpi at this size;{" "}
+                      {quality.requiredDpi} recommended.)
                     </AlertDescription>
                   </Alert>
                 ) : (
@@ -184,7 +184,9 @@ export function PreviewStep({
                       onCheckedChange={(v) => update({ qualityAcknowledged: v === true })}
                       className="mt-0.5"
                     />
-                    <span>I understand this print may look a little soft and want to continue.</span>
+                    <span>
+                      I understand this print may look a little soft and want to continue.
+                    </span>
                   </label>
                 ) : null}
 

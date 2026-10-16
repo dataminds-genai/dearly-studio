@@ -86,7 +86,9 @@ function CartPage() {
                   variant="ghost"
                   size="icon"
                   className="tap-safe"
-                  aria-label={t("cart.removeAria", { name: product?.name ?? t("cart.item.fallbackName") })}
+                  aria-label={t("cart.removeAria", {
+                    name: product?.name ?? t("cart.item.fallbackName"),
+                  })}
                   onClick={() => removeFromCart(item.id)}
                 >
                   <Trash2 className="size-4" aria-hidden="true" />
@@ -138,11 +140,18 @@ function CartPage() {
           <dl className="mt-3 space-y-2 text-sm">
             <Row label={t("cart.summary.subtotal")} value={formatMoney(breakdown.subtotal)} />
             {breakdown.discount > 0 ? (
-              <Row label={t("cart.summary.discount")} value={`−${formatMoney(breakdown.discount)}`} />
+              <Row
+                label={t("cart.summary.discount")}
+                value={`−${formatMoney(breakdown.discount)}`}
+              />
             ) : null}
             <Row
               label={t("cart.summary.shipping")}
-              value={breakdown.shipping === 0 ? t("cart.summary.noDeliveryNeeded") : formatMoney(breakdown.shipping)}
+              value={
+                breakdown.shipping === 0
+                  ? t("cart.summary.noDeliveryNeeded")
+                  : formatMoney(breakdown.shipping)
+              }
             />
             <Row label={t("cart.summary.tax")} value={formatMoney(breakdown.tax)} />
             <div className="border-t border-border pt-2">

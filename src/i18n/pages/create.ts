@@ -38,7 +38,8 @@ const english: Record<string, string> = {
   "step.photo.uploading": "Adding your photo…",
   "step.photo.errorTitle": "That didn't work",
   "step.photo.error.confirmRequired": "Confirm the photo is yours to use first.",
-  "step.photo.error.confirmRequiredDrop": "Confirm the photo is yours to use before dropping it in.",
+  "step.photo.error.confirmRequiredDrop":
+    "Confirm the photo is yours to use before dropping it in.",
   "step.photo.error.tooLarge": "That photo is larger than 25 MB. Try a smaller one.",
   "step.photo.error.readFailed": "We couldn't read that file.",
   "step.photo.error.openFailed": "We couldn't open that image.",
@@ -176,7 +177,8 @@ const fr: Record<string, string> = {
   "step.photo.rightsHelp.and": "et",
   "step.photo.rightsHelp.privacy": "notre avis de confidentialité",
   "step.photo.rightsHelp.under13": "Ce service n'est pas destiné aux enfants de moins de 13 ans.",
-  "step.photo.privacyNotice": "Votre photo reste privée et n'est utilisée que pour créer votre carte.",
+  "step.photo.privacyNotice":
+    "Votre photo reste privée et n'est utilisée que pour créer votre carte.",
   "step.photo.privacyLink": "Comment nous traitons les photos",
   "step.photo.samplesHeading": "Ou commencez avec un exemple",
   "step.photo.sampleLabel": "Photo d'exemple",
@@ -188,7 +190,8 @@ const fr: Record<string, string> = {
   "step.photo.uploading": "Ajout de votre photo…",
   "step.photo.errorTitle": "Ça n'a pas fonctionné",
   "step.photo.error.confirmRequired": "Confirmez d'abord que cette photo est bien la vôtre.",
-  "step.photo.error.confirmRequiredDrop": "Confirmez que cette photo est la vôtre avant de la déposer.",
+  "step.photo.error.confirmRequiredDrop":
+    "Confirmez que cette photo est la vôtre avant de la déposer.",
   "step.photo.error.tooLarge": "Cette photo dépasse 25 Mo. Essayez-en une plus petite.",
   "step.photo.error.readFailed": "Nous n'avons pas pu lire ce fichier.",
   "step.photo.error.openFailed": "Nous n'avons pas pu ouvrir cette image.",
@@ -267,7 +270,8 @@ const es: Record<string, string> = {
   "step.photo.error.readFailed": "No pudimos leer ese archivo.",
   "step.photo.error.openFailed": "No pudimos abrir esa imagen.",
   "step.photo.lowResTitle": "Esta foto es un poco pequeña",
-  "step.photo.lowResDesc": "Está bien para enviarla, pero una impresión grande podría verse borrosa.",
+  "step.photo.lowResDesc":
+    "Está bien para enviarla, pero una impresión grande podría verse borrosa.",
   "step.photo.toast.added": "Foto añadida.",
   "step.photo.toast.sampleAdded": "Foto de ejemplo añadida.",
   "step.message.title": "Tus palabras",
@@ -324,7 +328,8 @@ const ru: Record<string, string> = {
   "step.photo.rightsHelp.and": "и",
   "step.photo.rightsHelp.privacy": "Уведомлением о конфиденциальности",
   "step.photo.rightsHelp.under13": "Этот сервис не предназначен для детей младше 13 лет.",
-  "step.photo.privacyNotice": "Ваше фото остаётся конфиденциальным и используется только для создания вашей открытки.",
+  "step.photo.privacyNotice":
+    "Ваше фото остаётся конфиденциальным и используется только для создания вашей открытки.",
   "step.photo.privacyLink": "Как мы обращаемся с фотографиями",
   "step.photo.samplesHeading": "Или начните с примера",
   "step.photo.sampleLabel": "Пример фото",
@@ -336,7 +341,8 @@ const ru: Record<string, string> = {
   "step.photo.uploading": "Добавляем ваше фото…",
   "step.photo.errorTitle": "Не получилось",
   "step.photo.error.confirmRequired": "Сначала подтвердите, что фото ваше.",
-  "step.photo.error.confirmRequiredDrop": "Подтвердите, что фото ваше, прежде чем перетаскивать его.",
+  "step.photo.error.confirmRequiredDrop":
+    "Подтвердите, что фото ваше, прежде чем перетаскивать его.",
   "step.photo.error.tooLarge": "Это фото больше 25 МБ. Попробуйте файл поменьше.",
   "step.photo.error.readFailed": "Не удалось прочитать этот файл.",
   "step.photo.error.openFailed": "Не удалось открыть это изображение.",
@@ -398,7 +404,8 @@ const hi: Record<string, string> = {
   "step.photo.rightsHelp.and": "और",
   "step.photo.rightsHelp.privacy": "गोपनीयता सूचना",
   "step.photo.rightsHelp.under13": "यह सेवा 13 वर्ष से कम उम्र के बच्चों के लिए नहीं है।",
-  "step.photo.privacyNotice": "आपकी फ़ोटो निजी रहती है और केवल आपका कार्ड बनाने के लिए उपयोग की जाती है।",
+  "step.photo.privacyNotice":
+    "आपकी फ़ोटो निजी रहती है और केवल आपका कार्ड बनाने के लिए उपयोग की जाती है।",
   "step.photo.privacyLink": "हम फ़ोटो का उपयोग कैसे करते हैं",
   "step.photo.samplesHeading": "या किसी नमूने से शुरू करें",
   "step.photo.sampleLabel": "नमूना फ़ोटो",

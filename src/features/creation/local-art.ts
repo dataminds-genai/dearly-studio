@@ -39,7 +39,13 @@ function sobel(src: ImageData) {
   return { gray, edges: out };
 }
 
-function paperGrain(ctx: CanvasRenderingContext2D, w: number, h: number, alpha: number, rand: () => number) {
+function paperGrain(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  alpha: number,
+  rand: () => number,
+) {
   const grain = ctx.getImageData(0, 0, w, h);
   for (let i = 0; i < grain.data.length; i += 4) {
     const n = (rand() - 0.5) * 255 * alpha;
@@ -54,7 +60,14 @@ function paperGrain(ctx: CanvasRenderingContext2D, w: number, h: number, alpha: 
 function strokes(
   ctx: CanvasRenderingContext2D,
   src: ImageData,
-  opts: { size: number; length: number; alpha: number; jitter: number; rand: () => number; edges: Float32Array },
+  opts: {
+    size: number;
+    length: number;
+    alpha: number;
+    jitter: number;
+    rand: () => number;
+    edges: Float32Array;
+  },
 ) {
   const { width: w, height: h, data } = src;
   const step = Math.max(2, Math.round(opts.size * 0.7));
@@ -69,8 +82,12 @@ function strokes(
       const g = (data[i + 1] ?? 0) + (opts.rand() - 0.5) * j;
       const b = (data[i + 2] ?? 0) + (opts.rand() - 0.5) * j;
       // Stroke follows the edge direction so contours stay readable.
-      const ex = (opts.edges[py * w + Math.min(w - 1, px + 1)] ?? 0) - (opts.edges[py * w + Math.max(0, px - 1)] ?? 0);
-      const ey = (opts.edges[Math.min(h - 1, py + 1) * w + px] ?? 0) - (opts.edges[Math.max(0, py - 1) * w + px] ?? 0);
+      const ex =
+        (opts.edges[py * w + Math.min(w - 1, px + 1)] ?? 0) -
+        (opts.edges[py * w + Math.max(0, px - 1)] ?? 0);
+      const ey =
+        (opts.edges[Math.min(h - 1, py + 1) * w + px] ?? 0) -
+        (opts.edges[Math.max(0, py - 1) * w + px] ?? 0);
       const angle = Math.atan2(ey, ex) + Math.PI / 2 + (opts.rand() - 0.5) * 0.6;
       const len = opts.length * (0.6 + opts.rand() * 0.8);
       ctx.strokeStyle = `rgba(${r | 0},${g | 0},${b | 0},${opts.alpha})`;
@@ -149,7 +166,8 @@ export async function renderArtOnDevice(src: string, style: StyleId): Promise<st
     const px = ctx.getImageData(0, 0, w, h);
     const levels = 24;
     for (let i = 0; i < px.data.length; i += 4) {
-      for (let c = 0; c < 3; c += 1) px.data[i + c] = Math.round((px.data[i + c] ?? 0) / levels) * levels + 10;
+      for (let c = 0; c < 3; c += 1)
+        px.data[i + c] = Math.round((px.data[i + c] ?? 0) / levels) * levels + 10;
     }
     ctx.putImageData(px, 0, 0);
     const sharp = document.createElement("canvas");
@@ -256,15 +274,36 @@ export async function renderArtOnDevice(src: string, style: StyleId): Promise<st
   const unit = w / 240;
   if (style === "pointillist") {
     strokes(ctx, base, { size: unit * 4, length: unit * 4, alpha: 0.85, jitter: 18, rand, edges });
-    strokes(ctx, base, { size: unit * 2, length: unit * 2.5, alpha: 0.75, jitter: 10, rand, edges });
+    strokes(ctx, base, {
+      size: unit * 2,
+      length: unit * 2.5,
+      alpha: 0.75,
+      jitter: 10,
+      rand,
+      edges,
+    });
     paperGrain(ctx, w, h, 0.05, rand);
   } else if (style === "vangogh") {
     strokes(ctx, base, { size: unit * 2.2, length: unit * 6, alpha: 0.9, jitter: 30, rand, edges });
-    strokes(ctx, base, { size: unit * 1.4, length: unit * 4, alpha: 0.85, jitter: 24, rand, edges });
+    strokes(ctx, base, {
+      size: unit * 1.4,
+      length: unit * 4,
+      alpha: 0.85,
+      jitter: 24,
+      rand,
+      edges,
+    });
   } else if (style === "davinci") {
     strokes(ctx, base, { size: unit * 3, length: unit * 2, alpha: 0.5, jitter: 8, rand, edges });
     // Warm varnish vignette, like an aged panel.
-    const v = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.3, w / 2, h / 2, Math.max(w, h) * 0.75);
+    const v = ctx.createRadialGradient(
+      w / 2,
+      h / 2,
+      Math.min(w, h) * 0.3,
+      w / 2,
+      h / 2,
+      Math.max(w, h) * 0.75,
+    );
     v.addColorStop(0, "rgba(60,35,10,0)");
     v.addColorStop(1, "rgba(40,22,6,0.65)");
     ctx.fillStyle = v;
@@ -273,7 +312,14 @@ export async function renderArtOnDevice(src: string, style: StyleId): Promise<st
   } else {
     ctx.fillStyle = "rgba(255,248,232,0.25)";
     ctx.fillRect(0, 0, w, h);
-    strokes(ctx, base, { size: unit * 2.6, length: unit * 1.4, alpha: 0.9, jitter: 40, rand, edges });
+    strokes(ctx, base, {
+      size: unit * 2.6,
+      length: unit * 1.4,
+      alpha: 0.9,
+      jitter: 40,
+      rand,
+      edges,
+    });
     strokes(ctx, base, { size: unit * 1.6, length: unit, alpha: 0.85, jitter: 30, rand, edges });
   }
   return canvas.toDataURL("image/jpeg", 0.9);

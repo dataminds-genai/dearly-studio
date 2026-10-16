@@ -10,7 +10,14 @@ export const MAX_ZOOM = 3;
 export const TEXT_WIDTH = 0.85;
 
 export function ratioFor(draft: CreationDraft) {
-  return ratios.find((ratio) => ratio.id === draft.ratioId) ?? { id: "square" as const, label: "Square 1:1", aspect: 1, note: "Square" };
+  return (
+    ratios.find((ratio) => ratio.id === draft.ratioId) ?? {
+      id: "square" as const,
+      label: "Square 1:1",
+      aspect: 1,
+      note: "Square",
+    }
+  );
 }
 
 export function canvasSize(draft: CreationDraft, width = DEFAULT_CANVAS_WIDTH) {
@@ -67,7 +74,8 @@ const positionCoordinates: Record<TextPosition, { x: number; y: number }> = {
 export function textStyle(draft: CreationDraft) {
   const font = cardFonts.find((f) => f.id === draft.fontId) ?? cardFonts[0]!;
   const color = draft.textColor ?? "light";
-  const center = draft.textCoordinates ?? positionCoordinates[draft.textPosition] ?? { x: 0.5, y: 0.86 };
+  const center = draft.textCoordinates ??
+    positionCoordinates[draft.textPosition] ?? { x: 0.5, y: 0.86 };
   return {
     font,
     center,

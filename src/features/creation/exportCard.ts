@@ -1,6 +1,13 @@
 import type { CreationDraft } from "@/domain/entities/types";
 import { draftImageSrc } from "./CardPreview";
-import { TEXT_WIDTH, backdropAlpha, canvasSize, imagePlacement, ratioFor, textStyle } from "./composition";
+import {
+  TEXT_WIDTH,
+  backdropAlpha,
+  canvasSize,
+  imagePlacement,
+  ratioFor,
+  textStyle,
+} from "./composition";
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -30,7 +37,14 @@ function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): st
   return lines;
 }
 
-function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+function roundRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
   ctx.arcTo(x + w, y, x + w, y + h, r);
@@ -41,7 +55,10 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
 }
 
 /** Draws the draft with the same geometry and typography as the live preview. */
-export async function renderCardToCanvas(draft: CreationDraft, targetWidth = 2400): Promise<HTMLCanvasElement> {
+export async function renderCardToCanvas(
+  draft: CreationDraft,
+  targetWidth = 2400,
+): Promise<HTMLCanvasElement> {
   const src = draftImageSrc(draft);
   if (!src) throw new Error("Add a photo first.");
   const { width, height } = canvasSize(draft, targetWidth);
@@ -58,7 +75,13 @@ export async function renderCardToCanvas(draft: CreationDraft, targetWidth = 240
   ctx.save();
   ctx.translate(place.centerX, place.centerY);
   ctx.rotate((place.rotation * Math.PI) / 180);
-  ctx.drawImage(img, -place.drawWidth / 2, -place.drawHeight / 2, place.drawWidth, place.drawHeight);
+  ctx.drawImage(
+    img,
+    -place.drawWidth / 2,
+    -place.drawHeight / 2,
+    place.drawWidth,
+    place.drawHeight,
+  );
   ctx.restore();
 
   const message = draft.message?.trim();
@@ -93,7 +116,11 @@ export async function renderCardToCanvas(draft: CreationDraft, targetWidth = 240
       ctx.shadowOffsetY = fontSize * 0.06;
     }
     const x =
-      style.align === "left" ? boxLeft + padX : style.align === "right" ? boxLeft + boxWidth - padX : boxLeft + boxWidth / 2;
+      style.align === "left"
+        ? boxLeft + padX
+        : style.align === "right"
+          ? boxLeft + boxWidth - padX
+          : boxLeft + boxWidth / 2;
     lines.forEach((line, index) => {
       const y = boxTop + padY + index * lineHeight + (lineHeight - fontSize) / 2;
       ctx.fillText(line, x, y);
@@ -120,7 +147,8 @@ export async function renderCardToBlob(draft: CreationDraft, targetWidth = 2400)
 }
 
 export function cardFileName(draft: CreationDraft, extension: "png" | "pdf") {
-  const base = (draft.title || "dearly-card").replace(/[^a-z0-9]+/gi, "-").toLowerCase() || "dearly-card";
+  const base =
+    (draft.title || "dearly-card").replace(/[^a-z0-9]+/gi, "-").toLowerCase() || "dearly-card";
   return `${base}.${extension}`;
 }
 
@@ -144,13 +172,28 @@ export async function downloadCardPdf(draft: CreationDraft) {
   const { jsPDF } = await import("jspdf");
   const ratio = ratioFor(draft);
   const widthMm =
-    ratio.id === "folded" ? 105 : ratio.id === "postcard" ? 152.4 : ratio.id === "story" ? 90 : ratio.id === "portrait" ? 120 : 127;
+    ratio.id === "folded"
+      ? 105
+      : ratio.id === "postcard"
+        ? 152.4
+        : ratio.id === "story"
+          ? 90
+          : ratio.id === "portrait"
+            ? 120
+            : 127;
   const heightMm = widthMm / ratio.aspect;
   const bleed = 3;
   const pageW = widthMm + bleed * 2;
   const pageH = heightMm + bleed * 2;
-  const canvas = await renderCardToCanvas(draft, Math.min(4000, Math.round((widthMm / 25.4) * 300)));
-  const pdf = new jsPDF({ unit: "mm", format: [pageW, pageH], orientation: pageW > pageH ? "landscape" : "portrait" });
+  const canvas = await renderCardToCanvas(
+    draft,
+    Math.min(4000, Math.round((widthMm / 25.4) * 300)),
+  );
+  const pdf = new jsPDF({
+    unit: "mm",
+    format: [pageW, pageH],
+    orientation: pageW > pageH ? "landscape" : "portrait",
+  });
   pdf.setFillColor(255, 255, 255);
   pdf.rect(0, 0, pageW, pageH, "F");
   // Extend the edge into the bleed by stretching the image slightly beyond trim.

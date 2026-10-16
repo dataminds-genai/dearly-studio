@@ -3,8 +3,7 @@ import type { LocaleCode } from "../dictionary";
 const en: Record<string, string> = {
   // Gallery
   "gallery.title": "Gallery",
-  "gallery.intro":
-    "Sample cards and prints made from ordinary photos of people, pets and places.",
+  "gallery.intro": "Sample cards and prints made from ordinary photos of people, pets and places.",
   "gallery.category.all": "All",
   "gallery.category.people": "People",
   "gallery.category.pets": "Pets",
@@ -47,11 +46,9 @@ const en: Record<string, string> = {
   "pricing.intro": "What things cost, before you start.",
   "pricing.demoBadge": "Demo prices",
   "pricing.previewing.title": "Previewing",
-  "pricing.previewing.body":
-    "Always free. Make as many previews as you like, no card required.",
+  "pricing.previewing.body": "Always free. Make as many previews as you like, no card required.",
   "pricing.freeExport.title": "Free downloads",
-  "pricing.freeExport.body":
-    "{count} free card downloads each week once you have an account.",
+  "pricing.freeExport.body": "{count} free card downloads each week once you have an account.",
   "pricing.paidExport.title": "Extra downloads",
   "pricing.paidExport.body": "{amount} for each extra card download.",
   "pricing.productsHeading": "Prints and cards",
@@ -91,36 +88,49 @@ const en: Record<string, string> = {
   "home.style.pop-art.label": "Pop Art",
   "home.style.abstract.label": "Abstract",
   "home.trust.stored.title": "Stored privately",
-  "home.trust.stored.body": "Your photo is stored privately and used only to make what you asked for.",
+  "home.trust.stored.body":
+    "Your photo is stored privately and used only to make what you asked for.",
   "home.trust.deletionSchedule.title": "Deleted on a schedule",
-  "home.trust.deletionSchedule.body": "24 hours for guests, 30 days for saved drafts, 90 days for finished digital files.",
+  "home.trust.deletionSchedule.body":
+    "24 hours for guests, 30 days for saved drafts, 90 days for finished digital files.",
   "home.trust.noAiTraining.title": "Never used to train AI",
   "home.trust.noAiTraining.body": "Your photos and words are never used to train models.",
   "home.trust.noSelling.title": "Never sold",
-  "home.trust.noSelling.body": "We do not sell your photos or your details, and we do not use them for advertising.",
+  "home.trust.noSelling.body":
+    "We do not sell your photos or your details, and we do not use them for advertising.",
   "home.trust.processing.title": "Where it is processed",
-  "home.trust.processing.body": "Processing happens with a small number of named providers, listed in the privacy notice.",
+  "home.trust.processing.body":
+    "Processing happens with a small number of named providers, listed in the privacy notice.",
   "home.trust.deletionRequest.title": "Anyone can ask for deletion",
-  "home.trust.deletionRequest.body": "Whether or not you have an account, you can ask us to delete a photo at any time.",
+  "home.trust.deletionRequest.body":
+    "Whether or not you have an account, you can ask us to delete a photo at any time.",
   "home.faq.0.q": "Do I need an account?",
-  "home.faq.0.a": "No. You can create and preview as a guest. An account only matters if you want to save work, keep a library or track orders.",
+  "home.faq.0.a":
+    "No. You can create and preview as a guest. An account only matters if you want to save work, keep a library or track orders.",
   "home.faq.1.q": "Is the preview really free?",
-  "home.faq.1.a": "Yes. Previews are free and no card details are needed. You only pay if you order a print or a paid download.",
+  "home.faq.1.a":
+    "Yes. Previews are free and no card details are needed. You only pay if you order a print or a paid download.",
   "home.faq.2.q": "What if my photo is a bit small?",
-  "home.faq.2.a": "We check the resolution against the exact product size and tell you plainly: Good, Acceptable or Too low. We block a print that would look poor.",
+  "home.faq.2.a":
+    "We check the resolution against the exact product size and tell you plainly: Good, Acceptable or Too low. We block a print that would look poor.",
   "home.faq.3.q": "What happens to my photo?",
-  "home.faq.3.a": "It is stored privately to make what you asked for, then deleted on a fixed schedule — 24 hours for guests, 30 days for saved drafts, 90 days for finished digital files.",
+  "home.faq.3.a":
+    "It is stored privately to make what you asked for, then deleted on a fixed schedule — 24 hours for guests, 30 days for saved drafts, 90 days for finished digital files.",
   "home.faq.4.q": "Will you crop someone's head off?",
-  "home.faq.4.a": "No. You see the crop, bleed and safe area before anything is made, and we never silently crop a face or main subject.",
+  "home.faq.4.a":
+    "No. You see the crop, bleed and safe area before anything is made, and we never silently crop a face or main subject.",
   "home.faq.5.q": "How much is shipping and how long does it take?",
-  "home.faq.5.a": "Shipping and a delivery estimate are shown in the cart before payment, never as a surprise at the end.",
+  "home.faq.5.a":
+    "Shipping and a delivery estimate are shown in the cart before payment, never as a surprise at the end.",
   "home.faq.6.q": "Can I just download a file and print it myself?",
-  "home.faq.6.a": "Yes. The print-ready download is separate from anything we ship, and it is labelled that way throughout.",
+  "home.faq.6.a":
+    "Yes. The print-ready download is separate from anything we ship, and it is labelled that way throughout.",
 };
 
 const ar: Record<string, string> = {
   "gallery.title": "المعرض",
-  "gallery.intro": "بطاقات ومطبوعات نموذجية مصنوعة من صور عادية للأشخاص والحيوانات الأليفة والأماكن.",
+  "gallery.intro":
+    "بطاقات ومطبوعات نموذجية مصنوعة من صور عادية للأشخاص والحيوانات الأليفة والأماكن.",
   "gallery.category.all": "الكل",
   "gallery.category.people": "أشخاص",
   "gallery.category.pets": "حيوانات أليفة",
@@ -135,22 +145,28 @@ const ar: Record<string, string> = {
   "howItWorks.step.addPhoto.title": "1. أضف صورة",
   "howItWorks.step.addPhoto.body": "اختر أي صورة من هاتفك أو جهازك. صورة واحدة تكفي.",
   "howItWorks.step.chooseWords.title": "2. اختر الكلمات",
-  "howItWorks.step.chooseWords.body": "اكتب رسالتك الخاصة، أو دعنا نقترح بعض العبارات وعدّل ما يعجبك منها.",
+  "howItWorks.step.chooseWords.body":
+    "اكتب رسالتك الخاصة، أو دعنا نقترح بعض العبارات وعدّل ما يعجبك منها.",
   "howItWorks.step.chooseLook.title": "3. اختر المظهر",
-  "howItWorks.step.chooseLook.body": "خمسة أنماط، ومنزلق واحد لقوة التأثير، بالإضافة إلى خطك ومكان وضع الكلمات.",
+  "howItWorks.step.chooseLook.body":
+    "خمسة أنماط، ومنزلق واحد لقوة التأثير، بالإضافة إلى خطك ومكان وضع الكلمات.",
   "howItWorks.step.checkIt.title": "4. تحقق منها",
-  "howItWorks.step.checkIt.body": "شاهد البطاقة أو المطبوعة النهائية قبل الدفع. المعاينات مجانية دائمًا.",
+  "howItWorks.step.checkIt.body":
+    "شاهد البطاقة أو المطبوعة النهائية قبل الدفع. المعاينات مجانية دائمًا.",
   "howItWorks.step.sendOrOrder.title": "5. أرسلها أو اطلب مطبوعة",
-  "howItWorks.step.sendOrOrder.body": "شاركها عبر واتساب، أو نزّلها، أو اطلب طباعتها وإرسالها إلى بابك.",
+  "howItWorks.step.sendOrOrder.body":
+    "شاركها عبر واتساب، أو نزّلها، أو اطلب طباعتها وإرسالها إلى بابك.",
   "howItWorks.privacyHeading": "ماذا يحدث لصورتك",
-  "howItWorks.privacyNotice": "تُستخدم صورتك فقط لصنع ما طلبته. لا يتم بيعها، ولا تُستخدم للإعلانات، ويمكنك حذفها في أي وقت.",
+  "howItWorks.privacyNotice":
+    "تُستخدم صورتك فقط لصنع ما طلبته. لا يتم بيعها، ولا تُستخدم للإعلانات، ويمكنك حذفها في أي وقت.",
   "howItWorks.readPrivacy": "اقرأ إشعار الخصوصية",
   "howItWorks.cta.create": "أنشئ من صورة",
   "pricing.title": "الأسعار",
   "pricing.intro": "تكلفة الأشياء، قبل أن تبدأ.",
   "pricing.demoBadge": "أسعار تجريبية",
   "pricing.previewing.title": "المعاينة",
-  "pricing.previewing.body": "مجانية دائمًا. أنشئ أكبر عدد تريده من المعاينات، دون الحاجة إلى بطاقة دفع.",
+  "pricing.previewing.body":
+    "مجانية دائمًا. أنشئ أكبر عدد تريده من المعاينات، دون الحاجة إلى بطاقة دفع.",
   "pricing.freeExport.title": "تنزيلات مجانية",
   "pricing.freeExport.body": "{count} تنزيلات بطاقات مجانية كل أسبوع بمجرد إنشاء حساب.",
   "pricing.paidExport.title": "تنزيلات إضافية",
@@ -163,7 +179,8 @@ const ar: Record<string, string> = {
   "pricing.table.price": "السعر",
   "pricing.shippingNote": "التوصيل {shipping}. الأسعار الموضحة لا تشمل ضريبة {tax}%.",
   "pricing.notDecided.title": "ما زلت تفكر؟",
-  "pricing.notDecided.body": "جرّب صنع شيء أولاً. لن تدفع إلا عند تنزيل بطاقات إضافية أو طلب مطبوعة.",
+  "pricing.notDecided.body":
+    "جرّب صنع شيء أولاً. لن تدفع إلا عند تنزيل بطاقات إضافية أو طلب مطبوعة.",
   "pricing.cta.create": "أنشئ من صورة",
   "pricing.productsCount": "{count} منتجات متاحة.",
   "pricing.productsLinkText": "شاهد كل حجم وتشطيب",
@@ -191,34 +208,45 @@ const ar: Record<string, string> = {
   "home.trust.stored.title": "تُحفظ بسرية",
   "home.trust.stored.body": "تُحفظ صورتك بسرية وتُستخدم فقط لصنع ما طلبته.",
   "home.trust.deletionSchedule.title": "تُحذف وفق جدول محدد",
-  "home.trust.deletionSchedule.body": "24 ساعة للزوار، و30 يومًا للمسودات المحفوظة، و90 يومًا للملفات الرقمية النهائية.",
+  "home.trust.deletionSchedule.body":
+    "24 ساعة للزوار، و30 يومًا للمسودات المحفوظة، و90 يومًا للملفات الرقمية النهائية.",
   "home.trust.noAiTraining.title": "لا تُستخدم أبدًا لتدريب الذكاء الاصطناعي",
   "home.trust.noAiTraining.body": "لا تُستخدم صورك وكلماتك أبدًا لتدريب النماذج.",
   "home.trust.noSelling.title": "لا تُباع أبدًا",
   "home.trust.noSelling.body": "لا نبيع صورك أو بياناتك، ولا نستخدمها للإعلانات.",
   "home.trust.processing.title": "أين تتم المعالجة",
-  "home.trust.processing.body": "تتم المعالجة لدى عدد محدود من مزوّدي الخدمة المُسمّين، والمُدرجين في إشعار الخصوصية.",
+  "home.trust.processing.body":
+    "تتم المعالجة لدى عدد محدود من مزوّدي الخدمة المُسمّين، والمُدرجين في إشعار الخصوصية.",
   "home.trust.deletionRequest.title": "يمكن لأي شخص طلب الحذف",
-  "home.trust.deletionRequest.body": "سواء كان لديك حساب أم لا، يمكنك أن تطلب منا حذف صورة في أي وقت.",
+  "home.trust.deletionRequest.body":
+    "سواء كان لديك حساب أم لا، يمكنك أن تطلب منا حذف صورة في أي وقت.",
   "home.faq.0.q": "هل أحتاج إلى حساب؟",
-  "home.faq.0.a": "لا. يمكنك الإنشاء والمعاينة كزائر. الحساب مهم فقط إذا أردت حفظ عملك أو الاحتفاظ بمكتبة أو متابعة الطلبات.",
+  "home.faq.0.a":
+    "لا. يمكنك الإنشاء والمعاينة كزائر. الحساب مهم فقط إذا أردت حفظ عملك أو الاحتفاظ بمكتبة أو متابعة الطلبات.",
   "home.faq.1.q": "هل المعاينة مجانية حقًا؟",
-  "home.faq.1.a": "نعم. المعاينات مجانية ولا تحتاج إلى بيانات بطاقة. تدفع فقط عند طلب مطبوعة أو تنزيل مدفوع.",
+  "home.faq.1.a":
+    "نعم. المعاينات مجانية ولا تحتاج إلى بيانات بطاقة. تدفع فقط عند طلب مطبوعة أو تنزيل مدفوع.",
   "home.faq.2.q": "ماذا لو كانت صورتي صغيرة بعض الشيء؟",
-  "home.faq.2.a": "نتحقق من الدقة مقارنة بحجم المنتج بالضبط ونخبرك بوضوح: جيدة، مقبولة، أو منخفضة جدًا. نمنع طباعة قد تبدو رديئة.",
+  "home.faq.2.a":
+    "نتحقق من الدقة مقارنة بحجم المنتج بالضبط ونخبرك بوضوح: جيدة، مقبولة، أو منخفضة جدًا. نمنع طباعة قد تبدو رديئة.",
   "home.faq.3.q": "ماذا يحدث لصورتي؟",
-  "home.faq.3.a": "تُحفظ بسرية لصنع ما طلبته، ثم تُحذف وفق جدول ثابت — 24 ساعة للزوار، و30 يومًا للمسودات المحفوظة، و90 يومًا للملفات الرقمية النهائية.",
+  "home.faq.3.a":
+    "تُحفظ بسرية لصنع ما طلبته، ثم تُحذف وفق جدول ثابت — 24 ساعة للزوار، و30 يومًا للمسودات المحفوظة، و90 يومًا للملفات الرقمية النهائية.",
   "home.faq.4.q": "هل ستقصّون رأس أحدهم؟",
-  "home.faq.4.a": "لا. ترى القص وهامش القص والمنطقة الآمنة قبل صنع أي شيء، ولا نقص وجهًا أو موضوعًا رئيسيًا أبدًا دون أن تراه.",
+  "home.faq.4.a":
+    "لا. ترى القص وهامش القص والمنطقة الآمنة قبل صنع أي شيء، ولا نقص وجهًا أو موضوعًا رئيسيًا أبدًا دون أن تراه.",
   "home.faq.5.q": "كم تكلفة الشحن وكم يستغرق؟",
-  "home.faq.5.a": "تظهر تكلفة الشحن وموعد التسليم المتوقع في سلة التسوق قبل الدفع، وليس كمفاجأة في النهاية.",
+  "home.faq.5.a":
+    "تظهر تكلفة الشحن وموعد التسليم المتوقع في سلة التسوق قبل الدفع، وليس كمفاجأة في النهاية.",
   "home.faq.6.q": "هل يمكنني فقط تنزيل ملف وطباعته بنفسي؟",
-  "home.faq.6.a": "نعم. التنزيل الجاهز للطباعة منفصل عن أي شيء نشحنه، ومُوضَّح على هذا النحو في كل مكان.",
+  "home.faq.6.a":
+    "نعم. التنزيل الجاهز للطباعة منفصل عن أي شيء نشحنه، ومُوضَّح على هذا النحو في كل مكان.",
 };
 
 const fr: Record<string, string> = {
   "gallery.title": "Galerie",
-  "gallery.intro": "Exemples de cartes et de tirages réalisés à partir de photos ordinaires de personnes, d'animaux et de lieux.",
+  "gallery.intro":
+    "Exemples de cartes et de tirages réalisés à partir de photos ordinaires de personnes, d'animaux et de lieux.",
   "gallery.category.all": "Tout",
   "gallery.category.people": "Personnes",
   "gallery.category.pets": "Animaux",
@@ -229,28 +257,37 @@ const fr: Record<string, string> = {
   "home.alt.framedPrint": "La même photo sous forme de tirage encadré sur un mur",
   "home.styleTreatmentAlt": "Exemple du style {style}",
   "howItWorks.title": "Comment ça marche",
-  "howItWorks.intro": "Importez une photo, choisissez vos mots, sélectionnez un style, puis partagez-le ou faites-le imprimer et livrer.",
+  "howItWorks.intro":
+    "Importez une photo, choisissez vos mots, sélectionnez un style, puis partagez-le ou faites-le imprimer et livrer.",
   "howItWorks.step.addPhoto.title": "1. Ajoutez une photo",
-  "howItWorks.step.addPhoto.body": "Choisissez n'importe quelle photo depuis votre téléphone ou votre ordinateur. Une seule suffit.",
+  "howItWorks.step.addPhoto.body":
+    "Choisissez n'importe quelle photo depuis votre téléphone ou votre ordinateur. Une seule suffit.",
   "howItWorks.step.chooseWords.title": "2. Choisissez les mots",
-  "howItWorks.step.chooseWords.body": "Écrivez votre propre message, ou laissez-nous en suggérer quelques-uns et modifiez celui que vous préférez.",
+  "howItWorks.step.chooseWords.body":
+    "Écrivez votre propre message, ou laissez-nous en suggérer quelques-uns et modifiez celui que vous préférez.",
   "howItWorks.step.chooseLook.title": "3. Choisissez le style",
-  "howItWorks.step.chooseLook.body": "Cinq styles, un curseur pour l'intensité de l'effet, plus votre police et l'emplacement du texte.",
+  "howItWorks.step.chooseLook.body":
+    "Cinq styles, un curseur pour l'intensité de l'effet, plus votre police et l'emplacement du texte.",
   "howItWorks.step.checkIt.title": "4. Vérifiez",
-  "howItWorks.step.checkIt.body": "Visualisez la carte ou le tirage final avant de payer. Les aperçus sont toujours gratuits.",
+  "howItWorks.step.checkIt.body":
+    "Visualisez la carte ou le tirage final avant de payer. Les aperçus sont toujours gratuits.",
   "howItWorks.step.sendOrOrder.title": "5. Envoyez-la ou commandez un tirage",
-  "howItWorks.step.sendOrOrder.body": "Partagez sur WhatsApp, téléchargez-la, ou faites livrer un tirage à votre porte.",
+  "howItWorks.step.sendOrOrder.body":
+    "Partagez sur WhatsApp, téléchargez-la, ou faites livrer un tirage à votre porte.",
   "howItWorks.privacyHeading": "Ce qu'il advient de votre photo",
-  "howItWorks.privacyNotice": "Votre photo est utilisée uniquement pour créer ce que vous avez demandé. Elle n'est ni vendue ni utilisée à des fins publicitaires, et vous pouvez la supprimer à tout moment.",
+  "howItWorks.privacyNotice":
+    "Votre photo est utilisée uniquement pour créer ce que vous avez demandé. Elle n'est ni vendue ni utilisée à des fins publicitaires, et vous pouvez la supprimer à tout moment.",
   "howItWorks.readPrivacy": "Lire l'avis de confidentialité",
   "howItWorks.cta.create": "Créer à partir d'une photo",
   "pricing.title": "Tarifs",
   "pricing.intro": "Ce que coûtent les choses, avant de commencer.",
   "pricing.demoBadge": "Prix de démonstration",
   "pricing.previewing.title": "Aperçu",
-  "pricing.previewing.body": "Toujours gratuit. Faites autant d'aperçus que vous voulez, sans carte bancaire.",
+  "pricing.previewing.body":
+    "Toujours gratuit. Faites autant d'aperçus que vous voulez, sans carte bancaire.",
   "pricing.freeExport.title": "Téléchargements gratuits",
-  "pricing.freeExport.body": "{count} téléchargements de cartes gratuits chaque semaine une fois votre compte créé.",
+  "pricing.freeExport.body":
+    "{count} téléchargements de cartes gratuits chaque semaine une fois votre compte créé.",
   "pricing.paidExport.title": "Téléchargements supplémentaires",
   "pricing.paidExport.body": "{amount} pour chaque téléchargement de carte supplémentaire.",
   "pricing.productsHeading": "Tirages et cartes",
@@ -259,19 +296,23 @@ const fr: Record<string, string> = {
   "pricing.table.size": "Taille",
   "pricing.table.finish": "Finition",
   "pricing.table.price": "Prix",
-  "pricing.shippingNote": "La livraison est {shipping}. Les prix affichés excluent la taxe de {tax}%.",
+  "pricing.shippingNote":
+    "La livraison est {shipping}. Les prix affichés excluent la taxe de {tax}%.",
   "pricing.notDecided.title": "Vous hésitez encore ?",
-  "pricing.notDecided.body": "Créez d'abord quelque chose. Vous ne payez que lorsque vous téléchargez des cartes supplémentaires ou commandez un tirage.",
+  "pricing.notDecided.body":
+    "Créez d'abord quelque chose. Vous ne payez que lorsque vous téléchargez des cartes supplémentaires ou commandez un tirage.",
   "pricing.cta.create": "Créer à partir d'une photo",
   "pricing.productsCount": "{count} produits disponibles.",
   "pricing.productsLinkText": "Voir toutes les tailles et finitions",
   "pricing.productsLinkSuffix": "avant de commander.",
   "products.title": "Cartes et tirages",
-  "products.intro": "Chaque taille et finition que nous proposons, avec ce que chacune exige de votre photo.",
+  "products.intro":
+    "Chaque taille et finition que nous proposons, avec ce que chacune exige de votre photo.",
   "products.digitalLabel": "Numérique",
   "products.physicalLabel": "Imprimé et livré",
   "products.needsSpec": "Nécessite au moins {dpi} DPI · {bleed} mm de fond perdu",
-  "products.demoNote": "Catalogue et prix de démonstration tant que les paiements sont en mode test.",
+  "products.demoNote":
+    "Catalogue et prix de démonstration tant que les paiements sont en mode test.",
   "products.cta.print": "Commander un tirage",
   "home.occasion.thinking-of-you.label": "Pensées pour toi",
   "home.occasion.good-morning.label": "Bonjour",
@@ -287,36 +328,50 @@ const fr: Record<string, string> = {
   "home.style.pop-art.label": "Pop Art",
   "home.style.abstract.label": "Abstrait",
   "home.trust.stored.title": "Conservée en toute confidentialité",
-  "home.trust.stored.body": "Votre photo est conservée en toute confidentialité et utilisée uniquement pour créer ce que vous avez demandé.",
+  "home.trust.stored.body":
+    "Votre photo est conservée en toute confidentialité et utilisée uniquement pour créer ce que vous avez demandé.",
   "home.trust.deletionSchedule.title": "Supprimée selon un calendrier",
-  "home.trust.deletionSchedule.body": "24 heures pour les invités, 30 jours pour les brouillons enregistrés, 90 jours pour les fichiers numériques finaux.",
+  "home.trust.deletionSchedule.body":
+    "24 heures pour les invités, 30 jours pour les brouillons enregistrés, 90 jours pour les fichiers numériques finaux.",
   "home.trust.noAiTraining.title": "Jamais utilisée pour entraîner une IA",
-  "home.trust.noAiTraining.body": "Vos photos et vos mots ne servent jamais à entraîner des modèles.",
+  "home.trust.noAiTraining.body":
+    "Vos photos et vos mots ne servent jamais à entraîner des modèles.",
   "home.trust.noSelling.title": "Jamais vendue",
-  "home.trust.noSelling.body": "Nous ne vendons ni vos photos ni vos données, et nous ne les utilisons pas à des fins publicitaires.",
+  "home.trust.noSelling.body":
+    "Nous ne vendons ni vos photos ni vos données, et nous ne les utilisons pas à des fins publicitaires.",
   "home.trust.processing.title": "Où elle est traitée",
-  "home.trust.processing.body": "Le traitement est effectué par un petit nombre de prestataires nommés, listés dans l'avis de confidentialité.",
+  "home.trust.processing.body":
+    "Le traitement est effectué par un petit nombre de prestataires nommés, listés dans l'avis de confidentialité.",
   "home.trust.deletionRequest.title": "Tout le monde peut demander la suppression",
-  "home.trust.deletionRequest.body": "Que vous ayez un compte ou non, vous pouvez à tout moment nous demander de supprimer une photo.",
+  "home.trust.deletionRequest.body":
+    "Que vous ayez un compte ou non, vous pouvez à tout moment nous demander de supprimer une photo.",
   "home.faq.0.q": "Ai-je besoin d'un compte ?",
-  "home.faq.0.a": "Non. Vous pouvez créer et prévisualiser en tant qu'invité. Un compte n'est utile que si vous voulez enregistrer votre travail, garder une bibliothèque ou suivre vos commandes.",
+  "home.faq.0.a":
+    "Non. Vous pouvez créer et prévisualiser en tant qu'invité. Un compte n'est utile que si vous voulez enregistrer votre travail, garder une bibliothèque ou suivre vos commandes.",
   "home.faq.1.q": "L'aperçu est-il vraiment gratuit ?",
-  "home.faq.1.a": "Oui. Les aperçus sont gratuits et aucune donnée bancaire n'est requise. Vous ne payez que si vous commandez une impression ou un téléchargement payant.",
+  "home.faq.1.a":
+    "Oui. Les aperçus sont gratuits et aucune donnée bancaire n'est requise. Vous ne payez que si vous commandez une impression ou un téléchargement payant.",
   "home.faq.2.q": "Et si ma photo est un peu petite ?",
-  "home.faq.2.a": "Nous vérifions la résolution par rapport à la taille exacte du produit et vous le disons clairement : Bonne, Acceptable ou Trop faible. Nous bloquons une impression qui rendrait mal.",
+  "home.faq.2.a":
+    "Nous vérifions la résolution par rapport à la taille exacte du produit et vous le disons clairement : Bonne, Acceptable ou Trop faible. Nous bloquons une impression qui rendrait mal.",
   "home.faq.3.q": "Qu'advient-il de ma photo ?",
-  "home.faq.3.a": "Elle est conservée en toute confidentialité pour créer ce que vous avez demandé, puis supprimée selon un calendrier fixe — 24 heures pour les invités, 30 jours pour les brouillons enregistrés, 90 jours pour les fichiers numériques finaux.",
+  "home.faq.3.a":
+    "Elle est conservée en toute confidentialité pour créer ce que vous avez demandé, puis supprimée selon un calendrier fixe — 24 heures pour les invités, 30 jours pour les brouillons enregistrés, 90 jours pour les fichiers numériques finaux.",
   "home.faq.4.q": "Allez-vous couper la tête de quelqu'un ?",
-  "home.faq.4.a": "Non. Vous voyez le cadrage, le fond perdu et la zone de sécurité avant toute fabrication, et nous ne recadrons jamais un visage ou un sujet principal sans que vous le voyiez.",
+  "home.faq.4.a":
+    "Non. Vous voyez le cadrage, le fond perdu et la zone de sécurité avant toute fabrication, et nous ne recadrons jamais un visage ou un sujet principal sans que vous le voyiez.",
   "home.faq.5.q": "Combien coûte la livraison et combien de temps prend-elle ?",
-  "home.faq.5.a": "Les frais de port et une estimation de livraison sont affichés dans le panier avant le paiement, jamais comme une surprise à la fin.",
+  "home.faq.5.a":
+    "Les frais de port et une estimation de livraison sont affichés dans le panier avant le paiement, jamais comme une surprise à la fin.",
   "home.faq.6.q": "Puis-je simplement télécharger un fichier et l'imprimer moi-même ?",
-  "home.faq.6.a": "Oui. Le téléchargement prêt à imprimer est distinct de tout ce que nous expédions, et il est toujours clairement identifié comme tel.",
+  "home.faq.6.a":
+    "Oui. Le téléchargement prêt à imprimer est distinct de tout ce que nous expédions, et il est toujours clairement identifié comme tel.",
 };
 
 const es: Record<string, string> = {
   "gallery.title": "Galería",
-  "gallery.intro": "Ejemplos de tarjetas e impresiones hechas a partir de fotos comunes de personas, mascotas y lugares.",
+  "gallery.intro":
+    "Ejemplos de tarjetas e impresiones hechas a partir de fotos comunes de personas, mascotas y lugares.",
   "gallery.category.all": "Todo",
   "gallery.category.people": "Personas",
   "gallery.category.pets": "Mascotas",
@@ -327,28 +382,37 @@ const es: Record<string, string> = {
   "home.alt.framedPrint": "La misma foto como una impresión enmarcada en una pared",
   "home.styleTreatmentAlt": "Ejemplo del estilo {style}",
   "howItWorks.title": "Cómo funciona",
-  "howItWorks.intro": "Sube una foto, elige tus palabras, escoge un estilo y luego compártela o pide que la impriman y te la envíen.",
+  "howItWorks.intro":
+    "Sube una foto, elige tus palabras, escoge un estilo y luego compártela o pide que la impriman y te la envíen.",
   "howItWorks.step.addPhoto.title": "1. Añade una foto",
-  "howItWorks.step.addPhoto.body": "Elige cualquier foto de tu teléfono u ordenador. Con una basta.",
+  "howItWorks.step.addPhoto.body":
+    "Elige cualquier foto de tu teléfono u ordenador. Con una basta.",
   "howItWorks.step.chooseWords.title": "2. Elige las palabras",
-  "howItWorks.step.chooseWords.body": "Escribe tu propio mensaje, o deja que te sugiramos algunos y edita el que más te guste.",
+  "howItWorks.step.chooseWords.body":
+    "Escribe tu propio mensaje, o deja que te sugiramos algunos y edita el que más te guste.",
   "howItWorks.step.chooseLook.title": "3. Elige el estilo",
-  "howItWorks.step.chooseLook.body": "Cinco estilos, un control para la intensidad del efecto, además de tu fuente y dónde va el texto.",
+  "howItWorks.step.chooseLook.body":
+    "Cinco estilos, un control para la intensidad del efecto, además de tu fuente y dónde va el texto.",
   "howItWorks.step.checkIt.title": "4. Compruébalo",
-  "howItWorks.step.checkIt.body": "Mira la tarjeta o impresión terminada antes de pagar. Las vistas previas siempre son gratis.",
+  "howItWorks.step.checkIt.body":
+    "Mira la tarjeta o impresión terminada antes de pagar. Las vistas previas siempre son gratis.",
   "howItWorks.step.sendOrOrder.title": "5. Envíala o pide una impresión",
-  "howItWorks.step.sendOrOrder.body": "Compártela por WhatsApp, descárgala o pide que te envíen una impresión a tu puerta.",
+  "howItWorks.step.sendOrOrder.body":
+    "Compártela por WhatsApp, descárgala o pide que te envíen una impresión a tu puerta.",
   "howItWorks.privacyHeading": "Qué pasa con tu foto",
-  "howItWorks.privacyNotice": "Tu foto solo se usa para crear lo que pediste. No se vende, no se usa para publicidad y puedes eliminarla cuando quieras.",
+  "howItWorks.privacyNotice":
+    "Tu foto solo se usa para crear lo que pediste. No se vende, no se usa para publicidad y puedes eliminarla cuando quieras.",
   "howItWorks.readPrivacy": "Leer el aviso de privacidad",
   "howItWorks.cta.create": "Crear a partir de una foto",
   "pricing.title": "Precios",
   "pricing.intro": "Lo que cuestan las cosas, antes de empezar.",
   "pricing.demoBadge": "Precios de demostración",
   "pricing.previewing.title": "Vista previa",
-  "pricing.previewing.body": "Siempre gratis. Haz tantas vistas previas como quieras, sin necesidad de tarjeta.",
+  "pricing.previewing.body":
+    "Siempre gratis. Haz tantas vistas previas como quieras, sin necesidad de tarjeta.",
   "pricing.freeExport.title": "Descargas gratuitas",
-  "pricing.freeExport.body": "{count} descargas de tarjetas gratis cada semana una vez que tengas una cuenta.",
+  "pricing.freeExport.body":
+    "{count} descargas de tarjetas gratis cada semana una vez que tengas una cuenta.",
   "pricing.paidExport.title": "Descargas adicionales",
   "pricing.paidExport.body": "{amount} por cada descarga de tarjeta adicional.",
   "pricing.productsHeading": "Impresiones y tarjetas",
@@ -357,9 +421,11 @@ const es: Record<string, string> = {
   "pricing.table.size": "Tamaño",
   "pricing.table.finish": "Acabado",
   "pricing.table.price": "Precio",
-  "pricing.shippingNote": "El envío es {shipping}. Los precios mostrados no incluyen el {tax}% de impuestos.",
+  "pricing.shippingNote":
+    "El envío es {shipping}. Los precios mostrados no incluyen el {tax}% de impuestos.",
   "pricing.notDecided.title": "¿Aún decidiendo?",
-  "pricing.notDecided.body": "Crea algo primero. Solo pagas cuando descargas tarjetas adicionales o pides una impresión.",
+  "pricing.notDecided.body":
+    "Crea algo primero. Solo pagas cuando descargas tarjetas adicionales o pides una impresión.",
   "pricing.cta.create": "Crear a partir de una foto",
   "pricing.productsCount": "{count} productos disponibles.",
   "pricing.productsLinkText": "Ver todos los tamaños y acabados",
@@ -369,7 +435,8 @@ const es: Record<string, string> = {
   "products.digitalLabel": "Digital",
   "products.physicalLabel": "Impreso y entregado",
   "products.needsSpec": "Requiere al menos {dpi} PPP · {bleed} mm de sangrado",
-  "products.demoNote": "Catálogo y precios de demostración mientras los pagos están en modo de prueba.",
+  "products.demoNote":
+    "Catálogo y precios de demostración mientras los pagos están en modo de prueba.",
   "products.cta.print": "Pedir una impresión",
   "home.occasion.thinking-of-you.label": "Pensando en ti",
   "home.occasion.good-morning.label": "Buenos días",
@@ -385,36 +452,48 @@ const es: Record<string, string> = {
   "home.style.pop-art.label": "Arte pop",
   "home.style.abstract.label": "Abstracto",
   "home.trust.stored.title": "Almacenada de forma privada",
-  "home.trust.stored.body": "Tu foto se guarda de forma privada y solo se usa para hacer lo que pediste.",
+  "home.trust.stored.body":
+    "Tu foto se guarda de forma privada y solo se usa para hacer lo que pediste.",
   "home.trust.deletionSchedule.title": "Se elimina según un calendario",
-  "home.trust.deletionSchedule.body": "24 horas para invitados, 30 días para borradores guardados, 90 días para archivos digitales terminados.",
+  "home.trust.deletionSchedule.body":
+    "24 horas para invitados, 30 días para borradores guardados, 90 días para archivos digitales terminados.",
   "home.trust.noAiTraining.title": "Nunca se usa para entrenar IA",
   "home.trust.noAiTraining.body": "Tus fotos y palabras nunca se usan para entrenar modelos.",
   "home.trust.noSelling.title": "Nunca se vende",
   "home.trust.noSelling.body": "No vendemos tus fotos ni tus datos, ni los usamos para publicidad.",
   "home.trust.processing.title": "Dónde se procesa",
-  "home.trust.processing.body": "El procesamiento se realiza con un pequeño número de proveedores designados, indicados en el aviso de privacidad.",
+  "home.trust.processing.body":
+    "El procesamiento se realiza con un pequeño número de proveedores designados, indicados en el aviso de privacidad.",
   "home.trust.deletionRequest.title": "Cualquiera puede pedir su eliminación",
-  "home.trust.deletionRequest.body": "Tengas o no una cuenta, puedes pedirnos que eliminemos una foto en cualquier momento.",
+  "home.trust.deletionRequest.body":
+    "Tengas o no una cuenta, puedes pedirnos que eliminemos una foto en cualquier momento.",
   "home.faq.0.q": "¿Necesito una cuenta?",
-  "home.faq.0.a": "No. Puedes crear y previsualizar como invitado. Una cuenta solo importa si quieres guardar tu trabajo, tener una biblioteca o hacer seguimiento de pedidos.",
+  "home.faq.0.a":
+    "No. Puedes crear y previsualizar como invitado. Una cuenta solo importa si quieres guardar tu trabajo, tener una biblioteca o hacer seguimiento de pedidos.",
   "home.faq.1.q": "¿La vista previa es realmente gratis?",
-  "home.faq.1.a": "Sí. Las vistas previas son gratuitas y no se necesitan datos de tarjeta. Solo pagas si pides una impresión o una descarga de pago.",
+  "home.faq.1.a":
+    "Sí. Las vistas previas son gratuitas y no se necesitan datos de tarjeta. Solo pagas si pides una impresión o una descarga de pago.",
   "home.faq.2.q": "¿Y si mi foto es un poco pequeña?",
-  "home.faq.2.a": "Comprobamos la resolución frente al tamaño exacto del producto y te lo decimos claramente: Buena, Aceptable o Demasiado baja. Bloqueamos una impresión que se vería mal.",
+  "home.faq.2.a":
+    "Comprobamos la resolución frente al tamaño exacto del producto y te lo decimos claramente: Buena, Aceptable o Demasiado baja. Bloqueamos una impresión que se vería mal.",
   "home.faq.3.q": "¿Qué pasa con mi foto?",
-  "home.faq.3.a": "Se guarda de forma privada para hacer lo que pediste y luego se elimina según un calendario fijo: 24 horas para invitados, 30 días para borradores guardados, 90 días para archivos digitales terminados.",
+  "home.faq.3.a":
+    "Se guarda de forma privada para hacer lo que pediste y luego se elimina según un calendario fijo: 24 horas para invitados, 30 días para borradores guardados, 90 días para archivos digitales terminados.",
   "home.faq.4.q": "¿Le cortarán la cabeza a alguien?",
-  "home.faq.4.a": "No. Ves el recorte, el sangrado y el área segura antes de fabricar nada, y nunca recortamos silenciosamente una cara o el tema principal.",
+  "home.faq.4.a":
+    "No. Ves el recorte, el sangrado y el área segura antes de fabricar nada, y nunca recortamos silenciosamente una cara o el tema principal.",
   "home.faq.5.q": "¿Cuánto cuesta el envío y cuánto tarda?",
-  "home.faq.5.a": "El envío y una estimación de entrega se muestran en el carrito antes del pago, nunca como sorpresa al final.",
+  "home.faq.5.a":
+    "El envío y una estimación de entrega se muestran en el carrito antes del pago, nunca como sorpresa al final.",
   "home.faq.6.q": "¿Puedo simplemente descargar un archivo e imprimirlo yo mismo?",
-  "home.faq.6.a": "Sí. La descarga lista para imprimir es independiente de lo que enviamos, y se identifica así en todo momento.",
+  "home.faq.6.a":
+    "Sí. La descarga lista para imprimir es independiente de lo que enviamos, y se identifica así en todo momento.",
 };
 
 const ru: Record<string, string> = {
   "gallery.title": "Галерея",
-  "gallery.intro": "Примеры открыток и отпечатков, созданных из обычных фотографий людей, питомцев и мест.",
+  "gallery.intro":
+    "Примеры открыток и отпечатков, созданных из обычных фотографий людей, питомцев и мест.",
   "gallery.category.all": "Все",
   "gallery.category.people": "Люди",
   "gallery.category.pets": "Питомцы",
@@ -425,28 +504,37 @@ const ru: Record<string, string> = {
   "home.alt.framedPrint": "То же фото в виде отпечатка в рамке на стене",
   "home.styleTreatmentAlt": "Пример стиля {style}",
   "howItWorks.title": "Как это работает",
-  "howItWorks.intro": "Загрузите фото, выберите слова, подберите вид, а затем поделитесь им или закажите печать с доставкой.",
+  "howItWorks.intro":
+    "Загрузите фото, выберите слова, подберите вид, а затем поделитесь им или закажите печать с доставкой.",
   "howItWorks.step.addPhoto.title": "1. Добавьте фото",
-  "howItWorks.step.addPhoto.body": "Выберите любое фото с телефона или компьютера. Достаточно одного.",
+  "howItWorks.step.addPhoto.body":
+    "Выберите любое фото с телефона или компьютера. Достаточно одного.",
   "howItWorks.step.chooseWords.title": "2. Выберите слова",
-  "howItWorks.step.chooseWords.body": "Напишите собственное сообщение или позвольте нам предложить варианты и отредактируйте понравившийся.",
+  "howItWorks.step.chooseWords.body":
+    "Напишите собственное сообщение или позвольте нам предложить варианты и отредактируйте понравившийся.",
   "howItWorks.step.chooseLook.title": "3. Выберите вид",
-  "howItWorks.step.chooseLook.body": "Пять стилей, один ползунок силы эффекта, а также ваш шрифт и расположение текста.",
+  "howItWorks.step.chooseLook.body":
+    "Пять стилей, один ползунок силы эффекта, а также ваш шрифт и расположение текста.",
   "howItWorks.step.checkIt.title": "4. Проверьте",
-  "howItWorks.step.checkIt.body": "Посмотрите готовую открытку или отпечаток перед оплатой. Просмотр всегда бесплатный.",
+  "howItWorks.step.checkIt.body":
+    "Посмотрите готовую открытку или отпечаток перед оплатой. Просмотр всегда бесплатный.",
   "howItWorks.step.sendOrOrder.title": "5. Отправьте или закажите печать",
-  "howItWorks.step.sendOrOrder.body": "Поделитесь в WhatsApp, скачайте, или закажите доставку отпечатка к вашей двери.",
+  "howItWorks.step.sendOrOrder.body":
+    "Поделитесь в WhatsApp, скачайте, или закажите доставку отпечатка к вашей двери.",
   "howItWorks.privacyHeading": "Что происходит с вашим фото",
-  "howItWorks.privacyNotice": "Ваше фото используется только для создания того, что вы заказали. Оно не продаётся, не используется в рекламе, и вы можете удалить его в любой момент.",
+  "howItWorks.privacyNotice":
+    "Ваше фото используется только для создания того, что вы заказали. Оно не продаётся, не используется в рекламе, и вы можете удалить его в любой момент.",
   "howItWorks.readPrivacy": "Прочитать уведомление о конфиденциальности",
   "howItWorks.cta.create": "Создать из фото",
   "pricing.title": "Цены",
   "pricing.intro": "Сколько что стоит, прежде чем вы начнёте.",
   "pricing.demoBadge": "Демонстрационные цены",
   "pricing.previewing.title": "Просмотр",
-  "pricing.previewing.body": "Всегда бесплатно. Делайте сколько угодно предпросмотров, без привязки карты.",
+  "pricing.previewing.body":
+    "Всегда бесплатно. Делайте сколько угодно предпросмотров, без привязки карты.",
   "pricing.freeExport.title": "Бесплатные загрузки",
-  "pricing.freeExport.body": "{count} бесплатных загрузок открыток каждую неделю после создания аккаунта.",
+  "pricing.freeExport.body":
+    "{count} бесплатных загрузок открыток каждую неделю после создания аккаунта.",
   "pricing.paidExport.title": "Дополнительные загрузки",
   "pricing.paidExport.body": "{amount} за каждую дополнительную загрузку открытки.",
   "pricing.productsHeading": "Отпечатки и открытки",
@@ -457,7 +545,8 @@ const ru: Record<string, string> = {
   "pricing.table.price": "Цена",
   "pricing.shippingNote": "Доставка: {shipping}. Указанные цены не включают налог {tax}%.",
   "pricing.notDecided.title": "Всё ещё решаете?",
-  "pricing.notDecided.body": "Сначала создайте что-нибудь. Платить нужно только при загрузке дополнительных открыток или заказе печати.",
+  "pricing.notDecided.body":
+    "Сначала создайте что-нибудь. Платить нужно только при загрузке дополнительных открыток или заказе печати.",
   "pricing.cta.create": "Создать из фото",
   "pricing.productsCount": "Доступно товаров: {count}.",
   "pricing.productsLinkText": "Смотреть все размеры и отделки",
@@ -483,36 +572,49 @@ const ru: Record<string, string> = {
   "home.style.pop-art.label": "Поп-арт",
   "home.style.abstract.label": "Абстракция",
   "home.trust.stored.title": "Хранится конфиденциально",
-  "home.trust.stored.body": "Ваше фото хранится конфиденциально и используется только для выполнения вашего заказа.",
+  "home.trust.stored.body":
+    "Ваше фото хранится конфиденциально и используется только для выполнения вашего заказа.",
   "home.trust.deletionSchedule.title": "Удаляется по расписанию",
-  "home.trust.deletionSchedule.body": "24 часа для гостей, 30 дней для сохранённых черновиков, 90 дней для готовых цифровых файлов.",
+  "home.trust.deletionSchedule.body":
+    "24 часа для гостей, 30 дней для сохранённых черновиков, 90 дней для готовых цифровых файлов.",
   "home.trust.noAiTraining.title": "Никогда не используется для обучения ИИ",
-  "home.trust.noAiTraining.body": "Ваши фото и тексты никогда не используются для обучения моделей.",
+  "home.trust.noAiTraining.body":
+    "Ваши фото и тексты никогда не используются для обучения моделей.",
   "home.trust.noSelling.title": "Никогда не продаётся",
   "home.trust.noSelling.body": "Мы не продаём ваши фото или данные и не используем их для рекламы.",
   "home.trust.processing.title": "Где происходит обработка",
-  "home.trust.processing.body": "Обработка выполняется небольшим числом указанных поставщиков услуг, перечисленных в уведомлении о конфиденциальности.",
+  "home.trust.processing.body":
+    "Обработка выполняется небольшим числом указанных поставщиков услуг, перечисленных в уведомлении о конфиденциальности.",
   "home.trust.deletionRequest.title": "Каждый может запросить удаление",
-  "home.trust.deletionRequest.body": "Независимо от того, есть у вас аккаунт или нет, вы можете в любой момент попросить нас удалить фото.",
+  "home.trust.deletionRequest.body":
+    "Независимо от того, есть у вас аккаунт или нет, вы можете в любой момент попросить нас удалить фото.",
   "home.faq.0.q": "Нужен ли мне аккаунт?",
-  "home.faq.0.a": "Нет. Вы можете создавать и просматривать превью как гость. Аккаунт важен только если вы хотите сохранять работы, вести библиотеку или отслеживать заказы.",
+  "home.faq.0.a":
+    "Нет. Вы можете создавать и просматривать превью как гость. Аккаунт важен только если вы хотите сохранять работы, вести библиотеку или отслеживать заказы.",
   "home.faq.1.q": "Предпросмотр действительно бесплатный?",
-  "home.faq.1.a": "Да. Предпросмотры бесплатны, и данные карты не нужны. Вы платите, только если заказываете печать или платную загрузку.",
+  "home.faq.1.a":
+    "Да. Предпросмотры бесплатны, и данные карты не нужны. Вы платите, только если заказываете печать или платную загрузку.",
   "home.faq.2.q": "Что если моё фото немного маленькое?",
-  "home.faq.2.a": "Мы проверяем разрешение относительно точного размера товара и честно говорим вам: хорошо, приемлемо или слишком низко. Мы блокируем печать, которая выглядела бы плохо.",
+  "home.faq.2.a":
+    "Мы проверяем разрешение относительно точного размера товара и честно говорим вам: хорошо, приемлемо или слишком низко. Мы блокируем печать, которая выглядела бы плохо.",
   "home.faq.3.q": "Что происходит с моим фото?",
-  "home.faq.3.a": "Оно хранится конфиденциально для выполнения вашего заказа, а затем удаляется по фиксированному расписанию — 24 часа для гостей, 30 дней для сохранённых черновиков, 90 дней для готовых цифровых файлов.",
+  "home.faq.3.a":
+    "Оно хранится конфиденциально для выполнения вашего заказа, а затем удаляется по фиксированному расписанию — 24 часа для гостей, 30 дней для сохранённых черновиков, 90 дней для готовых цифровых файлов.",
   "home.faq.4.q": "Вы случайно не обрежете кому-то голову?",
-  "home.faq.4.a": "Нет. Вы видите обрезку, вылеты за край и безопасную зону до того, как что-либо будет создано, и мы никогда незаметно не обрезаем лицо или главный объект.",
+  "home.faq.4.a":
+    "Нет. Вы видите обрезку, вылеты за край и безопасную зону до того, как что-либо будет создано, и мы никогда незаметно не обрезаем лицо или главный объект.",
   "home.faq.5.q": "Сколько стоит доставка и сколько она занимает?",
-  "home.faq.5.a": "Стоимость доставки и примерный срок показываются в корзине до оплаты, а не как сюрприз в конце.",
+  "home.faq.5.a":
+    "Стоимость доставки и примерный срок показываются в корзине до оплаты, а не как сюрприз в конце.",
   "home.faq.6.q": "Могу ли я просто скачать файл и распечатать его сам?",
-  "home.faq.6.a": "Да. Файл, готовый к печати, отделён от всего, что мы отправляем, и всегда обозначен как таковой.",
+  "home.faq.6.a":
+    "Да. Файл, готовый к печати, отделён от всего, что мы отправляем, и всегда обозначен как таковой.",
 };
 
 const hi: Record<string, string> = {
   "gallery.title": "गैलरी",
-  "gallery.intro": "लोगों, पालतू जानवरों और जगहों की सामान्य तस्वीरों से बने नमूना कार्ड और प्रिंट।",
+  "gallery.intro":
+    "लोगों, पालतू जानवरों और जगहों की सामान्य तस्वीरों से बने नमूना कार्ड और प्रिंट।",
   "gallery.category.all": "सभी",
   "gallery.category.people": "लोग",
   "gallery.category.pets": "पालतू जानवर",
@@ -523,26 +625,34 @@ const hi: Record<string, string> = {
   "home.alt.framedPrint": "वही तस्वीर दीवार पर फ़्रेम किए गए प्रिंट के रूप में",
   "home.styleTreatmentAlt": "{style} स्टाइल का उदाहरण",
   "howItWorks.title": "यह कैसे काम करता है",
-  "howItWorks.intro": "एक फ़ोटो अपलोड करें, अपने शब्द चुनें, एक लुक चुनें, फिर उसे साझा करें या प्रिंट करवाकर मंगवाएं।",
+  "howItWorks.intro":
+    "एक फ़ोटो अपलोड करें, अपने शब्द चुनें, एक लुक चुनें, फिर उसे साझा करें या प्रिंट करवाकर मंगवाएं।",
   "howItWorks.step.addPhoto.title": "1. एक फ़ोटो जोड़ें",
-  "howItWorks.step.addPhoto.body": "अपने फ़ोन या कंप्यूटर से कोई भी फ़ोटो चुनें। एक फ़ोटो ही काफी है।",
+  "howItWorks.step.addPhoto.body":
+    "अपने फ़ोन या कंप्यूटर से कोई भी फ़ोटो चुनें। एक फ़ोटो ही काफी है।",
   "howItWorks.step.chooseWords.title": "2. शब्द चुनें",
-  "howItWorks.step.chooseWords.body": "अपना खुद का संदेश लिखें, या हमें कुछ सुझाव देने दें और जो पसंद आए उसे संपादित करें।",
+  "howItWorks.step.chooseWords.body":
+    "अपना खुद का संदेश लिखें, या हमें कुछ सुझाव देने दें और जो पसंद आए उसे संपादित करें।",
   "howItWorks.step.chooseLook.title": "3. लुक चुनें",
-  "howItWorks.step.chooseLook.body": "पाँच स्टाइल, प्रभाव की तीव्रता के लिए एक स्लाइडर, साथ ही आपका फ़ॉन्ट और शब्दों की जगह।",
+  "howItWorks.step.chooseLook.body":
+    "पाँच स्टाइल, प्रभाव की तीव्रता के लिए एक स्लाइडर, साथ ही आपका फ़ॉन्ट और शब्दों की जगह।",
   "howItWorks.step.checkIt.title": "4. जाँच लें",
-  "howItWorks.step.checkIt.body": "भुगतान करने से पहले तैयार कार्ड या प्रिंट देखें। पूर्वावलोकन हमेशा मुफ़्त होते हैं।",
+  "howItWorks.step.checkIt.body":
+    "भुगतान करने से पहले तैयार कार्ड या प्रिंट देखें। पूर्वावलोकन हमेशा मुफ़्त होते हैं।",
   "howItWorks.step.sendOrOrder.title": "5. इसे भेजें या प्रिंट ऑर्डर करें",
-  "howItWorks.step.sendOrOrder.body": "WhatsApp पर साझा करें, डाउनलोड करें, या अपने दरवाज़े पर एक प्रिंट भेजवाएं।",
+  "howItWorks.step.sendOrOrder.body":
+    "WhatsApp पर साझा करें, डाउनलोड करें, या अपने दरवाज़े पर एक प्रिंट भेजवाएं।",
   "howItWorks.privacyHeading": "आपकी फ़ोटो का क्या होता है",
-  "howItWorks.privacyNotice": "आपकी फ़ोटो का उपयोग केवल आपके अनुरोध को पूरा करने के लिए किया जाता है। इसे बेचा नहीं जाता, विज्ञापन के लिए उपयोग नहीं किया जाता, और आप इसे कभी भी हटा सकते हैं।",
+  "howItWorks.privacyNotice":
+    "आपकी फ़ोटो का उपयोग केवल आपके अनुरोध को पूरा करने के लिए किया जाता है। इसे बेचा नहीं जाता, विज्ञापन के लिए उपयोग नहीं किया जाता, और आप इसे कभी भी हटा सकते हैं।",
   "howItWorks.readPrivacy": "गोपनीयता सूचना पढ़ें",
   "howItWorks.cta.create": "फ़ोटो से बनाएं",
   "pricing.title": "मूल्य निर्धारण",
   "pricing.intro": "शुरू करने से पहले चीज़ों की लागत।",
   "pricing.demoBadge": "डेमो मूल्य",
   "pricing.previewing.title": "पूर्वावलोकन",
-  "pricing.previewing.body": "हमेशा मुफ़्त। जितने चाहें उतने पूर्वावलोकन बनाएं, कार्ड की आवश्यकता नहीं।",
+  "pricing.previewing.body":
+    "हमेशा मुफ़्त। जितने चाहें उतने पूर्वावलोकन बनाएं, कार्ड की आवश्यकता नहीं।",
   "pricing.freeExport.title": "मुफ़्त डाउनलोड",
   "pricing.freeExport.body": "खाता बनाने के बाद हर हफ्ते {count} मुफ़्त कार्ड डाउनलोड।",
   "pricing.paidExport.title": "अतिरिक्त डाउनलोड",
@@ -555,7 +665,8 @@ const hi: Record<string, string> = {
   "pricing.table.price": "मूल्य",
   "pricing.shippingNote": "डिलीवरी {shipping} है। दिखाए गए मूल्यों में {tax}% कर शामिल नहीं है।",
   "pricing.notDecided.title": "अभी भी सोच रहे हैं?",
-  "pricing.notDecided.body": "पहले कुछ बनाएं। आप तभी भुगतान करते हैं जब आप अतिरिक्त कार्ड डाउनलोड करते हैं या प्रिंट ऑर्डर करते हैं।",
+  "pricing.notDecided.body":
+    "पहले कुछ बनाएं। आप तभी भुगतान करते हैं जब आप अतिरिक्त कार्ड डाउनलोड करते हैं या प्रिंट ऑर्डर करते हैं।",
   "pricing.cta.create": "फ़ोटो से बनाएं",
   "pricing.productsCount": "{count} उत्पाद उपलब्ध हैं।",
   "pricing.productsLinkText": "हर आकार और फिनिश देखें",
@@ -581,31 +692,44 @@ const hi: Record<string, string> = {
   "home.style.pop-art.label": "पॉप आर्ट",
   "home.style.abstract.label": "एब्स्ट्रैक्ट",
   "home.trust.stored.title": "निजी तौर पर सुरक्षित",
-  "home.trust.stored.body": "आपकी फ़ोटो निजी तौर पर सुरक्षित रखी जाती है और केवल आपके अनुरोध को पूरा करने के लिए उपयोग की जाती है।",
+  "home.trust.stored.body":
+    "आपकी फ़ोटो निजी तौर पर सुरक्षित रखी जाती है और केवल आपके अनुरोध को पूरा करने के लिए उपयोग की जाती है।",
   "home.trust.deletionSchedule.title": "एक तय समय-सारणी पर हटाई जाती है",
-  "home.trust.deletionSchedule.body": "मेहमानों के लिए 24 घंटे, सहेजे गए ड्राफ्ट के लिए 30 दिन, और तैयार डिजिटल फ़ाइलों के लिए 90 दिन।",
+  "home.trust.deletionSchedule.body":
+    "मेहमानों के लिए 24 घंटे, सहेजे गए ड्राफ्ट के लिए 30 दिन, और तैयार डिजिटल फ़ाइलों के लिए 90 दिन।",
   "home.trust.noAiTraining.title": "कभी भी AI प्रशिक्षण के लिए उपयोग नहीं होती",
-  "home.trust.noAiTraining.body": "आपकी फ़ोटो और शब्द कभी भी मॉडलों को प्रशिक्षित करने के लिए उपयोग नहीं किए जाते।",
+  "home.trust.noAiTraining.body":
+    "आपकी फ़ोटो और शब्द कभी भी मॉडलों को प्रशिक्षित करने के लिए उपयोग नहीं किए जाते।",
   "home.trust.noSelling.title": "कभी नहीं बेची जाती",
-  "home.trust.noSelling.body": "हम आपकी फ़ोटो या जानकारी कभी नहीं बेचते, और न ही उन्हें विज्ञापन के लिए उपयोग करते हैं।",
+  "home.trust.noSelling.body":
+    "हम आपकी फ़ोटो या जानकारी कभी नहीं बेचते, और न ही उन्हें विज्ञापन के लिए उपयोग करते हैं।",
   "home.trust.processing.title": "इसे कहाँ प्रोसेस किया जाता है",
-  "home.trust.processing.body": "प्रोसेसिंग कुछ चुनिंदा, नामित सेवा प्रदाताओं के साथ होती है, जो गोपनीयता सूचना में सूचीबद्ध हैं।",
+  "home.trust.processing.body":
+    "प्रोसेसिंग कुछ चुनिंदा, नामित सेवा प्रदाताओं के साथ होती है, जो गोपनीयता सूचना में सूचीबद्ध हैं।",
   "home.trust.deletionRequest.title": "कोई भी हटाने का अनुरोध कर सकता है",
-  "home.trust.deletionRequest.body": "चाहे आपका खाता हो या न हो, आप किसी भी समय हमसे कोई फ़ोटो हटाने का अनुरोध कर सकते हैं।",
+  "home.trust.deletionRequest.body":
+    "चाहे आपका खाता हो या न हो, आप किसी भी समय हमसे कोई फ़ोटो हटाने का अनुरोध कर सकते हैं।",
   "home.faq.0.q": "क्या मुझे खाते की ज़रूरत है?",
-  "home.faq.0.a": "नहीं। आप मेहमान के रूप में बना और पूर्वावलोकन कर सकते हैं। खाता तभी मायने रखता है जब आप काम सहेजना चाहें, लाइब्रेरी रखना चाहें या ऑर्डर ट्रैक करना चाहें।",
+  "home.faq.0.a":
+    "नहीं। आप मेहमान के रूप में बना और पूर्वावलोकन कर सकते हैं। खाता तभी मायने रखता है जब आप काम सहेजना चाहें, लाइब्रेरी रखना चाहें या ऑर्डर ट्रैक करना चाहें।",
   "home.faq.1.q": "क्या पूर्वावलोकन सच में मुफ़्त है?",
-  "home.faq.1.a": "हाँ। पूर्वावलोकन मुफ़्त हैं और किसी कार्ड विवरण की ज़रूरत नहीं है। आप तभी भुगतान करते हैं जब प्रिंट या भुगतान वाला डाउनलोड ऑर्डर करें।",
+  "home.faq.1.a":
+    "हाँ। पूर्वावलोकन मुफ़्त हैं और किसी कार्ड विवरण की ज़रूरत नहीं है। आप तभी भुगतान करते हैं जब प्रिंट या भुगतान वाला डाउनलोड ऑर्डर करें।",
   "home.faq.2.q": "अगर मेरी फ़ोटो थोड़ी छोटी हो तो क्या होगा?",
-  "home.faq.2.a": "हम रिज़ॉल्यूशन को उत्पाद के सटीक आकार से जांचते हैं और आपको स्पष्ट रूप से बताते हैं: अच्छा, स्वीकार्य या बहुत कम। हम ऐसी प्रिंट को रोक देते हैं जो खराब दिखेगी।",
+  "home.faq.2.a":
+    "हम रिज़ॉल्यूशन को उत्पाद के सटीक आकार से जांचते हैं और आपको स्पष्ट रूप से बताते हैं: अच्छा, स्वीकार्य या बहुत कम। हम ऐसी प्रिंट को रोक देते हैं जो खराब दिखेगी।",
   "home.faq.3.q": "मेरी फ़ोटो का क्या होता है?",
-  "home.faq.3.a": "इसे निजी तौर पर सुरक्षित रखा जाता है ताकि आपका अनुरोध पूरा किया जा सके, फिर एक तय समय-सारणी पर हटा दिया जाता है — मेहमानों के लिए 24 घंटे, सहेजे गए ड्राफ्ट के लिए 30 दिन, तैयार डिजिटल फ़ाइलों के लिए 90 दिन।",
+  "home.faq.3.a":
+    "इसे निजी तौर पर सुरक्षित रखा जाता है ताकि आपका अनुरोध पूरा किया जा सके, फिर एक तय समय-सारणी पर हटा दिया जाता है — मेहमानों के लिए 24 घंटे, सहेजे गए ड्राफ्ट के लिए 30 दिन, तैयार डिजिटल फ़ाइलों के लिए 90 दिन।",
   "home.faq.4.q": "क्या आप किसी का सिर काट देंगे?",
-  "home.faq.4.a": "नहीं। कुछ भी बनाए जाने से पहले आप क्रॉप, ब्लीड और सुरक्षित क्षेत्र देखते हैं, और हम कभी भी चुपचाप किसी चेहरे या मुख्य विषय को नहीं काटते।",
+  "home.faq.4.a":
+    "नहीं। कुछ भी बनाए जाने से पहले आप क्रॉप, ब्लीड और सुरक्षित क्षेत्र देखते हैं, और हम कभी भी चुपचाप किसी चेहरे या मुख्य विषय को नहीं काटते।",
   "home.faq.5.q": "शिपिंग की लागत कितनी है और इसमें कितना समय लगता है?",
-  "home.faq.5.a": "शिपिंग और डिलीवरी का अनुमान भुगतान से पहले कार्ट में दिखाया जाता है, अंत में किसी आश्चर्य की तरह नहीं।",
+  "home.faq.5.a":
+    "शिपिंग और डिलीवरी का अनुमान भुगतान से पहले कार्ट में दिखाया जाता है, अंत में किसी आश्चर्य की तरह नहीं।",
   "home.faq.6.q": "क्या मैं बस फ़ाइल डाउनलोड करके खुद प्रिंट कर सकता हूँ?",
-  "home.faq.6.a": "हाँ। प्रिंट के लिए तैयार डाउनलोड, हम जो कुछ भेजते हैं उससे अलग है, और इसे हमेशा उसी तरह लेबल किया जाता है।",
+  "home.faq.6.a":
+    "हाँ। प्रिंट के लिए तैयार डाउनलोड, हम जो कुछ भेजते हैं उससे अलग है, और इसे हमेशा उसी तरह लेबल किया जाता है।",
 };
 
 const zh: Record<string, string> = {
@@ -633,7 +757,8 @@ const zh: Record<string, string> = {
   "howItWorks.step.sendOrOrder.title": "5. 发送或订购印刷品",
   "howItWorks.step.sendOrOrder.body": "通过 WhatsApp 分享、下载，或订购印刷品送到你家门口。",
   "howItWorks.privacyHeading": "你的照片会怎样处理",
-  "howItWorks.privacyNotice": "你的照片仅用于制作你所请求的内容，不会被出售，也不会用于广告，你可以随时删除它。",
+  "howItWorks.privacyNotice":
+    "你的照片仅用于制作你所请求的内容，不会被出售，也不会用于广告，你可以随时删除它。",
   "howItWorks.readPrivacy": "阅读隐私声明",
   "howItWorks.cta.create": "用照片创作",
   "pricing.title": "价格",
@@ -681,7 +806,8 @@ const zh: Record<string, string> = {
   "home.trust.stored.title": "私密存储",
   "home.trust.stored.body": "您的照片会被私密存储，仅用于制作您所要求的内容。",
   "home.trust.deletionSchedule.title": "按计划删除",
-  "home.trust.deletionSchedule.body": "访客照片保留24小时，已保存的草稿保留30天，完成的数字文件保留90天。",
+  "home.trust.deletionSchedule.body":
+    "访客照片保留24小时，已保存的草稿保留30天，完成的数字文件保留90天。",
   "home.trust.noAiTraining.title": "绝不用于训练AI",
   "home.trust.noAiTraining.body": "您的照片和文字绝不会被用于训练模型。",
   "home.trust.noSelling.title": "绝不出售",
@@ -691,19 +817,25 @@ const zh: Record<string, string> = {
   "home.trust.deletionRequest.title": "任何人都可以申请删除",
   "home.trust.deletionRequest.body": "无论您是否拥有账户，都可以随时要求我们删除照片。",
   "home.faq.0.q": "我需要账户吗？",
-  "home.faq.0.a": "不需要。您可以以访客身份创建和预览。只有当您想保存作品、保留资料库或追踪订单时，账户才有意义。",
+  "home.faq.0.a":
+    "不需要。您可以以访客身份创建和预览。只有当您想保存作品、保留资料库或追踪订单时，账户才有意义。",
   "home.faq.1.q": "预览真的免费吗？",
-  "home.faq.1.a": "是的。预览是免费的，无需提供银行卡信息。只有在您订购印刷品或付费下载时才需要付款。",
+  "home.faq.1.a":
+    "是的。预览是免费的，无需提供银行卡信息。只有在您订购印刷品或付费下载时才需要付款。",
   "home.faq.2.q": "如果我的照片有点小怎么办？",
-  "home.faq.2.a": "我们会根据产品的确切尺寸检查分辨率，并明确告知您：良好、可接受或过低。我们会阻止效果不佳的印刷。",
+  "home.faq.2.a":
+    "我们会根据产品的确切尺寸检查分辨率，并明确告知您：良好、可接受或过低。我们会阻止效果不佳的印刷。",
   "home.faq.3.q": "我的照片会怎样处理？",
-  "home.faq.3.a": "它会被私密存储以制作您所要求的内容，然后按固定计划删除——访客照片24小时，已保存的草稿30天，完成的数字文件90天。",
+  "home.faq.3.a":
+    "它会被私密存储以制作您所要求的内容，然后按固定计划删除——访客照片24小时，已保存的草稿30天，完成的数字文件90天。",
   "home.faq.4.q": "你们会把人的头部裁掉吗？",
-  "home.faq.4.a": "不会。在制作任何东西之前，您都能看到裁切、出血和安全区域，我们绝不会在您不知情的情况下裁掉脸部或主要主体。",
+  "home.faq.4.a":
+    "不会。在制作任何东西之前，您都能看到裁切、出血和安全区域，我们绝不会在您不知情的情况下裁掉脸部或主要主体。",
   "home.faq.5.q": "运费是多少，需要多长时间？",
   "home.faq.5.a": "运费和预计送达时间会在付款前显示在购物车中，绝不会在最后才让您意外发现。",
   "home.faq.6.q": "我可以只下载文件自己打印吗？",
-  "home.faq.6.a": "可以。可打印下载文件与我们邮寄的任何东西是分开的，并且始终会明确标注为可打印下载。",
+  "home.faq.6.a":
+    "可以。可打印下载文件与我们邮寄的任何东西是分开的，并且始终会明确标注为可打印下载。",
 };
 
 export const marketingStrings: Record<LocaleCode, Record<string, string>> = {

@@ -44,9 +44,7 @@ export function buildMetaTags(config: SeoConfig) {
     meta.push({ name: "robots", content: config.robots });
   }
 
-  const links: Array<Record<string, string>> = [
-    { rel: "canonical", href: canonicalUrl },
-  ];
+  const links: Array<Record<string, string>> = [{ rel: "canonical", href: canonicalUrl }];
 
   const scripts: Array<{ type: string; children: string }> = [];
 
@@ -229,7 +227,8 @@ export function getProductCatalogSchema() {
         "@type": "Product",
         position: 4,
         name: "Solid Wood Framed Print",
-        description: "Ready-to-hang print in a light oak or charcoal frame with shatterproof glass.",
+        description:
+          "Ready-to-hang print in a light oak or charcoal frame with shatterproof glass.",
         offers: {
           "@type": "Offer",
           price: "24.00",

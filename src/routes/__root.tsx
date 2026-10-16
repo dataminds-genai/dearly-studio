@@ -97,7 +97,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image", content: "https://dearly-studio.site/og-image.png" },
       { property: "og:image:width", content: "960" },
       { property: "og:image:height", content: "600" },
-      { property: "og:image:alt", content: "Dearly Studio — Cards and art prints from your photos" },
+      {
+        property: "og:image:alt",
+        content: "Dearly Studio — Cards and art prints from your photos",
+      },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: "https://dearly-studio.site/og-image.png" },
     ],
@@ -190,9 +193,7 @@ function RootLayoutContent() {
   }, [user]);
 
   const isAuthPage =
-    pathname === "/auth" ||
-    pathname.startsWith("/auth") ||
-    (pathname === "/" && !user && !isGuest);
+    pathname === "/auth" || pathname.startsWith("/auth") || (pathname === "/" && !user && !isGuest);
 
   return (
     <>
@@ -202,13 +203,7 @@ function RootLayoutContent() {
       >
         Skip to main content
       </a>
-      <main
-        id="main"
-        className={cn(
-          "min-h-screen bg-[#FBF5EE]",
-          !isAuthPage && "pb-20",
-        )}
-      >
+      <main id="main" className={cn("min-h-screen bg-[#FBF5EE]", !isAuthPage && "pb-20")}>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </main>

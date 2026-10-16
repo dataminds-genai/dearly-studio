@@ -55,22 +55,31 @@ function AdminSupport() {
         <caption className="sr-only">{t("admin.support.table.caption")}</caption>
         <thead>
           <tr className="border-b border-border text-left">
-            <th scope="col" className="py-2">{t("admin.support.table.reference")}</th>
-            <th scope="col" className="py-2">{t("admin.support.table.type")}</th>
-            <th scope="col" className="py-2">{t("admin.support.table.state")}</th>
-            <th scope="col" className="py-2">{t("admin.support.table.opened")}</th>
+            <th scope="col" className="py-2">
+              {t("admin.support.table.reference")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.support.table.type")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.support.table.state")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.support.table.opened")}
+            </th>
           </tr>
         </thead>
         <tbody>
           {queue.map((row) => (
             <tr key={row.ref} className="border-b border-border/60">
               <td className="py-2">{row.ref}</td>
-              <td className="py-2">
-                {t(row.typeKey, { ref: row.ref.split("-")[1] || row.ref })}
-              </td>
+              <td className="py-2">{t(row.typeKey, { ref: row.ref.split("-")[1] || row.ref })}</td>
               <td className="py-2">{t(row.stateKey)}</td>
               <td className="py-2">
-                {t(row.openedKey, row.openedValue !== undefined ? { count: row.openedValue } : undefined)}
+                {t(
+                  row.openedKey,
+                  row.openedValue !== undefined ? { count: row.openedValue } : undefined,
+                )}
               </td>
             </tr>
           ))}

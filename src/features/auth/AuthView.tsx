@@ -266,9 +266,7 @@ export function AuthView({
             {t("auth.alreadySignedIn")}
           </h2>
           <p className="mt-2 text-sm text-[#6B5A5E]">
-            {displayEmail
-              ? t("auth.signedInAs", { email: displayEmail })
-              : t("auth.signedIn")}
+            {displayEmail ? t("auth.signedInAs", { email: displayEmail }) : t("auth.signedIn")}
           </p>
           <div className="mt-6 flex flex-col gap-3">
             <Button

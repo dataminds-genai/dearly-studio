@@ -13,7 +13,8 @@ export const Route = createFileRoute("/library")({
       { title: "Your library — Dearly Studio" },
       {
         name: "description",
-        content: "Everything you have made: cards, prints, drafts and favourites, with what expires when.",
+        content:
+          "Everything you have made: cards, prints, drafts and favourites, with what expires when.",
       },
       { property: "og:title", content: "Your library — Dearly Studio" },
       { property: "og:description", content: "Open, remix, reorder or delete anything you made." },
@@ -50,11 +51,7 @@ function Library() {
   }
 
   return (
-    <Page
-      wide
-      title={t("library.title")}
-      intro={t("library.intro")}
-    >
+    <Page wide title={t("library.title")} intro={t("library.intro")}>
       <Tabs defaultValue="all">
         <TabsList className="flex-wrap">
           {tabs.map((tab) => (
@@ -83,7 +80,10 @@ function Library() {
               ) : (
                 <ul className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
                   {list.map((item) => (
-                    <li key={item.id} className="overflow-hidden rounded-2xl border border-border bg-card">
+                    <li
+                      key={item.id}
+                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                    >
                       <img
                         src={item.thumbnail}
                         alt={item.title}

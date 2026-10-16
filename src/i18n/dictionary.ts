@@ -76,7 +76,8 @@ export const en = {
     "Three things happen here: you add a photo, you choose the words, and you pick how it looks.",
   "flow.help2":
     "Your work saves as you go, so Back never loses anything and you can leave and come back.",
-  "flow.help3": "Everything is free to preview. You only pay if you order a print or a paid download.",
+  "flow.help3":
+    "Everything is free to preview. You only pay if you order a print or a paid download.",
   "flow.steps": "Steps",
   "flow.step.outcome": "Outcome",
   "flow.step.photo": "Photo",
@@ -278,7 +279,8 @@ const fr: Dict = {
   "account.textSizeHelp": "Le mode grand augmente toutes les tailles de texte.",
   "account.standard": "standard",
   "account.large": "grand",
-  "account.languageHelp": "Change la langue de l'application. L'arabe s'affiche de droite à gauche.",
+  "account.languageHelp":
+    "Change la langue de l'application. L'arabe s'affiche de droite à gauche.",
   "account.privacyLink": "Confidentialité et vos données",
   "account.billingLink": "Facturation et reçus",
   "account.peopleLink": "Votre liste de cartes",
@@ -349,7 +351,8 @@ const es: Dict = {
   "flow.helpTitle": "Crear algo",
   "flow.help1": "Aquí pasan tres cosas: añades una foto, eliges las palabras y eliges el estilo.",
   "flow.help2": "Tu trabajo se guarda solo, así que Atrás nunca pierde nada.",
-  "flow.help3": "Todo es gratis para previsualizar. Solo pagas por una impresión o descarga de pago.",
+  "flow.help3":
+    "Todo es gratis para previsualizar. Solo pagas por una impresión o descarga de pago.",
   "flow.steps": "Pasos",
   "flow.step.outcome": "Resultado",
   "flow.step.photo": "Foto",

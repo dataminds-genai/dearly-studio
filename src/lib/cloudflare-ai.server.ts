@@ -144,4 +144,3 @@ export async function cfEditImage(
   }
   return btoa(binary);
 }
-

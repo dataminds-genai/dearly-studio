@@ -3,7 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import type { CreationDraft } from "@/domain/entities/types";
 
-export function ImageControls({ draft, update }: { draft: CreationDraft; update: (patch: Partial<CreationDraft>) => void }) {
+export function ImageControls({
+  draft,
+  update,
+}: {
+  draft: CreationDraft;
+  update: (patch: Partial<CreationDraft>) => void;
+}) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-border bg-card p-3">
       <ZoomIn className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
@@ -21,7 +27,12 @@ export function ImageControls({ draft, update }: { draft: CreationDraft; update:
         variant="ghost"
         aria-label="Rotate photo 90 degrees"
         title="Rotate photo"
-        onClick={() => update({ imageRotation: (((draft.imageRotation ?? 0) + 90) % 360) as CreationDraft["imageRotation"] })}
+        onClick={() =>
+          update({
+            imageRotation: (((draft.imageRotation ?? 0) + 90) %
+              360) as CreationDraft["imageRotation"],
+          })
+        }
       >
         <RotateCw className="size-4" aria-hidden="true" />
       </Button>

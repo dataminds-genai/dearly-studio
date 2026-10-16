@@ -91,7 +91,7 @@ export function safeAreaInsetPercent(variant: ProductVariant): number {
 }
 
 export function describeSize(variant: ProductVariant): string {
-  const wIn = (mmToInches(variant.widthMm)).toFixed(1);
-  const hIn = (mmToInches(variant.heightMm)).toFixed(1);
+  const wIn = mmToInches(variant.widthMm).toFixed(1);
+  const hIn = mmToInches(variant.heightMm).toFixed(1);
   return `${variant.widthMm} x ${variant.heightMm} mm (${wIn} x ${hIn} in)`;
 }

@@ -77,7 +77,8 @@ const en: Record<string, string> = {
   "orders.detail.shipping": "Shipping",
   "orders.detail.tax": "Tax",
   "orders.detail.total": "Total",
-  "orders.detail.paymentNote": "Paid on Stripe's hosted page in test mode. We hold no card details.",
+  "orders.detail.paymentNote":
+    "Paid on Stripe's hosted page in test mode. We hold no card details.",
   "orders.detail.delivery.title": "Delivery",
   "orders.detail.trackOrder": "Track this order",
   "orders.detail.noTracking":
@@ -132,7 +133,8 @@ const en: Record<string, string> = {
   "privacyRequest.form.reference": "Link or reference, if you have one",
   "privacyRequest.form.referencePlaceholder": "A share link, order number, or where you saw it",
   "privacyRequest.form.detail": "Tell us what to look for",
-  "privacyRequest.form.detailPlaceholder": "For example: I am the person in the photo on this card.",
+  "privacyRequest.form.detailPlaceholder":
+    "For example: I am the person in the photo on this card.",
   "privacyRequest.form.contact": "How should we reply?",
   "privacyRequest.form.contactPlaceholder": "An email address we can answer on",
   "privacyRequest.form.contactNote":
@@ -165,7 +167,8 @@ const ar: Record<string, string> = {
 
   "cart.title": "سلتك",
   "cart.empty.intro": "لا شيء هنا بعد.",
-  "cart.empty.body": "تظهر هنا المطبوعات التي تضيفها أثناء إنشاء شيء ما، مع السعر الكامل قبل الدفع.",
+  "cart.empty.body":
+    "تظهر هنا المطبوعات التي تضيفها أثناء إنشاء شيء ما، مع السعر الكامل قبل الدفع.",
   "cart.empty.cta": "أنشئ من صورة",
   "cart.intro": "تحقق من كل شيء قبل الدفع. لم يُخصم أي مبلغ بعد.",
   "cart.item.fallbackName": "عنصر",
@@ -213,7 +216,8 @@ const ar: Record<string, string> = {
   "orders.detail.shipping": "الشحن",
   "orders.detail.tax": "الضريبة",
   "orders.detail.total": "الإجمالي",
-  "orders.detail.paymentNote": "تم الدفع عبر صفحة سترايب المستضافة في وضع الاختبار. لا نحتفظ بأي بيانات بطاقة.",
+  "orders.detail.paymentNote":
+    "تم الدفع عبر صفحة سترايب المستضافة في وضع الاختبار. لا نحتفظ بأي بيانات بطاقة.",
   "orders.detail.delivery.title": "التوصيل",
   "orders.detail.trackOrder": "تتبع هذا الطلب",
   "orders.detail.noTracking": "لا يوجد رقم تتبع بعد. بعض الخدمات توفره فقط بعد مسح الطرد.",
@@ -263,7 +267,8 @@ const ar: Record<string, string> = {
   "privacyRequest.form.reference": "رابط أو مرجع، إن وُجد",
   "privacyRequest.form.referencePlaceholder": "رابط مشاركة، أو رقم طلب، أو أين رأيته",
   "privacyRequest.form.detail": "أخبرنا بما يجب البحث عنه",
-  "privacyRequest.form.detailPlaceholder": "على سبيل المثال: أنا الشخص الموجود في الصورة على هذه البطاقة.",
+  "privacyRequest.form.detailPlaceholder":
+    "على سبيل المثال: أنا الشخص الموجود في الصورة على هذه البطاقة.",
   "privacyRequest.form.contact": "كيف يجب أن نرد؟",
   "privacyRequest.form.contactPlaceholder": "عنوان بريد إلكتروني يمكننا الرد عليه",
   "privacyRequest.form.contactNote":
@@ -364,7 +369,8 @@ const fr: Record<string, string> = {
   "people.form.relationship": "Relation",
   "people.form.add": "Ajouter",
   "people.added.toast": "Ajouté à votre liste de cartes.",
-  "people.empty": "Votre liste de cartes est vide. Vous n'êtes jamais obligé de l'utiliser — c'est entièrement facultatif.",
+  "people.empty":
+    "Votre liste de cartes est vide. Vous n'êtes jamais obligé de l'utiliser — c'est entièrement facultatif.",
   "people.delete": "Supprimer",
   "people.deleted.toast": "{name} supprimé.",
   "people.retentionNote":
@@ -382,7 +388,8 @@ const fr: Record<string, string> = {
   "share.cta": "Créer la vôtre",
 
   "privacyRequest.received.title": "Demande reçue",
-  "privacyRequest.received.intro": "Conservez cette référence — c'est ainsi que vous suivrez l'avancement.",
+  "privacyRequest.received.intro":
+    "Conservez cette référence — c'est ainsi que vous suivrez l'avancement.",
   "privacyRequest.received.referenceTitle": "Votre référence est {ticket}",
   "privacyRequest.received.body":
     "Nous suspendons l'élément pendant notre examen, il cesse donc d'être visible immédiatement. Nous vérifions votre demande de manière proportionnée et ne demanderons pas de pièce d'identité par défaut. Lorsque la loi le permet, nous informons le titulaire du compte qu'une demande a été faite, sans révéler vos coordonnées. Une fois confirmé, nous supprimons l'élément de nos systèmes et de toute tâche en file d'attente, faisons expirer les liens associés, et transmettons la suppression à nos sous-traitants. Nous conservons un enregistrement minimal du fait que la demande a eu lieu.",
@@ -396,9 +403,11 @@ const fr: Record<string, string> = {
   "privacyRequest.type.object": "M'opposer à l'utilisation de quelque chose",
   "privacyRequest.form.typeLegend": "Que demandez-vous ?",
   "privacyRequest.form.reference": "Lien ou référence, si vous en avez un",
-  "privacyRequest.form.referencePlaceholder": "Un lien de partage, un numéro de commande, ou où vous l'avez vu",
+  "privacyRequest.form.referencePlaceholder":
+    "Un lien de partage, un numéro de commande, ou où vous l'avez vu",
   "privacyRequest.form.detail": "Dites-nous quoi rechercher",
-  "privacyRequest.form.detailPlaceholder": "Par exemple : je suis la personne sur la photo de cette carte.",
+  "privacyRequest.form.detailPlaceholder":
+    "Par exemple : je suis la personne sur la photo de cette carte.",
   "privacyRequest.form.contact": "Comment devons-nous vous répondre ?",
   "privacyRequest.form.contactPlaceholder": "Une adresse e-mail à laquelle nous pouvons répondre",
   "privacyRequest.form.contactNote":
@@ -460,12 +469,14 @@ const es: Record<string, string> = {
   "cart.checkout.cta": "Continuar al pago seguro",
   "cart.checkout.toast":
     "El pago en modo de prueba se abre una vez que los pagos estén conectados. Serás redirigido a la página alojada de Stripe.",
-  "cart.checkout.note": "Precios de demostración y un flujo de pago en modo de prueba. No se te cobra.",
+  "cart.checkout.note":
+    "Precios de demostración y un flujo de pago en modo de prueba. No se te cobra.",
 
   "orders.title": "Tus pedidos",
   "orders.empty.intro": "Nada pedido todavía.",
   "orders.empty.cta": "Pedir una impresión",
-  "orders.intro": "Pedidos de muestra en modo de prueba. No se ha realizado ningún pago ni envío real.",
+  "orders.intro":
+    "Pedidos de muestra en modo de prueba. No se ha realizado ningún pago ni envío real.",
   "orders.viewOrder": "Ver pedido",
   "orders.detail.notFound.title": "Pedido no encontrado",
   "orders.detail.notFound.intro": "No pudimos encontrar ese número de pedido.",
@@ -490,7 +501,8 @@ const es: Record<string, string> = {
   "orders.detail.getHelp": "Obtener ayuda con este pedido",
 
   "people.title": "Tu lista de tarjetas",
-  "people.intro": "Para que no tengas que volver a escribir un apodo la próxima vez. Eso es todo para lo que sirve.",
+  "people.intro":
+    "Para que no tengas que volver a escribir un apodo la próxima vez. Eso es todo para lo que sirve.",
   "people.notice.title": "Solo almacenamos dos cosas",
   "people.notice.body":
     "Un apodo y una relación. Nunca almacenamos números de teléfono, correos electrónicos, direcciones, fechas de nacimiento, números de identificación, identificadores sociales o notas, y nunca importamos contactos desde tu teléfono. Elimina a alguien aquí y desaparece de inmediato.",
@@ -499,7 +511,8 @@ const es: Record<string, string> = {
   "people.form.relationship": "Relación",
   "people.form.add": "Añadir",
   "people.added.toast": "Añadido a tu lista de tarjetas.",
-  "people.empty": "Tu lista de tarjetas está vacía. Nunca tienes que usar una — es totalmente opcional.",
+  "people.empty":
+    "Tu lista de tarjetas está vacía. Nunca tienes que usar una — es totalmente opcional.",
   "people.delete": "Eliminar",
   "people.deleted.toast": "{name} eliminado.",
   "people.retentionNote":
@@ -531,9 +544,11 @@ const es: Record<string, string> = {
   "privacyRequest.type.object": "Oponerme a cómo se usa algo",
   "privacyRequest.form.typeLegend": "¿Qué estás solicitando?",
   "privacyRequest.form.reference": "Enlace o referencia, si tienes uno",
-  "privacyRequest.form.referencePlaceholder": "Un enlace compartido, número de pedido, o dónde lo viste",
+  "privacyRequest.form.referencePlaceholder":
+    "Un enlace compartido, número de pedido, o dónde lo viste",
   "privacyRequest.form.detail": "Dinos qué buscar",
-  "privacyRequest.form.detailPlaceholder": "Por ejemplo: soy la persona en la foto de esta tarjeta.",
+  "privacyRequest.form.detailPlaceholder":
+    "Por ejemplo: soy la persona en la foto de esta tarjeta.",
   "privacyRequest.form.contact": "¿Cómo debemos responderte?",
   "privacyRequest.form.contactPlaceholder": "Un correo electrónico al que podamos responder",
   "privacyRequest.form.contactNote":
@@ -595,12 +610,14 @@ const ru: Record<string, string> = {
   "cart.checkout.cta": "Перейти к безопасной оплате",
   "cart.checkout.toast":
     "Оформление заказа в тестовом режиме откроется после подключения платежей. Вас перенаправят на страницу Stripe.",
-  "cart.checkout.note": "Демонстрационные цены и оплата в тестовом режиме. Списание не производится.",
+  "cart.checkout.note":
+    "Демонстрационные цены и оплата в тестовом режиме. Списание не производится.",
 
   "orders.title": "Ваши заказы",
   "orders.empty.intro": "Пока ничего не заказано.",
   "orders.empty.cta": "Заказать печать",
-  "orders.intro": "Примеры заказов в тестовом режиме. Реальная оплата или отправка не производились.",
+  "orders.intro":
+    "Примеры заказов в тестовом режиме. Реальная оплата или отправка не производились.",
   "orders.viewOrder": "Посмотреть заказ",
   "orders.detail.notFound.title": "Заказ не найден",
   "orders.detail.notFound.intro": "Мы не смогли найти этот номер заказа.",
@@ -625,7 +642,8 @@ const ru: Record<string, string> = {
   "orders.detail.getHelp": "Получить помощь по этому заказу",
 
   "people.title": "Список ваших открыток",
-  "people.intro": "Чтобы вам не пришлось снова вводить псевдоним в следующий раз. Больше он ни для чего не нужен.",
+  "people.intro":
+    "Чтобы вам не пришлось снова вводить псевдоним в следующий раз. Больше он ни для чего не нужен.",
   "people.notice.title": "Мы храним только две вещи",
   "people.notice.body":
     "Псевдоним и отношение. Мы никогда не храним номера телефонов, электронную почту, адреса, дни рождения, номера удостоверений личности, ники в соцсетях или заметки, и никогда не импортируем контакты с вашего телефона. Удалите кого-либо здесь — и он исчезнет немедленно.",
@@ -634,7 +652,8 @@ const ru: Record<string, string> = {
   "people.form.relationship": "Отношение",
   "people.form.add": "Добавить",
   "people.added.toast": "Добавлено в список ваших открыток.",
-  "people.empty": "Ваш список открыток пуст. Вам никогда не обязательно им пользоваться — это полностью необязательно.",
+  "people.empty":
+    "Ваш список открыток пуст. Вам никогда не обязательно им пользоваться — это полностью необязательно.",
   "people.delete": "Удалить",
   "people.deleted.toast": "{name} удалён(а).",
   "people.retentionNote":
@@ -666,9 +685,11 @@ const ru: Record<string, string> = {
   "privacyRequest.type.object": "Возразить против использования чего-либо",
   "privacyRequest.form.typeLegend": "Что вы запрашиваете?",
   "privacyRequest.form.reference": "Ссылка или номер, если он у вас есть",
-  "privacyRequest.form.referencePlaceholder": "Ссылка на публикацию, номер заказа или где вы это увидели",
+  "privacyRequest.form.referencePlaceholder":
+    "Ссылка на публикацию, номер заказа или где вы это увидели",
   "privacyRequest.form.detail": "Расскажите нам, что искать",
-  "privacyRequest.form.detailPlaceholder": "Например: я тот человек, что изображён на фото этой открытки.",
+  "privacyRequest.form.detailPlaceholder":
+    "Например: я тот человек, что изображён на фото этой открытки.",
   "privacyRequest.form.contact": "Как нам вам ответить?",
   "privacyRequest.form.contactPlaceholder": "Адрес электронной почты, на который мы можем ответить",
   "privacyRequest.form.contactNote":
@@ -701,7 +722,8 @@ const hi: Record<string, string> = {
 
   "cart.title": "आपकी कार्ट",
   "cart.empty.intro": "यहाँ अभी तक कुछ नहीं है।",
-  "cart.empty.body": "कुछ बनाते समय आप जो प्रिंट जोड़ते हैं वे यहाँ भुगतान से पहले पूरी कीमत के साथ दिखाई देते हैं।",
+  "cart.empty.body":
+    "कुछ बनाते समय आप जो प्रिंट जोड़ते हैं वे यहाँ भुगतान से पहले पूरी कीमत के साथ दिखाई देते हैं।",
   "cart.empty.cta": "फ़ोटो से बनाएँ",
   "cart.intro": "भुगतान करने से पहले सब कुछ जाँच लें। अभी तक कुछ भी चार्ज नहीं किया गया है।",
   "cart.item.fallbackName": "आइटम",
@@ -749,10 +771,12 @@ const hi: Record<string, string> = {
   "orders.detail.shipping": "शिपिंग",
   "orders.detail.tax": "कर",
   "orders.detail.total": "कुल",
-  "orders.detail.paymentNote": "टेस्ट मोड में Stripe के होस्टेड पेज पर भुगतान किया गया। हम कोई कार्ड विवरण नहीं रखते।",
+  "orders.detail.paymentNote":
+    "टेस्ट मोड में Stripe के होस्टेड पेज पर भुगतान किया गया। हम कोई कार्ड विवरण नहीं रखते।",
   "orders.detail.delivery.title": "डिलीवरी",
   "orders.detail.trackOrder": "इस ऑर्डर को ट्रैक करें",
-  "orders.detail.noTracking": "अभी तक कोई ट्रैकिंग नंबर नहीं है। कुछ सेवाएँ पार्सल स्कैन होने के बाद ही एक प्रदान करती हैं।",
+  "orders.detail.noTracking":
+    "अभी तक कोई ट्रैकिंग नंबर नहीं है। कुछ सेवाएँ पार्सल स्कैन होने के बाद ही एक प्रदान करती हैं।",
   "orders.detail.orderAgain": "इसे फिर से ऑर्डर करें",
   "orders.detail.getHelp": "इस ऑर्डर के बारे में मदद पाएँ",
 
@@ -766,7 +790,8 @@ const hi: Record<string, string> = {
   "people.form.relationship": "रिश्ता",
   "people.form.add": "जोड़ें",
   "people.added.toast": "आपकी कार्ड सूची में जोड़ा गया।",
-  "people.empty": "आपकी कार्ड सूची खाली है। आपको कभी भी इसका उपयोग करने की आवश्यकता नहीं है — यह पूरी तरह वैकल्पिक है।",
+  "people.empty":
+    "आपकी कार्ड सूची खाली है। आपको कभी भी इसका उपयोग करने की आवश्यकता नहीं है — यह पूरी तरह वैकल्पिक है।",
   "people.delete": "हटाएँ",
   "people.deleted.toast": "{name} हटाया गया।",
   "people.retentionNote":
@@ -800,7 +825,8 @@ const hi: Record<string, string> = {
   "privacyRequest.form.reference": "लिंक या संदर्भ, यदि आपके पास है",
   "privacyRequest.form.referencePlaceholder": "एक शेयर लिंक, ऑर्डर नंबर, या जहाँ आपने इसे देखा",
   "privacyRequest.form.detail": "हमें बताएँ कि क्या देखना है",
-  "privacyRequest.form.detailPlaceholder": "उदाहरण के लिए: मैं इस कार्ड की फ़ोटो में मौजूद व्यक्ति हूँ।",
+  "privacyRequest.form.detailPlaceholder":
+    "उदाहरण के लिए: मैं इस कार्ड की फ़ोटो में मौजूद व्यक्ति हूँ।",
   "privacyRequest.form.contact": "हमें कैसे जवाब देना चाहिए?",
   "privacyRequest.form.contactPlaceholder": "एक ईमेल पता जिस पर हम जवाब दे सकते हैं",
   "privacyRequest.form.contactNote":
@@ -818,7 +844,8 @@ const zh: Record<string, string> = {
   "help.extra.uploadFailed.a":
     "请在更稳定的网络下重试。你的文字、风格和设计都已保存，不会丢失其他内容。超过 25 MB 的超大文件和不受支持的格式会被明确提示并拒绝。",
   "help.extra.wordingMissing.q": "文字建议没有出现。",
-  "help.extra.wordingMissing.a": "我们会显示一条中性的备用信息，并让你重试。你的昵称、场合、心情和回忆会完全保持你输入的样子。",
+  "help.extra.wordingMissing.a":
+    "我们会显示一条中性的备用信息，并让你重试。你的昵称、场合、心情和回忆会完全保持你输入的样子。",
   "help.extra.cancelOrder.q": "我可以取消订单吗？",
   "help.extra.cancelOrder.a":
     "在订单仍处于等待付款或刚提交的状态时，你可以取消。一旦开始生产，该商品已在制作中，无法取消或重新配送。",
@@ -899,7 +926,8 @@ const zh: Record<string, string> = {
   "people.empty": "你的卡片联系人列表为空。你完全不必使用它——这是可选的。",
   "people.delete": "删除",
   "people.deleted.toast": "已删除 {name}。",
-  "people.retentionNote": "我们会要求你在 12 个月未使用后审查此列表，并在 18 个月后删除条目，除非你保留它们。",
+  "people.retentionNote":
+    "我们会要求你在 12 个月未使用后审查此列表，并在 18 个月后删除条目，除非你保留它们。",
 
   "share.title": "为你制作的卡片",
   "share.intro": "此链接为私密、未公开链接，并将会过期。",

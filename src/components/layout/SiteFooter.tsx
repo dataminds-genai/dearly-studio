@@ -47,9 +47,7 @@ export function SiteFooter() {
               <Logo className="size-8 text-primary" />
               <p className="font-serif text-lg font-semibold">Dearly Studio</p>
             </div>
-            <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-              {t("footer.tagline")}
-            </p>
+            <p className="mt-2 max-w-xs text-sm text-muted-foreground">{t("footer.tagline")}</p>
           </div>
           {groups.map((group) => (
             <nav key={group.titleKey} aria-label={t(group.titleKey)}>

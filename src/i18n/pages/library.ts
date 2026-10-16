@@ -3,7 +3,8 @@ import type { LocaleCode } from "../dictionary";
 export const libraryStrings: Record<LocaleCode, Record<string, string>> = {
   en: {
     "library.title": "Your library",
-    "library.intro": "Sample content while your account is not connected yet. Items show when they are due to be deleted.",
+    "library.intro":
+      "Sample content while your account is not connected yet. Items show when they are due to be deleted.",
     "library.tab.all": "All",
     "library.tab.card": "Cards",
     "library.tab.print": "Prints",
@@ -51,7 +52,8 @@ export const libraryStrings: Record<LocaleCode, Record<string, string>> = {
   },
   fr: {
     "library.title": "Votre bibliothèque",
-    "library.intro": "Contenu d’exemple tant que votre compte n’est pas connecté. La date de suppression de chaque élément est indiquée.",
+    "library.intro":
+      "Contenu d’exemple tant que votre compte n’est pas connecté. La date de suppression de chaque élément est indiquée.",
     "library.tab.all": "Tout",
     "library.tab.card": "Cartes",
     "library.tab.print": "Tirages",
@@ -75,7 +77,8 @@ export const libraryStrings: Record<LocaleCode, Record<string, string>> = {
   },
   es: {
     "library.title": "Tu biblioteca",
-    "library.intro": "Contenido de muestra mientras tu cuenta no está conectada. Cada elemento muestra cuándo se eliminará.",
+    "library.intro":
+      "Contenido de muestra mientras tu cuenta no está conectada. Cada elemento muestra cuándo se eliminará.",
     "library.tab.all": "Todo",
     "library.tab.card": "Tarjetas",
     "library.tab.print": "Impresiones",
@@ -99,7 +102,8 @@ export const libraryStrings: Record<LocaleCode, Record<string, string>> = {
   },
   ru: {
     "library.title": "Ваша библиотека",
-    "library.intro": "Пример содержимого, пока аккаунт не подключён. Для каждого элемента указана дата удаления.",
+    "library.intro":
+      "Пример содержимого, пока аккаунт не подключён. Для каждого элемента указана дата удаления.",
     "library.tab.all": "Все",
     "library.tab.card": "Открытки",
     "library.tab.print": "Отпечатки",
@@ -123,7 +127,8 @@ export const libraryStrings: Record<LocaleCode, Record<string, string>> = {
   },
   hi: {
     "library.title": "आपकी लाइब्रेरी",
-    "library.intro": "खाता जुड़ने तक नमूना सामग्री दिखाई जा रही है। हर आइटम के हटने की तारीख भी दी गई है।",
+    "library.intro":
+      "खाता जुड़ने तक नमूना सामग्री दिखाई जा रही है। हर आइटम के हटने की तारीख भी दी गई है।",
     "library.tab.all": "सभी",
     "library.tab.card": "कार्ड",
     "library.tab.print": "प्रिंट",

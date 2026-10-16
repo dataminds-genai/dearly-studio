@@ -12,6 +12,7 @@ import {
   DEFAULT_DAILY_IMAGE_LIMIT_ANON,
   DEFAULT_DAILY_IMAGE_WARNING_THRESHOLD,
   resetRuntimeGenerationConfig,
+  applyAuthoritativeStatus,
 } from "../generation-limit";
 
 vi.mock("sonner", () => ({
@@ -229,7 +230,8 @@ describe("generation-limit service", () => {
         }),
       );
 
-      const { syncGenerationStatus, loadGenerationTimestamps } = await import("../generation-limit");
+      const { syncGenerationStatus, loadGenerationTimestamps } =
+        await import("../generation-limit");
       const result = await syncGenerationStatus(userId);
 
       expect(result?.count).toBe(1);
@@ -264,7 +266,9 @@ describe("generation-limit service", () => {
 
       expect(dispatchSpy).toHaveBeenCalled();
       expect(toast.error).toHaveBeenCalledWith(
-        expect.stringContaining("Daily limit exceeded. You have reached your daily limit of 10 artworks"),
+        expect.stringContaining(
+          "Daily limit exceeded. You have reached your daily limit of 10 artworks",
+        ),
         expect.objectContaining({
           description: expect.stringContaining("1 hr"),
         }),
@@ -301,6 +305,43 @@ describe("generation-limit service", () => {
           action: expect.objectContaining({ label: "Register" }),
         }),
       );
+    });
+  });
+
+  describe("applyAuthoritativeStatus", () => {
+    it("updates local cache to match server count and dispatches update event", () => {
+      const dispatchSpy = vi.fn();
+      vi.stubGlobal("window", {
+        localStorage,
+        dispatchEvent: dispatchSpy,
+      });
+
+      const updated = applyAuthoritativeStatus(
+        { count: 6, remaining: 9, limit: 15 },
+        "user-test-123",
+      );
+
+      expect(updated.count).toBe(6);
+      expect(updated.remaining).toBe(9);
+      expect(updated.limit).toBe(15);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: "dearly_generation_updated",
+        }),
+      );
+    });
+
+    it("resets local cache when server reports count of 0", () => {
+      recordGeneration("user-test-zero");
+      recordGeneration("user-test-zero");
+
+      const reset = applyAuthoritativeStatus(
+        { count: 0, remaining: 15, limit: 15 },
+        "user-test-zero",
+      );
+
+      expect(reset.count).toBe(0);
+      expect(reset.remaining).toBe(15);
     });
   });
 });

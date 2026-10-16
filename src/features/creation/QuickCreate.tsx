@@ -23,15 +23,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Logo } from "@/components/layout/Logo";
 import { useAuth } from "@/features/auth/auth-context";
-import { intensityLabels, moods, occasions, recipients, refinements, visualStyles } from "@/domain/content";
+import {
+  intensityLabels,
+  moods,
+  occasions,
+  recipients,
+  refinements,
+  visualStyles,
+} from "@/domain/content";
 import { samplePhotos } from "@/domain/samples";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { fallbackMessage, type MessageRequest } from "@/domain/services/message-writer";
@@ -586,16 +588,10 @@ export function QuickCreate() {
                   <span className="text-xs font-bold uppercase tracking-wider text-[#6B5A5E]">
                     Need inspiration?
                   </span>
-                  <span className="text-[11px] text-[#6B5A5E]/70 font-medium">
-                    (Starter ideas)
-                  </span>
+                  <span className="text-[11px] text-[#6B5A5E]/70 font-medium">(Starter ideas)</span>
                 </div>
                 <div className="flex size-6 items-center justify-center rounded-full bg-[#F3E6DA] text-[#9E2B57] transition-all">
-                  {inspirationOpen ? (
-                    <Minus className="size-3.5" />
-                  ) : (
-                    <Plus className="size-3.5" />
-                  )}
+                  {inspirationOpen ? <Minus className="size-3.5" /> : <Plus className="size-3.5" />}
                 </div>
               </button>
 
@@ -652,9 +648,7 @@ export function QuickCreate() {
                     onClick={() => {
                       const isRendered =
                         draft.styleId === "original" ||
-                        Boolean(
-                          draft.artworkRenders?.[artworkKey(draft.styleId, intensity)],
-                        );
+                        Boolean(draft.artworkRenders?.[artworkKey(draft.styleId, intensity)]);
 
                       if (!isRendered && !genStatus.isAllowed) {
                         notifyLimitReached(genStatus);
@@ -702,9 +696,7 @@ export function QuickCreate() {
 
                       const isRendered =
                         style.id === "original" ||
-                        Boolean(
-                          draft.artworkRenders?.[artworkKey(style.id, draft.styleIntensity)],
-                        );
+                        Boolean(draft.artworkRenders?.[artworkKey(style.id, draft.styleIntensity)]);
 
                       if (!isRendered && !genStatus.isAllowed) {
                         notifyLimitReached(genStatus);
@@ -824,9 +816,7 @@ export function QuickCreate() {
               )}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-base font-bold text-[#2A1F22]">
-                {draft.title || "Your card"}
-              </div>
+              <div className="text-base font-bold text-[#2A1F22]">{draft.title || "Your card"}</div>
               <div className="text-xs text-[#6B5A5E]">
                 {draft.ratioId.toUpperCase()} · {draft.styleId} style
               </div>
@@ -904,7 +894,13 @@ export function QuickCreate() {
                   <span className="text-xs text-[#6B5A5E]">Today is Tue 13</span>
                 </div>
                 <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-[#6B5A5E]">
-                  <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                  <span>Mo</span>
+                  <span>Tu</span>
+                  <span>We</span>
+                  <span>Th</span>
+                  <span>Fr</span>
+                  <span>Sa</span>
+                  <span>Su</span>
                 </div>
                 <div className="grid grid-cols-7 gap-1 text-center">
                   {[...Array(31)].map((_, i) => {
@@ -929,9 +925,7 @@ export function QuickCreate() {
                 </div>
 
                 <div className="flex items-center justify-between pt-2 border-t border-[#F3E6DA]">
-                  <label className="text-xs font-semibold text-[#2A1F22]">
-                    Repeat every year
-                  </label>
+                  <label className="text-xs font-semibold text-[#2A1F22]">Repeat every year</label>
                   <Switch checked={repeatYearly} onCheckedChange={setRepeatYearly} />
                 </div>
               </div>

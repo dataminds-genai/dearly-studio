@@ -99,7 +99,12 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       t: (key, values) => {
         const englishPages = pageDictionaries.en;
         const translatedPages = pageDictionaries[locale];
-        let text = translatedPages[key] ?? dict[key as TranslationKey] ?? englishPages[key] ?? en[key as TranslationKey] ?? key;
+        let text =
+          translatedPages[key] ??
+          dict[key as TranslationKey] ??
+          englishPages[key] ??
+          en[key as TranslationKey] ??
+          key;
         if (values) {
           for (const [name, value] of Object.entries(values)) {
             text = text.replaceAll(`{${name}}`, String(value));

@@ -258,7 +258,10 @@ export function PhotoStep({
       </section>
 
       {photo ? (
-        <section aria-labelledby="chosen-heading" className="rounded-xl border border-border bg-card p-4">
+        <section
+          aria-labelledby="chosen-heading"
+          className="rounded-xl border border-border bg-card p-4"
+        >
           <h3 id="chosen-heading" className="text-sm font-semibold">
             {t("step.photo.chosenHeading")}
           </h3>
@@ -290,17 +293,20 @@ export function PhotoStep({
                   onClick={() =>
                     update({
                       imageRotation: (((draft.imageRotation ?? 0) + 90) % 360) as
-                        | 0
-                        | 90
-                        | 180
-                        | 270,
+                        0 | 90 | 180 | 270,
                     })
                   }
                 >
                   <RotateCcw className="mr-2 size-4" aria-hidden="true" />
                   {t("step.photo.rotate")}
                 </Button>
-                <Button type="button" variant="outline" size="sm" className="tap-safe" onClick={openPicker}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="tap-safe"
+                  onClick={openPicker}
+                >
                   {t("step.photo.replace")}
                 </Button>
                 <Button

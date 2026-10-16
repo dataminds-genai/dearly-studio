@@ -15,7 +15,11 @@ export const ART_STYLE_IDS = [
   "ai-character",
 ] as const satisfies readonly StyleId[];
 
-export const ART_INTENSITIES = ["low", "medium", "high"] as const satisfies readonly StyleIntensity[];
+export const ART_INTENSITIES = [
+  "low",
+  "medium",
+  "high",
+] as const satisfies readonly StyleIntensity[];
 
 const treatments: Record<(typeof ART_STYLE_IDS)[number], string> = {
   impressionist:
@@ -46,7 +50,8 @@ const treatments: Record<(typeof ART_STYLE_IDS)[number], string> = {
 
 const intensityInstructions: Record<StyleIntensity, string> = {
   low: "Keep the source composition and facial structure very close; apply the medium gently.",
-  medium: "Balance clear source likeness with an unmistakable transformation in the requested medium.",
+  medium:
+    "Balance clear source likeness with an unmistakable transformation in the requested medium.",
   high: "Make the artistic construction bold and pervasive while retaining recognizable identities and essential objects.",
 };
 

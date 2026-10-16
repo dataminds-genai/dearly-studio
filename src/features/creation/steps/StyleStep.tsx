@@ -58,13 +58,16 @@ export function StyleStep({
             aria-pressed={draft.styleId === style.id}
             className={cn(
               "overflow-hidden rounded-xl border-2 bg-card text-left",
-              draft.styleId === style.id ? "border-primary" : "border-border hover:border-primary/40",
+              draft.styleId === style.id
+                ? "border-primary"
+                : "border-border hover:border-primary/40",
             )}
           >
             {src ? (
               <img
                 src={
-                  draft.artworkRenders?.[artworkKey(style.id as StyleId, draft.styleIntensity)] ?? src
+                  draft.artworkRenders?.[artworkKey(style.id as StyleId, draft.styleIntensity)] ??
+                  src
                 }
                 alt={`${style.label} preview`}
                 className="aspect-square w-full object-cover"
@@ -110,7 +113,10 @@ export function StyleStep({
         />
         <div className="mt-2 flex justify-between text-xs text-muted-foreground">
           {intensities.map((i) => (
-            <span key={i} className={cn(draft.styleIntensity === i && "font-semibold text-foreground")}>
+            <span
+              key={i}
+              className={cn(draft.styleIntensity === i && "font-semibold text-foreground")}
+            >
               {intensityLabels[i]}
             </span>
           ))}
@@ -127,15 +133,17 @@ export function StyleStep({
         {src ? (
           <>
             <div className="relative mt-3 aspect-square w-full overflow-hidden rounded-lg">
-              <img src={src} alt="Original photo" className="absolute inset-0 size-full object-cover" />
+              <img
+                src={src}
+                alt="Original photo"
+                className="absolute inset-0 size-full object-cover"
+              />
               <div
                 className="absolute inset-y-0 left-0 overflow-hidden"
                 style={{ width: `${compare}%` }}
               >
                 <img
-                  src={
-                    draft.artworkRenders?.[artworkKey(active.id, draft.styleIntensity)] ?? src
-                  }
+                  src={draft.artworkRenders?.[artworkKey(active.id, draft.styleIntensity)] ?? src}
                   alt={`${active.label} version`}
                   className="absolute inset-0 h-full w-[100vw] max-w-none object-cover"
                   style={{ width: "100%" }}

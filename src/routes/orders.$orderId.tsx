@@ -24,17 +24,19 @@ export const Route = createFileRoute("/orders/$orderId")({
     ],
   }),
   component: OrderDetail,
-  notFoundComponent: () => {
-    const t = useT();
-    return (
-      <Page title={t("orders.detail.notFound.title")} intro={t("orders.detail.notFound.intro")}>
-        <Button asChild className="tap-safe">
-          <Link to="/orders">{t("orders.detail.notFound.cta")}</Link>
-        </Button>
-      </Page>
-    );
-  },
+  notFoundComponent: OrderNotFound,
 });
+
+function OrderNotFound() {
+  const t = useT();
+  return (
+    <Page title={t("orders.detail.notFound.title")} intro={t("orders.detail.notFound.intro")}>
+      <Button asChild className="tap-safe">
+        <Link to="/orders">{t("orders.detail.notFound.cta")}</Link>
+      </Button>
+    </Page>
+  );
+}
 
 function OrderDetail() {
   const t = useT();
@@ -111,10 +113,23 @@ function OrderDetail() {
           <div className="rounded-xl border border-border bg-card p-4 text-sm">
             <h2 className="text-lg">{t("orders.detail.payment.title")}</h2>
             <dl className="mt-2 space-y-1">
-              <Row label={t("orders.detail.subtotal")} value={formatMoney(order.subtotalMinorUnits, order.currency)} />
-              <Row label={t("orders.detail.shipping")} value={formatMoney(order.shippingMinorUnits, order.currency)} />
-              <Row label={t("orders.detail.tax")} value={formatMoney(order.taxMinorUnits, order.currency)} />
-              <Row label={t("orders.detail.total")} value={formatMoney(order.totalMinorUnits, order.currency)} strong />
+              <Row
+                label={t("orders.detail.subtotal")}
+                value={formatMoney(order.subtotalMinorUnits, order.currency)}
+              />
+              <Row
+                label={t("orders.detail.shipping")}
+                value={formatMoney(order.shippingMinorUnits, order.currency)}
+              />
+              <Row
+                label={t("orders.detail.tax")}
+                value={formatMoney(order.taxMinorUnits, order.currency)}
+              />
+              <Row
+                label={t("orders.detail.total")}
+                value={formatMoney(order.totalMinorUnits, order.currency)}
+                strong
+              />
             </dl>
             <p className="mt-3 text-xs text-muted-foreground">{t("orders.detail.paymentNote")}</p>
           </div>

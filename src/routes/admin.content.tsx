@@ -8,7 +8,10 @@ export const Route = createFileRoute("/admin/content")({
   head: () => ({
     meta: [
       { title: "Content (staff) — Dearly Studio" },
-      { name: "description", content: "Staff view of occasions, styles, templates and gallery samples." },
+      {
+        name: "description",
+        content: "Staff view of occasions, styles, templates and gallery samples.",
+      },
       { property: "og:title", content: "Content (staff) — Dearly Studio" },
       { property: "og:description", content: "Internal staff tooling." },
       { property: "og:type", content: "website" },
@@ -30,11 +33,7 @@ function AdminContent() {
   ];
 
   return (
-    <Page
-      wide
-      title={t("admin.content.title")}
-      intro={t("admin.content.intro")}
-    >
+    <Page wide title={t("admin.content.title")} intro={t("admin.content.intro")}>
       <div className="grid gap-4 sm:grid-cols-2">
         {groups.map((group) => (
           <section key={group.title} className="rounded-xl border border-border bg-card p-5">

@@ -167,7 +167,10 @@ export function CreationStoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const addToCart = useCallback((item: Omit<CartItem, "id">) => {
-    setCart((current) => [...current, { ...item, id: `ci_${Math.random().toString(36).slice(2, 9)}` }]);
+    setCart((current) => [
+      ...current,
+      { ...item, id: `ci_${Math.random().toString(36).slice(2, 9)}` },
+    ]);
   }, []);
 
   const removeFromCart = useCallback((id: string) => {

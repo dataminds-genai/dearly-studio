@@ -80,7 +80,10 @@ export function CardPreview({
     const halfH = caption ? Math.min(0.45, caption.height / bounds.height / 2) : 0.1;
     const halfW = TEXT_WIDTH / 2;
     const x = Math.min(1 - halfW, Math.max(halfW, (event.clientX - bounds.left) / bounds.width));
-    const y = Math.min(1 - halfH - 0.02, Math.max(halfH + 0.02, (event.clientY - bounds.top) / bounds.height));
+    const y = Math.min(
+      1 - halfH - 0.02,
+      Math.max(halfH + 0.02, (event.clientY - bounds.top) / bounds.height),
+    );
     onTextMove({ x, y });
   }
 
@@ -101,7 +104,9 @@ export function CardPreview({
     if (pointers.current.size >= 2 && gesture.current) {
       const [a, b] = [...pointers.current.values()];
       const dist = Math.hypot(a!.x - b!.x, a!.y - b!.y);
-      onImageChange({ imageZoom: clampZoom(gesture.current.zoom * (dist / Math.max(1, gesture.current.dist))) });
+      onImageChange({
+        imageZoom: clampZoom(gesture.current.zoom * (dist / Math.max(1, gesture.current.dist))),
+      });
       return;
     }
     const bounds = previewRef.current.getBoundingClientRect();
@@ -143,7 +148,9 @@ export function CardPreview({
           src={src}
           alt={draft.title || "Your card"}
           draggable={false}
-          onLoad={(e) => setNatural({ w: e.currentTarget.naturalWidth, h: e.currentTarget.naturalHeight })}
+          onLoad={(e) =>
+            setNatural({ w: e.currentTarget.naturalWidth, h: e.currentTarget.naturalHeight })
+          }
           className="pointer-events-none absolute max-w-none select-none"
           style={
             place

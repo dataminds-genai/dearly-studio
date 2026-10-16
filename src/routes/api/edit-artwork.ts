@@ -6,12 +6,11 @@ import {
   pollinationsEditImage,
   pollinationsKey,
 } from "@/lib/pollinations.server";
+import { cfEditImage, cloudflareCreds, CloudflareAIError } from "@/lib/cloudflare-ai.server";
 import {
-  cfEditImage,
-  cloudflareCreds,
-  CloudflareAIError,
-} from "@/lib/cloudflare-ai.server";
-import { recordGenerationServer } from "@/domain/services/generation-tracker.server";
+  recordGenerationServer,
+  getGenerationStatusServer,
+} from "@/domain/services/generation-tracker.server";
 
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -25,7 +24,11 @@ export const Route = createFileRoute("/api/edit-artwork")({
         if (origin) {
           try {
             const originHost = new URL(origin).host;
-            if (originHost !== host && !originHost.includes("localhost") && !originHost.includes("127.0.0.1")) {
+            if (
+              originHost !== host &&
+              !originHost.includes("localhost") &&
+              !originHost.includes("127.0.0.1")
+            ) {
               return new Response("This artwork request must come from Dearly Studio.", {
                 status: 403,
               });
@@ -37,7 +40,8 @@ export const Route = createFileRoute("/api/edit-artwork")({
 
         const incoming = await request.formData();
         const rawUserId = incoming.get("userId");
-        const userId = typeof rawUserId === "string" && rawUserId.trim().length > 0 ? rawUserId.trim() : null;
+        const userId =
+          typeof rawUserId === "string" && rawUserId.trim().length > 0 ? rawUserId.trim() : null;
         const clientIp =
           request.headers.get("cf-connecting-ip") ||
           request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -45,23 +49,10 @@ export const Route = createFileRoute("/api/edit-artwork")({
         const userAgent = request.headers.get("user-agent") || "";
         const styleId = incoming.get("styleId");
         const style = typeof styleId === "string" ? styleId : undefined;
-
-        const rateResult = await recordGenerationServer(userId, clientIp, userAgent, style);
-        if (!rateResult.allowed) {
-          const retryAfterSeconds = Math.max(1, Math.ceil(rateResult.resetMs / 1000));
-          return new Response("Daily image generation limit reached. Please try again after 24 hours.", {
-            status: 429,
-            headers: {
-              "Content-Type": "text/plain; charset=utf-8",
-              "Retry-After": String(retryAfterSeconds),
-              "X-Daily-Limit-Total": String(rateResult.limit),
-              "X-Daily-Limit-Count": String(rateResult.count),
-              "X-Daily-Limit-Remaining": "0",
-            },
-          });
-        }
         const image = incoming.get("image");
         const intensity = incoming.get("intensity");
+
+        // 1. Validate payload inputs before doing anything else
         if (
           !(image instanceof File) ||
           typeof styleId !== "string" ||
@@ -69,7 +60,8 @@ export const Route = createFileRoute("/api/edit-artwork")({
         ) {
           return new Response("A photo, artist, and strength are required.", { status: 400 });
         }
-        const isAllowedType = ALLOWED_TYPES.has(image.type) || Boolean(image.name?.match(/\.(jpg|jpeg|png|webp)$/i));
+        const isAllowedType =
+          ALLOWED_TYPES.has(image.type) || Boolean(image.name?.match(/\.(jpg|jpeg|png|webp)$/i));
         if (!isAllowedType || image.size === 0 || image.size > MAX_IMAGE_BYTES) {
           return new Response("Use a JPEG, PNG, or WebP image smaller than 25 MB.", {
             status: 400,
@@ -79,15 +71,65 @@ export const Route = createFileRoute("/api/edit-artwork")({
           return new Response("Choose a supported artist and strength.", { status: 400 });
         }
 
+        // 2. Authoritative pre-generation quota check (does not increment or charge quota)
+        const checkStatus = await getGenerationStatusServer(userId, clientIp, userAgent);
+        if (!checkStatus.allowed) {
+          const retryAfterSeconds = Math.max(1, Math.ceil(checkStatus.resetMs / 1000));
+          return new Response(
+            "Daily image generation limit reached. Please try again after 24 hours.",
+            {
+              status: 429,
+              headers: {
+                "Content-Type": "text/plain; charset=utf-8",
+                "Retry-After": String(retryAfterSeconds),
+                "X-Daily-Limit-Total": String(checkStatus.limit),
+                "X-Daily-Limit-Count": String(checkStatus.count),
+                "X-Daily-Limit-Remaining": "0",
+              },
+            },
+          );
+        }
+
         const prompt = buildArtEditPrompt(styleId, intensity);
-        // freeTier flags a zero-price community serve so the client can
-        // disclose that quality may vary. Additive and backward-compatible.
-        const respond = (b64: string, freeTier = false) => {
-          if (incoming.get("stream") === "false")
-            return Response.json({ data: [{ b64_json: b64, freeTier }] });
-          const sse = `event: image_edit.completed\ndata: ${JSON.stringify({ type: "image_edit.completed", b64_json: b64, freeTier })}\n\n`;
+
+        // 3. Helper to record and return successful artwork
+        const respond = async (b64: string, freeTier = false) => {
+          // Atomically record quota now that artwork has been successfully rendered
+          const recorded = await recordGenerationServer(userId, clientIp, userAgent, style);
+          const generationStatus = {
+            count: recorded.count,
+            remaining: recorded.remaining,
+            limit: recorded.limit,
+          };
+
+          if (incoming.get("stream") === "false") {
+            return Response.json(
+              { data: [{ b64_json: b64, freeTier }], generationStatus },
+              {
+                headers: {
+                  "X-Daily-Limit-Total": String(recorded.limit),
+                  "X-Daily-Limit-Count": String(recorded.count),
+                  "X-Daily-Limit-Remaining": String(recorded.remaining),
+                },
+              },
+            );
+          }
+
+          const sse = `event: image_edit.completed\ndata: ${JSON.stringify({
+            type: "image_edit.completed",
+            b64_json: b64,
+            freeTier,
+            generationStatus,
+          })}\n\n`;
+
           return new Response(sse, {
-            headers: { "Content-Type": "text/event-stream", "Cache-Control": "no-store" },
+            headers: {
+              "Content-Type": "text/event-stream",
+              "Cache-Control": "no-store",
+              "X-Daily-Limit-Total": String(recorded.limit),
+              "X-Daily-Limit-Count": String(recorded.count),
+              "X-Daily-Limit-Remaining": String(recorded.remaining),
+            },
           });
         };
 
@@ -103,7 +145,7 @@ export const Route = createFileRoute("/api/edit-artwork")({
         const gKey = geminiKey();
         if (gKey) {
           try {
-            return respond(await geminiEditImage(gKey, image, prompt, request.signal));
+            return await respond(await geminiEditImage(gKey, image, prompt, request.signal));
           } catch (e) {
             console.warn("Gemini edit artwork failed:", e);
             failures.push(e);
@@ -113,7 +155,7 @@ export const Route = createFileRoute("/api/edit-artwork")({
         if (cloudflareCreds()) {
           try {
             const b64 = await cfEditImage(image, prompt, request.signal);
-            return respond(b64, false);
+            return await respond(b64, false);
           } catch (e) {
             console.warn("Cloudflare AI edit artwork failed:", e);
             failures.push(e);
@@ -122,7 +164,7 @@ export const Route = createFileRoute("/api/edit-artwork")({
 
         try {
           const result = await pollinationsEditImage(image, prompt, request.signal);
-          return respond(result.b64, result.tier === "free");
+          return await respond(result.b64, result.tier === "free");
         } catch (e) {
           console.warn("Pollinations edit artwork failed:", e);
           failures.push(e);

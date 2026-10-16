@@ -120,7 +120,9 @@ function PrivacyRequest() {
             placeholder={t("privacyRequest.form.contactPlaceholder")}
             className="tap-safe mt-1.5"
           />
-          <p className="mt-1 text-xs text-muted-foreground">{t("privacyRequest.form.contactNote")}</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {t("privacyRequest.form.contactNote")}
+          </p>
         </div>
 
         <Button type="submit" size="lg" className="tap-safe">

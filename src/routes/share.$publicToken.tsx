@@ -8,7 +8,10 @@ export const Route = createFileRoute("/share/$publicToken")({
   head: () => ({
     meta: [
       { title: "A card made for you — Dearly Studio" },
-      { name: "description", content: "Someone made you a card. This link is private and expires." },
+      {
+        name: "description",
+        content: "Someone made you a card. This link is private and expires.",
+      },
       { property: "og:title", content: "A card made for you" },
       {
         property: "og:description",

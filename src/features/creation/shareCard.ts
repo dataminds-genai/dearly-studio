@@ -27,7 +27,8 @@ export async function shareCard(draft: CreationDraft, target: "whatsapp" | "any"
     try {
       await nav.share({ files: [file], text, title: draft.title });
     } catch (e) {
-      if (e instanceof Error && e.name !== "AbortError") toast.error("Sharing didn't work. Try saving the image.");
+      if (e instanceof Error && e.name !== "AbortError")
+        toast.error("Sharing didn't work. Try saving the image.");
     }
     return;
   }

@@ -87,8 +87,7 @@ function getSupabaseConfig() {
   const isServer = typeof window === "undefined";
   const globalRec = isServer ? (globalThis as Record<string, unknown>) : {};
   const cfEnv = (globalRec["__env__"] ?? globalRec["__CLOUDFLARE_ENV__"]) as
-    | Record<string, unknown>
-    | undefined;
+    Record<string, unknown> | undefined;
   const procEnv = typeof process !== "undefined" ? (process.env as Record<string, unknown>) : {};
 
   const url =

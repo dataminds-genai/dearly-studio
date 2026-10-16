@@ -26,6 +26,7 @@ const schema = z.object({
 });
 
 import { fallbackMessage } from "@/domain/services/message-writer";
+import type { MoodId, OccasionId, RecipientId } from "@/domain/entities/types";
 
 function sameOrigin(request: Request) {
   const origin = request.headers.get("origin");
@@ -127,9 +128,9 @@ export const Route = createFileRoute("/api/write-message")({
         // Always guarantee a thoughtful personalized message
         const fallback = fallbackMessage({
           recipientNickname: parsed.data.recipientNickname,
-          relationship: parsed.data.relationship as any,
-          occasion: parsed.data.occasion as any,
-          mood: parsed.data.mood as any,
+          relationship: parsed.data.relationship as RecipientId | "unspecified",
+          occasion: parsed.data.occasion as OccasionId | "unspecified",
+          mood: parsed.data.mood as MoodId | "unspecified",
           memory: parsed.data.memory,
           senderName: parsed.data.senderName,
           language: parsed.data.language,

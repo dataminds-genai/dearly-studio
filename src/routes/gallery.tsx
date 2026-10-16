@@ -48,14 +48,11 @@ function Gallery() {
   };
   const categories = ["all", ...Array.from(new Set(galleryItems.map((item) => item.category)))];
   const [active, setActive] = useState("all");
-  const visible = active === "all" ? galleryItems : galleryItems.filter((i) => i.category === active);
+  const visible =
+    active === "all" ? galleryItems : galleryItems.filter((i) => i.category === active);
 
   return (
-    <Page
-      wide
-      title={t("gallery.title")}
-      intro={t("gallery.intro")}
-    >
+    <Page wide title={t("gallery.title")} intro={t("gallery.intro")}>
       <div className="flex flex-wrap gap-2" role="group" aria-label="Filter gallery by category">
         {categories.map((category) => (
           <button
@@ -70,7 +67,9 @@ function Gallery() {
                 : "border-border bg-card hover:border-primary/50",
             )}
           >
-            {category === "all" ? t("gallery.category.all") : (categoryLabels[category] ?? category)}
+            {category === "all"
+              ? t("gallery.category.all")
+              : (categoryLabels[category] ?? category)}
           </button>
         ))}
       </div>

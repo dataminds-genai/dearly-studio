@@ -36,10 +36,18 @@ function AdminOrders() {
         <caption className="sr-only">{t("admin.orders.table.caption")}</caption>
         <thead>
           <tr className="border-b border-border text-left">
-            <th scope="col" className="py-2">{t("admin.orders.table.order")}</th>
-            <th scope="col" className="py-2">{t("admin.orders.table.status")}</th>
-            <th scope="col" className="py-2">{t("admin.orders.table.items")}</th>
-            <th scope="col" className="py-2 text-right">{t("admin.orders.table.total")}</th>
+            <th scope="col" className="py-2">
+              {t("admin.orders.table.order")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.orders.table.status")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.orders.table.items")}
+            </th>
+            <th scope="col" className="py-2 text-right">
+              {t("admin.orders.table.total")}
+            </th>
           </tr>
         </thead>
         <tbody>

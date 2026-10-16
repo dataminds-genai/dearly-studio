@@ -45,7 +45,10 @@ describe("priceCart", () => {
   });
 
   it("never produces a negative total", () => {
-    const result = priceCart([item({ variantId: "var_digital_square", unitPriceMinorUnits: 0 })], "DEARLY10");
+    const result = priceCart(
+      [item({ variantId: "var_digital_square", unitPriceMinorUnits: 0 })],
+      "DEARLY10",
+    );
     expect(result.total).toBeGreaterThanOrEqual(0);
   });
 });

@@ -13,11 +13,7 @@ export function RatioSelector({
   onChange: (value: RatioId) => void;
 }) {
   return (
-    <div
-      className="grid grid-cols-5 gap-1.5 sm:gap-2.5"
-      role="group"
-      aria-label="Card shape"
-    >
+    <div className="grid grid-cols-5 gap-1.5 sm:gap-2.5" role="group" aria-label="Card shape">
       {ratios.map((ratio) => {
         const isSelected = value === ratio.id;
         const [mainLabel, ...rest] = ratio.label.split(" ");

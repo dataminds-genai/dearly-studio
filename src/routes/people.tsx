@@ -104,7 +104,8 @@ function People() {
               <div>
                 <p className="font-semibold">{person.nickname}</p>
                 <p className="text-sm text-muted-foreground">
-                  {recipients.find((r) => r.id === person.relationship)?.label ?? person.relationship}
+                  {recipients.find((r) => r.id === person.relationship)?.label ??
+                    person.relationship}
                 </p>
               </div>
               <Button

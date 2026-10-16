@@ -172,11 +172,7 @@ export function TextControls({
         <div className="flex items-center rounded-xl border border-[#E2D2C5] bg-[#FAF7F2] p-0.5 shrink-0">
           {(["left", "center", "right"] as const).map((alignment) => {
             const Icon =
-              alignment === "left"
-                ? AlignLeft
-                : alignment === "right"
-                  ? AlignRight
-                  : AlignCenter;
+              alignment === "left" ? AlignLeft : alignment === "right" ? AlignRight : AlignCenter;
             const isSel = (draft.textAlign ?? "center") === alignment;
             return (
               <button
@@ -186,9 +182,7 @@ export function TextControls({
                 onClick={() => update({ textAlign: alignment })}
                 className={cn(
                   "flex size-7 items-center justify-center rounded-lg transition-all",
-                  isSel
-                    ? "bg-[#9E2B57] text-white shadow-xs"
-                    : "text-[#6B5A5E] hover:bg-white",
+                  isSel ? "bg-[#9E2B57] text-white shadow-xs" : "text-[#6B5A5E] hover:bg-white",
                 )}
               >
                 <Icon className="size-3.5" />

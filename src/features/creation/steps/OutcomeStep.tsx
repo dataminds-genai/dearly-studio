@@ -4,9 +4,24 @@ import { cn } from "@/lib/utils";
 import { useT } from "@/i18n/i18n";
 
 const optionMeta: Array<{ id: Outcome; titleKey: string; blurbKey: string; icon: typeof Send }> = [
-  { id: "card", titleKey: "step.outcome.card.title", blurbKey: "step.outcome.card.blurb", icon: Send },
-  { id: "print", titleKey: "step.outcome.print.title", blurbKey: "step.outcome.print.blurb", icon: ImageIcon },
-  { id: "both", titleKey: "step.outcome.both.title", blurbKey: "step.outcome.both.blurb", icon: Gift },
+  {
+    id: "card",
+    titleKey: "step.outcome.card.title",
+    blurbKey: "step.outcome.card.blurb",
+    icon: Send,
+  },
+  {
+    id: "print",
+    titleKey: "step.outcome.print.title",
+    blurbKey: "step.outcome.print.blurb",
+    icon: ImageIcon,
+  },
+  {
+    id: "both",
+    titleKey: "step.outcome.both.title",
+    blurbKey: "step.outcome.both.blurb",
+    icon: Gift,
+  },
 ];
 
 export function OutcomeStep({

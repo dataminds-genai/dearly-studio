@@ -1,15 +1,23 @@
 import { createParser } from "eventsource-parser";
 import { flushSync } from "react-dom";
 
+export interface GenerationStatusData {
+  count: number;
+  remaining: number;
+  limit: number;
+}
+
 type ImagePayload = {
-  type?: string;
-  b64_json?: string;
-  freeTier?: boolean;
-  error?: { message?: string };
+  type?: string | undefined;
+  b64_json?: string | undefined;
+  freeTier?: boolean | undefined;
+  generationStatus?: GenerationStatusData | undefined;
+  error?: { message?: string } | undefined;
 };
 
 export interface FrameMeta {
   freeTier: boolean;
+  generationStatus?: GenerationStatusData | undefined;
 }
 
 async function responseError(response: Response): Promise<string> {
@@ -73,7 +81,10 @@ export async function streamImage(
       }
       const image = payload.b64_json;
       const isFinal = type === "image_generation.completed" || type === "image_edit.completed";
-      const meta: FrameMeta = { freeTier: payload.freeTier === true };
+      const meta: FrameMeta = {
+        freeTier: payload.freeTier === true,
+        generationStatus: payload.generationStatus,
+      };
       flushSync(() => onFrame(`data:image/png;base64,${image}`, isFinal, meta));
       if (isFinal) sawCompleted = true;
     },
@@ -102,11 +113,15 @@ export async function streamImage(
     if (!replay.ok) throw new Error((await responseError(replay)) || "Artwork creation failed.");
     const json = (await replay.json()) as {
       data?: Array<{ b64_json?: string; freeTier?: boolean }>;
+      generationStatus?: GenerationStatusData;
     };
     const item = json.data?.[0];
     const image = item?.b64_json;
     if (!image) throw new Error("Artwork creation returned no image.");
-    onFrame(`data:image/png;base64,${image}`, true, { freeTier: item?.freeTier === true });
+    onFrame(`data:image/png;base64,${image}`, true, {
+      freeTier: item?.freeTier === true,
+      generationStatus: json.generationStatus,
+    });
     return;
   }
   if (!sawCompleted) throw new Error("Artwork creation ended before the image was finished.");

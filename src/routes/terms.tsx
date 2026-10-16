@@ -48,7 +48,10 @@ function Terms() {
         <h2>Acceptable use</h2>
         <ul>
           <li>Do not upload photos of other people without their permission.</li>
-          <li>Do not upload unlawful, hateful, sexual or harassing content, or content that infringes someone else's rights.</li>
+          <li>
+            Do not upload unlawful, hateful, sexual or harassing content, or content that infringes
+            someone else's rights.
+          </li>
           <li>Do not use the service to impersonate someone or to harass a person pictured.</li>
           <li>We may refuse or stop a generation or an order that breaks these rules.</li>
         </ul>
@@ -63,9 +66,17 @@ function Terms() {
         <h2>Orders, delivery and cancellation</h2>
         <ul>
           <li>Prices, shipping and taxes are shown in full before payment.</li>
-          <li>Printed items are made to order. Once production has started, we cannot change the delivery address or cancel the item.</li>
-          <li>Digital downloads are delivered immediately and are separate from shipped products.</li>
-          <li>Our final refund and cancellation rules are confirmed before launch and published here and on the refund page.</li>
+          <li>
+            Printed items are made to order. Once production has started, we cannot change the
+            delivery address or cancel the item.
+          </li>
+          <li>
+            Digital downloads are delivered immediately and are separate from shipped products.
+          </li>
+          <li>
+            Our final refund and cancellation rules are confirmed before launch and published here
+            and on the refund page.
+          </li>
         </ul>
 
         <h2>Privacy</h2>

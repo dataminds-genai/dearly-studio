@@ -77,7 +77,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchProfile = useCallback(async (currentUser: User) => {
     try {
-      // Cast supabase to any to safely query optional public.profiles table
+      // Safely query optional public.profiles table
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data, error } = await (supabase as any)
         .from("profiles")
         .select("*")
@@ -279,6 +280,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         // 2. Try updating public.profiles table if it exists
         try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           await (supabase as any)
             .from("profiles")
             .update({

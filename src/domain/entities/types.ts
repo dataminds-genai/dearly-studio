@@ -82,12 +82,7 @@ export type TextPosition =
 export type JobStatus = "queued" | "processing" | "complete" | "failed";
 
 export type ProductType =
-  | "digital-card"
-  | "postcard"
-  | "folded-card"
-  | "photo-print"
-  | "framed-print"
-  | "digital-download";
+  "digital-card" | "postcard" | "folded-card" | "photo-print" | "framed-print" | "digital-download";
 
 export interface Product {
   id: string;
@@ -184,10 +179,7 @@ export interface Person {
 }
 
 export type RetentionClass =
-  | "guest-24h"
-  | "draft-30d"
-  | "completed-90d"
-  | "print-30d-post-fulfilment";
+  "guest-24h" | "draft-30d" | "completed-90d" | "print-30d-post-fulfilment";
 
 export interface CreationDraft {
   id: string;

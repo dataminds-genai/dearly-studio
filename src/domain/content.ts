@@ -201,12 +201,48 @@ export const cardFonts: Array<{
   weight: number;
   letterSpacing: string;
 }> = [
-  { id: "classic", label: "Classic", family: '"Fraunces", Georgia, serif', weight: 600, letterSpacing: "0" },
-  { id: "modern", label: "Modern", family: '"Nunito Sans", system-ui, sans-serif', weight: 700, letterSpacing: "0" },
-  { id: "handwritten", label: "Handwritten", family: '"Caveat", cursive', weight: 700, letterSpacing: "0" },
-  { id: "elegant", label: "Elegant", family: '"Playfair Display", Georgia, serif', weight: 500, letterSpacing: "0.01em" },
-  { id: "bold", label: "Bold", family: '"Bebas Neue", Impact, sans-serif', weight: 400, letterSpacing: "0.04em" },
-  { id: "typewriter", label: "Typewriter", family: '"Courier New", monospace', weight: 700, letterSpacing: "0" },
+  {
+    id: "classic",
+    label: "Classic",
+    family: '"Fraunces", Georgia, serif',
+    weight: 600,
+    letterSpacing: "0",
+  },
+  {
+    id: "modern",
+    label: "Modern",
+    family: '"Nunito Sans", system-ui, sans-serif',
+    weight: 700,
+    letterSpacing: "0",
+  },
+  {
+    id: "handwritten",
+    label: "Handwritten",
+    family: '"Caveat", cursive',
+    weight: 700,
+    letterSpacing: "0",
+  },
+  {
+    id: "elegant",
+    label: "Elegant",
+    family: '"Playfair Display", Georgia, serif',
+    weight: 500,
+    letterSpacing: "0.01em",
+  },
+  {
+    id: "bold",
+    label: "Bold",
+    family: '"Bebas Neue", Impact, sans-serif',
+    weight: 400,
+    letterSpacing: "0.04em",
+  },
+  {
+    id: "typewriter",
+    label: "Typewriter",
+    family: '"Courier New", monospace',
+    weight: 700,
+    letterSpacing: "0",
+  },
 ];
 
 export const textPositions: Array<{ id: TextPosition; label: string }> = [

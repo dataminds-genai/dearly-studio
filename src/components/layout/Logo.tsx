@@ -12,12 +12,7 @@ type LogoProps = {
  * Berry rounded squircle (#9E2B57) with a white tilted card (-8deg),
  * folded peach corner, and center heart.
  */
-export function Logo({
-  className,
-  size = 36,
-  showText = false,
-  textClassName,
-}: LogoProps) {
+export function Logo({ className, size = 36, showText = false, textClassName }: LogoProps) {
   return (
     <div className={cn("inline-flex items-center gap-2.5", className)}>
       <svg

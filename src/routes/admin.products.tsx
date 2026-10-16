@@ -38,12 +38,24 @@ function AdminProducts() {
         <caption className="sr-only">{t("admin.products.table.caption")}</caption>
         <thead>
           <tr className="border-b border-border text-left">
-            <th scope="col" className="py-2">{t("admin.products.table.product")}</th>
-            <th scope="col" className="py-2">{t("admin.products.table.variant")}</th>
-            <th scope="col" className="py-2">{t("admin.products.table.size")}</th>
-            <th scope="col" className="py-2">{t("admin.products.table.minDpi")}</th>
-            <th scope="col" className="py-2">{t("admin.products.table.providerSku")}</th>
-            <th scope="col" className="py-2 text-right">{t("admin.products.table.price")}</th>
+            <th scope="col" className="py-2">
+              {t("admin.products.table.product")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.products.table.variant")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.products.table.size")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.products.table.minDpi")}
+            </th>
+            <th scope="col" className="py-2">
+              {t("admin.products.table.providerSku")}
+            </th>
+            <th scope="col" className="py-2 text-right">
+              {t("admin.products.table.price")}
+            </th>
           </tr>
         </thead>
         <tbody>

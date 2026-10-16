@@ -37,11 +37,7 @@ export const Route = createFileRoute("/products")({
 function Products() {
   const t = useT();
   return (
-    <Page
-      wide
-      title={t("products.title")}
-      intro={t("products.intro")}
-    >
+    <Page wide title={t("products.title")} intro={t("products.intro")}>
       <div className="space-y-6">
         {products.map((product) => {
           const items = productVariants.filter((v) => v.productId === product.id);
@@ -81,9 +77,7 @@ function Products() {
         })}
       </div>
 
-      <p className="mt-4 text-xs text-muted-foreground">
-        {t("products.demoNote")}
-      </p>
+      <p className="mt-4 text-xs text-muted-foreground">{t("products.demoNote")}</p>
 
       <Button asChild size="lg" className="tap-safe mt-8">
         <Link to="/create/print">{t("products.cta.print")}</Link>

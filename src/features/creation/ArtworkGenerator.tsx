@@ -30,7 +30,7 @@ export function ArtworkGenerator({
   update: (patch: Partial<CreationDraft>) => void;
 }) {
   const { user } = useAuth();
-  const { status, record } = useGenerationLimit(user?.id);
+  const { status, record, applyStatus } = useGenerationLimit(user?.id);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [onDevice, setOnDevice] = useState(false);
 
@@ -82,20 +82,26 @@ export function ArtworkGenerator({
     setOnDevice(false);
     update({ styleJobStatus: "processing" });
     const started = Date.now();
-    const save = (image: string) => {
-      const updatedStatus = record();
+    const countBefore = status.count;
+    const save = async (
+      image: string,
+      serverStatus?: { count: number; remaining: number; limit: number },
+    ) => {
       update({
         artworkRenders: { ...(draftRef.current.artworkRenders ?? {}), [currentKey]: image },
         styleJobStatus: "complete",
       });
 
-      // Show thoughtful notifications based on daily generation thresholds
-      if (updatedStatus.count === updatedStatus.warningThreshold && updatedStatus.isLoggedIn) {
-        toast.warning(
-          `Daily generation warning: You've created ${updatedStatus.count} of ${updatedStatus.limit} artworks today. ${updatedStatus.remaining} remaining.`,
-          { duration: 5000 },
-        );
-      } else if (updatedStatus.isLimitReached) {
+      // Instantly apply authoritative status returned by the server, or record locally if fallback
+      const updatedStatus = serverStatus ? applyStatus(serverStatus) : await record();
+
+      // Warn once when this generation crosses the threshold (robust to count jumps).
+      const crossedWarning =
+        updatedStatus.isLoggedIn &&
+        countBefore < updatedStatus.warningThreshold &&
+        updatedStatus.count >= updatedStatus.warningThreshold;
+
+      if (updatedStatus.isLimitReached) {
         if (updatedStatus.isLoggedIn) {
           toast.info(
             `You have reached your daily cap of ${updatedStatus.limit} images. Please try again after 24 hours.`,
@@ -107,6 +113,11 @@ export function ArtworkGenerator({
             { duration: 6000 },
           );
         }
+      } else if (crossedWarning) {
+        toast.warning(
+          `Daily generation warning: You've created ${updatedStatus.count} of ${updatedStatus.limit} artworks today. ${updatedStatus.remaining} remaining.`,
+          { duration: 5000 },
+        );
       }
     };
 
@@ -125,7 +136,7 @@ export function ArtworkGenerator({
         sawFrame = true;
         if (meta.freeTier) freeTierServe = true;
         if (isFinal) {
-          save(dataUrl);
+          void save(dataUrl, meta.generationStatus);
           if (freeTierServe) {
             toast.message("Free-tier artwork — quality may vary. Top up pollen for best results.");
           }
@@ -149,12 +160,14 @@ export function ArtworkGenerator({
         const actionable = /pollen|top.?up|insufficient balance|quota|allowance/i.test(message);
         const image = await renderOnDevice(
           photo.dataUrl,
-          actionable ? "Cloud AI quota reached — created using on-device artist engine." : undefined,
+          actionable
+            ? "Cloud AI quota reached — created using on-device artist engine."
+            : undefined,
           false,
         );
         const minimum = 1000 - (Date.now() - started);
         if (minimum > 0) await new Promise((resolve) => setTimeout(resolve, minimum));
-        save(image);
+        await save(image);
         return;
       } catch (fallbackError) {
         toast.error(fallbackError instanceof Error ? fallbackError.message : message);
@@ -215,7 +228,7 @@ export function ArtworkGenerator({
               </span>
               {status.shouldWarn && status.remaining > 0 && (
                 <span className="text-[11px] font-medium text-[#B45309]">
-                  (Warning: {status.count} of {status.limit} used)
+                  ({status.remaining} remaining today)
                 </span>
               )}
             </div>
@@ -244,4 +257,3 @@ export function ArtworkGenerator({
     </>
   );
 }
-

@@ -12,10 +12,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
   const { preference, setLocale, t } = useI18n();
 
   return (
-    <Select
-      value={preference}
-      onValueChange={(value) => setLocale(value as LocalePreference)}
-    >
+    <Select value={preference} onValueChange={(value) => setLocale(value as LocalePreference)}>
       <SelectTrigger
         className={className ?? "tap-safe h-10 w-auto gap-2"}
         aria-label={t("nav.language")}
