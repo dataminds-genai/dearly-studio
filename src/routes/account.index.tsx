@@ -169,7 +169,7 @@ function ProfilePage() {
               </div>
             ) : genStatus.shouldWarn && genStatus.remaining > 0 ? (
               <p className="text-xs font-medium text-[#B45309] bg-[#FFFBEB] p-2.5 rounded-xl border border-[#FDE68A]">
-                You have reached your {genStatus.warningThreshold}th generation. {genStatus.remaining} remaining for the next 24 hours.
+                You have reached your {genStatus.warningThreshold}th generation ({genStatus.count} of {genStatus.limit} used). {genStatus.remaining} remaining for the next 24 hours.
               </p>
             ) : genStatus.remaining === 0 ? (
               <p className="text-xs font-medium text-[#A8261E] bg-[#FEF2F2] p-2.5 rounded-xl border border-[#FECACA]">

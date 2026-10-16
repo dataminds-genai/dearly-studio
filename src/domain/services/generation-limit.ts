@@ -44,7 +44,10 @@ export function setRuntimeGenerationConfig(cfg: Partial<GenerationConfig>): void
     try {
       window.localStorage.setItem(
         "dearly_synced_generation_config",
-        JSON.stringify(runtimeServerConfig),
+        JSON.stringify({
+          ...runtimeServerConfig,
+          savedAt: Date.now(),
+        }),
       );
     } catch {
       // Storage unavailable or disabled
@@ -94,10 +97,28 @@ export function getGenerationConfig(): GenerationConfig {
     try {
       const cached = window.localStorage.getItem("dearly_synced_generation_config");
       if (cached) {
-        const parsed = JSON.parse(cached) as GenerationConfig;
-        if (parsed && typeof parsed.limitLoggedIn === "number" && parsed.limitLoggedIn > 0) {
-          runtimeServerConfig = parsed;
+        const parsed = JSON.parse(cached) as GenerationConfig & { savedAt?: number };
+        const isLegacyOldDefault =
+          parsed.limitLoggedIn === 10 && parsed.limitAnon === 1 && parsed.warningThreshold === 5;
+        const isFresh =
+          parsed.savedAt === undefined ||
+          (typeof parsed.savedAt === "number" && Date.now() - parsed.savedAt < 5 * 60 * 1000);
+
+        if (
+          parsed &&
+          typeof parsed.limitLoggedIn === "number" &&
+          parsed.limitLoggedIn > 0 &&
+          !isLegacyOldDefault &&
+          isFresh
+        ) {
+          runtimeServerConfig = {
+            limitLoggedIn: parsed.limitLoggedIn,
+            limitAnon: parsed.limitAnon,
+            warningThreshold: parsed.warningThreshold,
+          };
           return runtimeServerConfig;
+        } else {
+          window.localStorage.removeItem("dearly_synced_generation_config");
         }
       }
     } catch {
@@ -375,9 +396,16 @@ export async function syncGenerationStatus(
     if (res.ok) {
       const data = (await res.json()) as GenerationStatus;
       if (typeof data.count === "number" && typeof data.limit === "number") {
-        // Sync local cache with authoritative count from Supabase
+        // Authoritative reconciliation: align local cache with exact count from Supabase
         const current = loadGenerationTimestamps(userId);
-        if (data.count > current.length) {
+        if (data.count === 0) {
+          if (current.length > 0) {
+            saveGenerationTimestamps(userId, []);
+          }
+        } else if (data.count < current.length) {
+          // Truncate local cache down to match authoritative server count
+          saveGenerationTimestamps(userId, current.slice(-data.count));
+        } else if (data.count > current.length) {
           const needed = data.count - current.length;
           const now = Date.now();
           const synthesized = [...current];
@@ -402,7 +430,13 @@ export function useGenerationLimit(userId?: string | null) {
   const [status, setStatus] = useState<GenerationStatus>(() => getGenerationStatus(userId));
 
   useEffect(() => {
-    const update = () => setStatus(getGenerationStatus(userId));
+    let isSubscribed = true;
+
+    const update = () => {
+      if (isSubscribed) {
+        setStatus(getGenerationStatus(userId));
+      }
+    };
     update();
 
     if (typeof window === "undefined") {
@@ -413,7 +447,7 @@ export function useGenerationLimit(userId?: string | null) {
     const syncAll = () => {
       Promise.all([syncGenerationConfig(), syncGenerationStatus(userId)])
         .then(([_, serverStatus]) => {
-          if (serverStatus) {
+          if (isSubscribed && serverStatus) {
             setStatus(serverStatus);
           } else {
             update();
@@ -431,13 +465,14 @@ export function useGenerationLimit(userId?: string | null) {
     const timer = setInterval(() => {
       syncGenerationStatus(userId)
         .then((s) => {
-          if (s) setStatus(s);
+          if (isSubscribed && s) setStatus(s);
           else update();
         })
         .catch(() => update());
-    }, 30000); // refresh every 30s for smooth countdown
+    }, 15000); // refresh every 15s for smooth countdown
 
     return () => {
+      isSubscribed = false;
       window.removeEventListener("dearly_generation_updated", update);
       window.removeEventListener("storage", update);
       window.removeEventListener("focus", onFocus);
@@ -449,6 +484,7 @@ export function useGenerationLimit(userId?: string | null) {
     status,
     record: () => {
       const local = recordGeneration(userId);
+      setStatus(local);
       syncGenerationStatus(userId)
         .then((s) => {
           if (s) setStatus(s);
@@ -479,9 +515,12 @@ export function notifyLimitReached(status: GenerationStatus): void {
     window.dispatchEvent(new CustomEvent("dearly_open_limit_modal"));
   }
 
+  const effectiveLimit = status.limit || (status.isLoggedIn ? 15 : 3);
+  const effectiveLoggedInLimit = status.limitLoggedIn || 15;
+
   if (status.isLoggedIn) {
     toast.error(
-      `Daily limit exceeded. You have reached your daily limit of ${status.limit} artworks today.`,
+      `Daily limit exceeded. You have reached your daily limit of ${effectiveLimit} artworks today.`,
       {
         description: status.formattedResetTime
           ? `Your allowance refreshes in ${status.formattedResetTime}.`
@@ -491,9 +530,9 @@ export function notifyLimitReached(status: GenerationStatus): void {
     );
   } else {
     toast.info(
-      `Daily guest limit reached! Register first to get ${status.limitLoggedIn} daily artwork generations.`,
+      `Daily guest limit reached! Register first to get ${effectiveLoggedInLimit} daily artwork generations.`,
       {
-        description: `Guests are limited to ${status.limit} free artwork per day. Create a free account to unlock ${status.limitLoggedIn} daily creations!`,
+        description: `Guests are limited to ${effectiveLimit} free artwork${effectiveLimit > 1 ? "s" : ""} per day. Create a free account to unlock ${effectiveLoggedInLimit} daily creations!`,
         duration: 7000,
         action: {
           label: "Register",
@@ -507,3 +546,4 @@ export function notifyLimitReached(status: GenerationStatus): void {
     );
   }
 }
+

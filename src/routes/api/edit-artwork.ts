@@ -41,7 +41,7 @@ export const Route = createFileRoute("/api/edit-artwork")({
         const clientIp =
           request.headers.get("cf-connecting-ip") ||
           request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-          "anonymous";
+          "127.0.0.1";
         const userAgent = request.headers.get("user-agent") || "";
         const styleId = incoming.get("styleId");
         const style = typeof styleId === "string" ? styleId : undefined;

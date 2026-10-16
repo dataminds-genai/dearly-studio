@@ -215,7 +215,7 @@ export function ArtworkGenerator({
               </span>
               {status.shouldWarn && status.remaining > 0 && (
                 <span className="text-[11px] font-medium text-[#B45309]">
-                  (Warning: 5 used)
+                  (Warning: {status.count} of {status.limit} used)
                 </span>
               )}
             </div>

@@ -185,6 +185,57 @@ describe("generation-limit service", () => {
       expect(config.limitAnon).toBe(4);
       expect(config.warningThreshold).toBe(20);
     });
+    it("discards stale legacy default config {10, 1, 5} from localStorage", () => {
+      mockStorage["dearly_synced_generation_config"] = JSON.stringify({
+        limitLoggedIn: 10,
+        limitAnon: 1,
+        warningThreshold: 5,
+      });
+
+      const config = getGenerationConfig();
+      expect(config.limitLoggedIn).toBe(DEFAULT_DAILY_IMAGE_LIMIT_LOGGED_IN); // 15
+      expect(config.limitAnon).toBe(DEFAULT_DAILY_IMAGE_LIMIT_ANON); // 3
+      expect(config.warningThreshold).toBe(DEFAULT_DAILY_IMAGE_WARNING_THRESHOLD); // 7
+      expect(mockStorage["dearly_synced_generation_config"]).toBeUndefined();
+    });
+  });
+
+  describe("syncGenerationStatus reconciliation", () => {
+    it("reconciles localStorage downwards when database has fewer generations", async () => {
+      const userId = "user-reconcile-test";
+      const key = `dearly_gen_limit_user_${userId}`;
+      const now = Date.now();
+      // Simulate 10 stale timestamps in localStorage
+      const oldTen = Array.from({ length: 10 }, (_, i) => now - (10 - i) * 1000);
+      mockStorage[key] = JSON.stringify(oldTen);
+
+      // Server returns count: 1 (e.g. only 1 row in database)
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: true,
+          json: async () => ({
+            count: 1,
+            limit: 15,
+            remaining: 14,
+            isAllowed: true,
+            shouldWarn: false,
+            isLimitReached: false,
+            isLoggedIn: true,
+            msUntilNextReset: 86400000,
+            formattedResetTime: "24 hrs",
+            warningThreshold: 7,
+          }),
+        }),
+      );
+
+      const { syncGenerationStatus, loadGenerationTimestamps } = await import("../generation-limit");
+      const result = await syncGenerationStatus(userId);
+
+      expect(result?.count).toBe(1);
+      const updated = loadGenerationTimestamps(userId);
+      expect(updated.length).toBe(1);
+    });
   });
 
   describe("notifyLimitReached", () => {
