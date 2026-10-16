@@ -11,30 +11,10 @@ import {
   cloudflareCreds,
   CloudflareAIError,
 } from "@/lib/cloudflare-ai.server";
-import { getGenerationConfig, GENERATION_WINDOW_MS } from "@/domain/services/generation-limit";
+import { recordGenerationServer } from "@/domain/services/generation-tracker.server";
 
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
-
-const serverGenerations = new Map<string, number[]>();
-
-function checkServerRateLimit(key: string, isLoggedIn: boolean): { allowed: boolean; retryAfterSeconds: number } {
-  const config = getGenerationConfig();
-  const limit = isLoggedIn ? config.limitLoggedIn : config.limitAnon;
-  const now = Date.now();
-  const threshold = now - GENERATION_WINDOW_MS;
-
-  const current = (serverGenerations.get(key) || []).filter((t) => t > threshold);
-  if (current.length >= limit) {
-    serverGenerations.set(key, current);
-    const oldest = current[0] ?? now;
-    const retryAfterSeconds = Math.max(1, Math.ceil((oldest + GENERATION_WINDOW_MS - now) / 1000));
-    return { allowed: false, retryAfterSeconds };
-  }
-  current.push(now);
-  serverGenerations.set(key, current);
-  return { allowed: true, retryAfterSeconds: 0 };
-}
 
 export const Route = createFileRoute("/api/edit-artwork")({
   server: {
@@ -58,21 +38,29 @@ export const Route = createFileRoute("/api/edit-artwork")({
         const incoming = await request.formData();
         const rawUserId = incoming.get("userId");
         const userId = typeof rawUserId === "string" && rawUserId.trim().length > 0 ? rawUserId.trim() : null;
-        const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("cf-connecting-ip") || "anonymous";
-        const rateKey = userId ? `user:${userId}` : `ip:${clientIp}`;
+        const clientIp =
+          request.headers.get("cf-connecting-ip") ||
+          request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+          "anonymous";
+        const userAgent = request.headers.get("user-agent") || "";
+        const styleId = incoming.get("styleId");
+        const style = typeof styleId === "string" ? styleId : undefined;
 
-        const rateResult = checkServerRateLimit(rateKey, Boolean(userId));
+        const rateResult = await recordGenerationServer(userId, clientIp, userAgent, style);
         if (!rateResult.allowed) {
+          const retryAfterSeconds = Math.max(1, Math.ceil(rateResult.resetMs / 1000));
           return new Response("Daily image generation limit reached. Please try again after 24 hours.", {
             status: 429,
             headers: {
               "Content-Type": "text/plain; charset=utf-8",
-              "Retry-After": String(rateResult.retryAfterSeconds),
+              "Retry-After": String(retryAfterSeconds),
+              "X-Daily-Limit-Total": String(rateResult.limit),
+              "X-Daily-Limit-Count": String(rateResult.count),
+              "X-Daily-Limit-Remaining": "0",
             },
           });
         }
         const image = incoming.get("image");
-        const styleId = incoming.get("styleId");
         const intensity = incoming.get("intensity");
         if (
           !(image instanceof File) ||

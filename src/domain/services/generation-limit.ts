@@ -357,6 +357,44 @@ export function recordGeneration(userId?: string | null, now = Date.now()): Gene
 }
 
 /**
+ * Synchronizes generation status from the authoritative server/database endpoint.
+ */
+export async function syncGenerationStatus(
+  userId?: string | null,
+): Promise<GenerationStatus | null> {
+  if (typeof window === "undefined") return null;
+  try {
+    const url = userId
+      ? `/api/generation-status?userId=${encodeURIComponent(userId)}&_t=${Date.now()}`
+      : `/api/generation-status?_t=${Date.now()}`;
+    const res = await fetch(url, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = (await res.json()) as GenerationStatus;
+      if (typeof data.count === "number" && typeof data.limit === "number") {
+        // Sync local cache with authoritative count from Supabase
+        const current = loadGenerationTimestamps(userId);
+        if (data.count > current.length) {
+          const needed = data.count - current.length;
+          const now = Date.now();
+          const synthesized = [...current];
+          for (let i = 0; i < needed; i++) {
+            synthesized.push(now - i * 1000);
+          }
+          saveGenerationTimestamps(userId, synthesized);
+        }
+        return data;
+      }
+    }
+  } catch {
+    // network failure or offline fallback
+  }
+  return null;
+}
+
+/**
  * Reactive React hook to track daily image generation status in components.
  */
 export function useGenerationLimit(userId?: string | null) {
@@ -371,19 +409,32 @@ export function useGenerationLimit(userId?: string | null) {
     }
 
     // Live sync from server on mount and when window regains focus
-    syncGenerationConfig()
-      .then(update)
-      .catch(() => {});
-    const onFocus = () => {
-      syncGenerationConfig()
-        .then(update)
-        .catch(() => {});
+    const syncAll = () => {
+      Promise.all([syncGenerationConfig(), syncGenerationStatus(userId)])
+        .then(([_, serverStatus]) => {
+          if (serverStatus) {
+            setStatus(serverStatus);
+          } else {
+            update();
+          }
+        })
+        .catch(() => update());
     };
+
+    syncAll();
+    const onFocus = () => syncAll();
 
     window.addEventListener("dearly_generation_updated", update);
     window.addEventListener("storage", update);
     window.addEventListener("focus", onFocus);
-    const timer = setInterval(update, 30000); // refresh every 30s for smooth countdown
+    const timer = setInterval(() => {
+      syncGenerationStatus(userId)
+        .then((s) => {
+          if (s) setStatus(s);
+          else update();
+        })
+        .catch(() => update());
+    }, 30000); // refresh every 30s for smooth countdown
 
     return () => {
       window.removeEventListener("dearly_generation_updated", update);
@@ -395,11 +446,23 @@ export function useGenerationLimit(userId?: string | null) {
 
   return {
     status,
-    record: () => recordGeneration(userId),
+    record: () => {
+      const local = recordGeneration(userId);
+      syncGenerationStatus(userId)
+        .then((s) => {
+          if (s) setStatus(s);
+        })
+        .catch(() => {});
+      return local;
+    },
     refresh: () => {
       syncGenerationConfig()
-        .then(() => setStatus(getGenerationStatus(userId)))
-        .catch(() => {});
+        .then(() => syncGenerationStatus(userId))
+        .then((serverStatus) => {
+          if (serverStatus) setStatus(serverStatus);
+          else setStatus(getGenerationStatus(userId));
+        })
+        .catch(() => setStatus(getGenerationStatus(userId)));
       setStatus(getGenerationStatus(userId));
     },
   };
