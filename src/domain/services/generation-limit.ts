@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export const DEFAULT_DAILY_IMAGE_LIMIT_LOGGED_IN = 10;
-export const DEFAULT_DAILY_IMAGE_LIMIT_ANON = 1;
-export const DEFAULT_DAILY_IMAGE_WARNING_THRESHOLD = 5;
+export const DEFAULT_DAILY_IMAGE_LIMIT_LOGGED_IN = 15;
+export const DEFAULT_DAILY_IMAGE_LIMIT_ANON = 3;
+export const DEFAULT_DAILY_IMAGE_WARNING_THRESHOLD = 7;
 export const GENERATION_WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 export interface GenerationConfig {

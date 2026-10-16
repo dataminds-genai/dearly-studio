@@ -1,4 +1,8 @@
-import { getGenerationConfig, GENERATION_WINDOW_MS } from "./generation-limit";
+import {
+  getGenerationConfig,
+  GENERATION_WINDOW_MS,
+  type GenerationConfig,
+} from "./generation-limit";
 
 export interface ServerGenerationResult {
   allowed: boolean;
@@ -11,6 +15,18 @@ export interface ServerGenerationResult {
 
 // In-memory fallback for development or when database is temporarily unreachable
 const fallbackMemoryLogs = new Map<string, number[]>();
+
+// In-memory 60-second SWR cache for dynamic system settings from Supabase app_config
+let cachedAppConfig: {
+  config: GenerationConfig;
+  expiresAt: number;
+} | null = null;
+
+export const CONFIG_CACHE_TTL_MS = 60 * 1000; // 60s Edge SWR Cache
+
+export function resetDynamicConfigCache(): void {
+  cachedAppConfig = null;
+}
 
 function checkFallback(
   key: string,
@@ -91,6 +107,73 @@ function getSupabaseConfig() {
 }
 
 /**
+ * Fetches dynamic system-wide configuration from Supabase app_config with a 60-second SWR edge cache.
+ * Falls back to local environment/defaults if table is missing or network fails.
+ */
+export async function getDynamicGenerationConfig(): Promise<GenerationConfig> {
+  const now = Date.now();
+  if (cachedAppConfig && cachedAppConfig.expiresAt > now) {
+    return cachedAppConfig.config;
+  }
+
+  const { url, key } = getSupabaseConfig();
+  if (!url || !key) {
+    return getGenerationConfig();
+  }
+
+  try {
+    const res = await fetch(`${url}/rest/v1/app_config?key=eq.generation_limits&select=value`, {
+      method: "GET",
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+      },
+    });
+
+    if (res.ok) {
+      const data = (await res.json()) as Array<{ value: Record<string, unknown> }>;
+      if (Array.isArray(data) && data[0]?.value) {
+        const val = data[0].value;
+        const config: GenerationConfig = {
+          limitLoggedIn:
+            typeof val["registered"] === "number" && val["registered"] > 0
+              ? val["registered"]
+              : typeof val["limitLoggedIn"] === "number" && val["limitLoggedIn"] > 0
+                ? val["limitLoggedIn"]
+                : 15,
+          limitAnon:
+            typeof val["guest"] === "number" && val["guest"] > 0
+              ? val["guest"]
+              : typeof val["limitAnon"] === "number" && val["limitAnon"] > 0
+                ? val["limitAnon"]
+                : 3,
+          warningThreshold:
+            typeof val["warning_threshold"] === "number" && val["warning_threshold"] > 0
+              ? val["warning_threshold"]
+              : typeof val["warningThreshold"] === "number" && val["warningThreshold"] > 0
+                ? val["warningThreshold"]
+                : 7,
+        };
+        cachedAppConfig = {
+          config,
+          expiresAt: now + CONFIG_CACHE_TTL_MS,
+        };
+        return config;
+      }
+    }
+  } catch (err) {
+    console.warn("[AppConfig] Error fetching live config from Supabase, using fallback:", err);
+  }
+
+  // If stale cache exists, serve stale-while-revalidate
+  if (cachedAppConfig) {
+    return cachedAppConfig.config;
+  }
+
+  return getGenerationConfig();
+}
+
+/**
  * Atomically checks quota and records a generation event via Supabase RPC.
  */
 export async function recordGenerationServer(
@@ -99,7 +182,7 @@ export async function recordGenerationServer(
   userAgent = "",
   style?: string,
 ): Promise<ServerGenerationResult> {
-  const config = getGenerationConfig();
+  const config = await getDynamicGenerationConfig();
   const isLoggedIn = Boolean(userId);
   const limit = isLoggedIn ? config.limitLoggedIn : config.limitAnon;
   const clientHash = await getClientHash(clientIp, userAgent);
@@ -161,7 +244,7 @@ export async function getGenerationStatusServer(
   clientIp: string,
   userAgent = "",
 ): Promise<ServerGenerationResult> {
-  const config = getGenerationConfig();
+  const config = await getDynamicGenerationConfig();
   const isLoggedIn = Boolean(userId);
   const limit = isLoggedIn ? config.limitLoggedIn : config.limitAnon;
   const clientHash = await getClientHash(clientIp, userAgent);

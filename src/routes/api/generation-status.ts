@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { formatTimeRemaining } from "@/domain/services/generation-limit";
 import {
-  getGenerationConfig,
-  formatTimeRemaining,
-} from "@/domain/services/generation-limit";
-import { getGenerationStatusServer } from "@/domain/services/generation-tracker.server";
+  getGenerationStatusServer,
+  getDynamicGenerationConfig,
+} from "@/domain/services/generation-tracker.server";
 
 export const Route = createFileRoute("/api/generation-status")({
   server: {
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/api/generation-status")({
         const userAgent = request.headers.get("user-agent") ?? "";
 
         const serverStatus = await getGenerationStatusServer(userId, clientIp, userAgent);
-        const config = getGenerationConfig();
+        const config = await getDynamicGenerationConfig();
         const isLoggedIn = Boolean(userId);
 
         const payload = {

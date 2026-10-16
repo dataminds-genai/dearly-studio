@@ -78,36 +78,36 @@ describe("generation-limit service", () => {
   describe("for logged-in users", () => {
     const userId = "test-user-123";
 
-    it("starts with full allowance (10 remaining)", () => {
+    it("starts with full allowance (15 remaining)", () => {
       const status = getGenerationStatus(userId);
-      expect(status.limit).toBe(10);
+      expect(status.limit).toBe(15);
       expect(status.count).toBe(0);
-      expect(status.remaining).toBe(10);
+      expect(status.remaining).toBe(15);
       expect(status.isAllowed).toBe(true);
       expect(status.shouldWarn).toBe(false);
       expect(status.isLimitReached).toBe(false);
     });
 
-    it("shows warning when reaching the warning threshold (5 generations)", () => {
+    it("shows warning when reaching the warning threshold (7 generations)", () => {
       const now = 100_000_000;
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 7; i++) {
         recordGeneration(userId, now + i * 1000);
       }
       const status = getGenerationStatus(userId, now + 10_000);
-      expect(status.count).toBe(5);
-      expect(status.remaining).toBe(5);
+      expect(status.count).toBe(7);
+      expect(status.remaining).toBe(8);
       expect(status.shouldWarn).toBe(true);
       expect(status.isAllowed).toBe(true);
       expect(status.isLimitReached).toBe(false);
     });
 
-    it("enforces cap when reaching max (10 generations) and calculates reset countdown", () => {
+    it("enforces cap when reaching max (15 generations) and calculates reset countdown", () => {
       const baseTime = 100_000_000;
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 15; i++) {
         recordGeneration(userId, baseTime + i * 1000);
       }
-      const status = getGenerationStatus(userId, baseTime + 15_000);
-      expect(status.count).toBe(10);
+      const status = getGenerationStatus(userId, baseTime + 20_000);
+      expect(status.count).toBe(15);
       expect(status.remaining).toBe(0);
       expect(status.isAllowed).toBe(false);
       expect(status.isLimitReached).toBe(true);
@@ -117,20 +117,22 @@ describe("generation-limit service", () => {
   });
 
   describe("for anonymous/guest users", () => {
-    it("starts with 1 image allowance", () => {
+    it("starts with 3 images allowance", () => {
       const status = getGenerationStatus(null);
-      expect(status.limit).toBe(1);
+      expect(status.limit).toBe(3);
       expect(status.count).toBe(0);
-      expect(status.remaining).toBe(1);
+      expect(status.remaining).toBe(3);
       expect(status.isAllowed).toBe(true);
       expect(status.isLimitReached).toBe(false);
     });
 
-    it("reaches limit after 1 generation", () => {
+    it("reaches limit after 3 generations", () => {
       const now = 200_000_000;
-      recordGeneration(null, now);
-      const status = getGenerationStatus(null, now + 1000);
-      expect(status.count).toBe(1);
+      for (let i = 0; i < 3; i++) {
+        recordGeneration(null, now + i * 1000);
+      }
+      const status = getGenerationStatus(null, now + 5000);
+      expect(status.count).toBe(3);
       expect(status.remaining).toBe(0);
       expect(status.isAllowed).toBe(false);
       expect(status.isLimitReached).toBe(true);
