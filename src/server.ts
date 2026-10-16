@@ -47,6 +47,20 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      if (env && typeof env === "object") {
+        (globalThis as Record<string, unknown>).__CLOUDFLARE_ENV__ = env;
+        if (typeof process !== "undefined" && process.env) {
+          for (const [key, val] of Object.entries(env)) {
+            if (typeof val === "string") {
+              try {
+                process.env[key] = val;
+              } catch {
+                // Ignore environment properties that cannot be mutated
+              }
+            }
+          }
+        }
+      }
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);

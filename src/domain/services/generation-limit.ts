@@ -28,6 +28,10 @@ export interface GenerationStatus {
 
 let runtimeServerConfig: GenerationConfig | null = null;
 
+export function resetRuntimeGenerationConfig(): void {
+  runtimeServerConfig = null;
+}
+
 export function setRuntimeGenerationConfig(cfg: Partial<GenerationConfig>): void {
   const current = getGenerationConfig();
   runtimeServerConfig = {
@@ -36,17 +40,31 @@ export function setRuntimeGenerationConfig(cfg: Partial<GenerationConfig>): void
     warningThreshold: cfg.warningThreshold ?? current.warningThreshold,
   };
   if (typeof window !== "undefined") {
+    try {
+      window.localStorage.setItem(
+        "dearly_synced_generation_config",
+        JSON.stringify(runtimeServerConfig),
+      );
+    } catch {
+      // Storage unavailable or disabled
+    }
     window.dispatchEvent(new CustomEvent("dearly_generation_updated"));
   }
 }
 
 /**
- * Syncs generation configuration with server at runtime, reflecting any dynamic .env updates.
+ * Syncs generation configuration with server at runtime, reflecting any dynamic Cloudflare .env updates.
  */
 export async function syncGenerationConfig(): Promise<GenerationConfig> {
   if (typeof window === "undefined") return getGenerationConfig();
   try {
-    const res = await fetch("/api/generation-config");
+    const res = await fetch(`/api/generation-config?t=${Date.now()}`, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+      },
+    });
     if (res.ok) {
       const data = (await res.json()) as GenerationConfig;
       if (data && typeof data.limitLoggedIn === "number" && data.limitLoggedIn > 0) {
@@ -62,11 +80,28 @@ export async function syncGenerationConfig(): Promise<GenerationConfig> {
 
 /**
  * Reads daily generation limits from environment variables with robust fallbacks.
- * Checks runtime server cache, live Node process/fs, and client Vite import.meta.env.
+ * Server-side runtime (Cloudflare env bindings / process.env) takes highest precedence,
+ * avoiding stale compile-time Vite replacements.
  */
 export function getGenerationConfig(): GenerationConfig {
   if (runtimeServerConfig) {
     return runtimeServerConfig;
+  }
+
+  // On client, check localStorage cached config from prior server sync
+  if (typeof window !== "undefined") {
+    try {
+      const cached = window.localStorage.getItem("dearly_synced_generation_config");
+      if (cached) {
+        const parsed = JSON.parse(cached) as GenerationConfig;
+        if (parsed && typeof parsed.limitLoggedIn === "number" && parsed.limitLoggedIn > 0) {
+          runtimeServerConfig = parsed;
+          return runtimeServerConfig;
+        }
+      }
+    } catch {
+      // Ignore localStorage access failures
+    }
   }
 
   const parseVal = (val: unknown, fallback: number): number => {
@@ -82,18 +117,82 @@ export function getGenerationConfig(): GenerationConfig {
   let rawAnon: unknown;
   let rawWarn: unknown;
 
-  // 1. Static compile-time replacement for Vite in client code (requires dot notation)
+  // Helper to extract a key with multiple potential aliases and case variations
+  const readVar = (
+    sources: Array<Record<string, unknown> | undefined>,
+    aliases: string[],
+  ): unknown => {
+    for (const src of sources) {
+      if (!src || typeof src !== "object") continue;
+      for (const alias of aliases) {
+        if (src[alias] !== undefined && src[alias] !== null && String(src[alias]).trim() !== "") {
+          return src[alias];
+        }
+        const lowerAlias = alias.toLowerCase();
+        for (const [k, v] of Object.entries(src)) {
+          if (
+            k.toLowerCase() === lowerAlias &&
+            v !== undefined &&
+            v !== null &&
+            String(v).trim() !== ""
+          ) {
+            return v;
+          }
+        }
+      }
+    }
+    return undefined;
+  };
+
+  const loggedInAliases = [
+    "DAILY_IMAGE_LIMIT_LOGGED_IN",
+    "VITE_DAILY_IMAGE_LIMIT_LOGGED_IN",
+    "DAILY_LIMIT_LOGGED_IN",
+    "IMAGE_LIMIT_LOGGED_IN",
+    "DAILY_IMAGE_LIMIT",
+  ];
+
+  const anonAliases = [
+    "DAILY_IMAGE_LIMIT_ANON",
+    "VITE_DAILY_IMAGE_LIMIT_ANON",
+    "DAILY_LIMIT_ANON",
+    "IMAGE_LIMIT_ANON",
+  ];
+
+  const warnAliases = [
+    "DAILY_IMAGE_WARNING_THRESHOLD",
+    "VITE_DAILY_IMAGE_WARNING_THRESHOLD",
+    "DAILY_WARNING_THRESHOLD",
+    "IMAGE_WARNING_THRESHOLD",
+  ];
+
+  const isServer = typeof window === "undefined";
+
+  // 1. Server-side runtime environment variables (HIGHEST PRECEDENCE on server)
+  if (isServer) {
+    const cfEnv = (globalThis as Record<string, unknown>)?.__CLOUDFLARE_ENV__ as
+      Record<string, unknown> | undefined;
+    const procEnv =
+      typeof process !== "undefined" ? (process.env as Record<string, unknown>) : undefined;
+    const serverSources = [cfEnv, procEnv];
+
+    rawLoggedIn = readVar(serverSources, loggedInAliases);
+    rawAnon = readVar(serverSources, anonAliases);
+    rawWarn = readVar(serverSources, warnAliases);
+  }
+
+  // 2. Static compile-time replacement for Vite (used as initial client fallback or server fallback)
   try {
     if (typeof import.meta !== "undefined" && import.meta.env) {
-      rawLoggedIn = import.meta.env.VITE_DAILY_IMAGE_LIMIT_LOGGED_IN;
-      rawAnon = import.meta.env.VITE_DAILY_IMAGE_LIMIT_ANON;
-      rawWarn = import.meta.env.VITE_DAILY_IMAGE_WARNING_THRESHOLD;
+      rawLoggedIn = rawLoggedIn ?? import.meta.env.VITE_DAILY_IMAGE_LIMIT_LOGGED_IN;
+      rawAnon = rawAnon ?? import.meta.env.VITE_DAILY_IMAGE_LIMIT_ANON;
+      rawWarn = rawWarn ?? import.meta.env.VITE_DAILY_IMAGE_WARNING_THRESHOLD;
     }
   } catch {
     // import.meta not available
   }
 
-  // 2. Server-side environment variables
+  // 3. Fallback to process.env if client has process polyfill or was missed above
   try {
     if (typeof process !== "undefined" && process.env) {
       rawLoggedIn =
@@ -101,36 +200,14 @@ export function getGenerationConfig(): GenerationConfig {
         process.env.VITE_DAILY_IMAGE_LIMIT_LOGGED_IN ??
         process.env.DAILY_IMAGE_LIMIT_LOGGED_IN;
       rawAnon =
-        rawAnon ??
-        process.env.VITE_DAILY_IMAGE_LIMIT_ANON ??
-        process.env.DAILY_IMAGE_LIMIT_ANON;
+        rawAnon ?? process.env.VITE_DAILY_IMAGE_LIMIT_ANON ?? process.env.DAILY_IMAGE_LIMIT_ANON;
       rawWarn =
         rawWarn ??
         process.env.VITE_DAILY_IMAGE_WARNING_THRESHOLD ??
         process.env.DAILY_IMAGE_WARNING_THRESHOLD;
     }
   } catch {
-    // process not available
-  }
-
-  // 3. In dev / local server environment, live-read .env file if available
-  try {
-    if (typeof process !== "undefined" && process.cwd) {
-      const fs = require("node:fs");
-      const path = require("node:path");
-      const envPath = path.resolve(process.cwd(), ".env");
-      if (fs.existsSync(envPath)) {
-        const text = fs.readFileSync(envPath, "utf8");
-        const mLoggedIn = text.match(/^\s*(?:VITE_)?DAILY_IMAGE_LIMIT_LOGGED_IN=["']?(\d+)["']?/m);
-        const mAnon = text.match(/^\s*(?:VITE_)?DAILY_IMAGE_LIMIT_ANON=["']?(\d+)["']?/m);
-        const mWarn = text.match(/^\s*(?:VITE_)?DAILY_IMAGE_WARNING_THRESHOLD=["']?(\d+)["']?/m);
-        if (mLoggedIn?.[1]) rawLoggedIn = mLoggedIn[1];
-        if (mAnon?.[1]) rawAnon = mAnon[1];
-        if (mWarn?.[1]) rawWarn = mWarn[1];
-      }
-    }
-  } catch {
-    // ignore if not running in Node or fs is restricted
+    // process.env not available
   }
 
   return {
@@ -280,9 +357,13 @@ export function useGenerationLimit(userId?: string | null) {
     }
 
     // Live sync from server on mount and when window regains focus
-    syncGenerationConfig().then(update).catch(() => {});
+    syncGenerationConfig()
+      .then(update)
+      .catch(() => {});
     const onFocus = () => {
-      syncGenerationConfig().then(update).catch(() => {});
+      syncGenerationConfig()
+        .then(update)
+        .catch(() => {});
     };
 
     window.addEventListener("dearly_generation_updated", update);
@@ -302,7 +383,9 @@ export function useGenerationLimit(userId?: string | null) {
     status,
     record: () => recordGeneration(userId),
     refresh: () => {
-      syncGenerationConfig().then(() => setStatus(getGenerationStatus(userId))).catch(() => {});
+      syncGenerationConfig()
+        .then(() => setStatus(getGenerationStatus(userId)))
+        .catch(() => {});
       setStatus(getGenerationStatus(userId));
     },
   };

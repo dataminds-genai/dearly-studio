@@ -9,6 +9,7 @@ import {
   DEFAULT_DAILY_IMAGE_LIMIT_LOGGED_IN,
   DEFAULT_DAILY_IMAGE_LIMIT_ANON,
   DEFAULT_DAILY_IMAGE_WARNING_THRESHOLD,
+  resetRuntimeGenerationConfig,
 } from "../generation-limit";
 
 describe("generation-limit service", () => {
@@ -121,6 +122,54 @@ describe("generation-limit service", () => {
       expect(status.remaining).toBe(0);
       expect(status.isAllowed).toBe(false);
       expect(status.isLimitReached).toBe(true);
+    });
+  });
+
+  describe("server-side runtime environment bindings", () => {
+    beforeEach(() => {
+      resetRuntimeGenerationConfig();
+      delete (globalThis as Record<string, unknown>).__CLOUDFLARE_ENV__;
+    });
+
+    it("reads limits from Cloudflare Worker env bindings when running on server", () => {
+      vi.stubGlobal("window", undefined);
+      (globalThis as Record<string, unknown>).__CLOUDFLARE_ENV__ = {
+        DAILY_IMAGE_LIMIT_LOGGED_IN: "25",
+        DAILY_IMAGE_LIMIT_ANON: "3",
+        DAILY_IMAGE_WARNING_THRESHOLD: "15",
+      };
+
+      const config = getGenerationConfig();
+      expect(config.limitLoggedIn).toBe(25);
+      expect(config.limitAnon).toBe(3);
+      expect(config.warningThreshold).toBe(15);
+    });
+
+    it("supports case-insensitive and common alias variable names from Cloudflare dashboard", () => {
+      vi.stubGlobal("window", undefined);
+      (globalThis as Record<string, unknown>).__CLOUDFLARE_ENV__ = {
+        daily_limit_logged_in: "50",
+        daily_limit_anon: "5",
+        daily_warning_threshold: "30",
+      };
+
+      const config = getGenerationConfig();
+      expect(config.limitLoggedIn).toBe(50);
+      expect(config.limitAnon).toBe(5);
+      expect(config.warningThreshold).toBe(30);
+    });
+
+    it("hydrates from cached localStorage on client before server sync completes", () => {
+      mockStorage["dearly_synced_generation_config"] = JSON.stringify({
+        limitLoggedIn: 40,
+        limitAnon: 4,
+        warningThreshold: 20,
+      });
+
+      const config = getGenerationConfig();
+      expect(config.limitLoggedIn).toBe(40);
+      expect(config.limitAnon).toBe(4);
+      expect(config.warningThreshold).toBe(20);
     });
   });
 });

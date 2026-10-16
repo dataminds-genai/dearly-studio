@@ -8,7 +8,11 @@ export const Route = createFileRoute("/api/generation-config")({
         const config = getGenerationConfig();
         return Response.json(config, {
           headers: {
-            "Cache-Control": "no-store, no-cache, must-revalidate",
+            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0, s-maxage=0",
+            Pragma: "no-cache",
+            Expires: "0",
+            "CDN-Cache-Control": "no-store",
+            "Cloudflare-CDN-Cache-Control": "no-store",
           },
         });
       },
