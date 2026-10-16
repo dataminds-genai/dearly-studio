@@ -150,6 +150,11 @@ export function getGenerationConfig(): GenerationConfig {
     "DAILY_LIMIT_LOGGED_IN",
     "IMAGE_LIMIT_LOGGED_IN",
     "DAILY_IMAGE_LIMIT",
+    "DAILY_LIMIT",
+    "IMAGE_LIMIT",
+    "DAILY_GENERATION_LIMIT",
+    "GENERATION_LIMIT",
+    "limitLoggedIn",
   ];
 
   const anonAliases = [
@@ -157,6 +162,9 @@ export function getGenerationConfig(): GenerationConfig {
     "VITE_DAILY_IMAGE_LIMIT_ANON",
     "DAILY_LIMIT_ANON",
     "IMAGE_LIMIT_ANON",
+    "DAILY_ANON_LIMIT",
+    "ANON_LIMIT",
+    "limitAnon",
   ];
 
   const warnAliases = [
@@ -164,13 +172,16 @@ export function getGenerationConfig(): GenerationConfig {
     "VITE_DAILY_IMAGE_WARNING_THRESHOLD",
     "DAILY_WARNING_THRESHOLD",
     "IMAGE_WARNING_THRESHOLD",
+    "WARNING_THRESHOLD",
+    "warningThreshold",
   ];
 
   const isServer = typeof window === "undefined";
 
   // 1. Server-side runtime environment variables (HIGHEST PRECEDENCE on server)
   if (isServer) {
-    const cfEnv = (globalThis as Record<string, unknown>)?.__CLOUDFLARE_ENV__ as
+    const cfEnv = ((globalThis as Record<string, unknown>)?.__env__ ??
+      (globalThis as Record<string, unknown>)?.__CLOUDFLARE_ENV__) as
       Record<string, unknown> | undefined;
     const procEnv =
       typeof process !== "undefined" ? (process.env as Record<string, unknown>) : undefined;
