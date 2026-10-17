@@ -136,6 +136,24 @@ export async function renderCardToCanvas(
     });
     ctx.shadowColor = "transparent";
   }
+
+  // Subtle Dearly Studio watermark in bottom right corner
+  const wmText = "dearly studio";
+  const wmFontSize = Math.max(16, Math.round(width * 0.013));
+  ctx.save();
+  ctx.font = `500 ${wmFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.textAlign = "right";
+  ctx.textBaseline = "bottom";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+  ctx.shadowBlur = Math.round(wmFontSize * 0.35);
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 1;
+  ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+  const marginX = width * 0.03;
+  const marginY = height * 0.03;
+  ctx.fillText(wmText, width - marginX, height - marginY);
+  ctx.restore();
+
   return canvas;
 }
 
@@ -146,10 +164,20 @@ export async function renderCardToBlob(draft: CreationDraft, targetWidth = 2400)
   return blob;
 }
 
-export function cardFileName(draft: CreationDraft, extension: "png" | "pdf") {
-  const base =
-    (draft.title || "dearly-card").replace(/[^a-z0-9]+/gi, "-").toLowerCase() || "dearly-card";
-  return `${base}.${extension}`;
+/** Formats current date/time to yyyymmdd_hhmmss for filenames. */
+export function formatTimestamp(date = new Date()): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const yyyy = date.getFullYear();
+  const mm = pad(date.getMonth() + 1);
+  const dd = pad(date.getDate());
+  const hh = pad(date.getHours());
+  const min = pad(date.getMinutes());
+  const ss = pad(date.getSeconds());
+  return `${yyyy}${mm}${dd}_${hh}${min}${ss}`;
+}
+
+export function cardFileName(_draft?: CreationDraft, extension: "png" | "pdf" = "png") {
+  return `dearly-studio_${formatTimestamp()}.${extension}`;
 }
 
 function saveBlob(blob: Blob, fileName: string) {

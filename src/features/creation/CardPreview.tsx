@@ -226,6 +226,14 @@ export function CardPreview({
           {onTextMove ? <span className="sr-only">Drag to move the message</span> : null}
         </figcaption>
       ) : null}
+
+      {/* Subtle watermark in bottom right corner matching exported card */}
+      <div
+        className="pointer-events-none absolute bottom-2.5 right-3 z-10 select-none text-[10px] font-medium tracking-wide text-white/65 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+        aria-hidden="true"
+      >
+        dearly studio
+      </div>
     </figure>
   );
 }

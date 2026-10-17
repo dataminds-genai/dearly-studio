@@ -1,10 +1,6 @@
 import { toast } from "sonner";
 import type { CreationDraft } from "@/domain/entities/types";
-import { renderCardToBlob } from "./exportCard";
-
-function fileNameFor(draft: CreationDraft) {
-  return `${(draft.title || "dearly-card").replace(/[^a-z0-9]+/gi, "-").toLowerCase() || "dearly-card"}.png`;
-}
+import { cardFileName, renderCardToBlob } from "./exportCard";
 
 /**
  * Shares the finished card image (plus message). On phones this opens the
@@ -16,7 +12,7 @@ export async function shareCard(draft: CreationDraft, target: "whatsapp" | "any"
   let file: File;
   try {
     const blob = await renderCardToBlob(draft);
-    file = new File([blob], fileNameFor(draft), { type: "image/png" });
+    file = new File([blob], cardFileName(draft, "png"), { type: "image/png" });
   } catch (e) {
     toast.error(e instanceof Error ? e.message : "Could not create the image.");
     return;
